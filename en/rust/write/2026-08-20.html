@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Rust WRITE drill from 2026-08-20: implement max_of returning an Option over a slice.">
+<title>Namara — Rust / WRITE — 2026-08-20</title>
+<link rel="canonical" href="https://namara.jocarium.productions/en/rust/write/2026-08-20">
+<link rel="stylesheet" href="/style.css">
+<link rel="alternate" hreflang="ja" href="https://namara.jocarium.productions/ja/rust/write/2026-08-20">
+<link rel="alternate" hreflang="en" href="https://namara.jocarium.productions/en/rust/write/2026-08-20">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Rust / WRITE", "item": "https://namara.jocarium.productions/en/rust/write" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-20" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Rust / WRITE — 2026-08-20",
+      "url": "https://namara.jocarium.productions/en/rust/write/2026-08-20",
+      "datePublished": "2026-08-20",
+      "dateModified": "2026-08-20",
+      "inLanguage": "en",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Rust — Option and max()" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Rust WRITE drill from 2026-08-20: implement max_of returning an Option over a slice."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/en/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/en/c/write/2026-08-20">C</a>
+  <a href="/en/cpp/write/2026-08-20">C++</a>
+  <a href="/en/rust/write/2026-08-20" class="active" aria-current="page">Rust</a>
+  <a href="/en/haskell/write/2026-08-20">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/en/rust/read/2026-08-20">READ</a>
+  <a href="/en/rust/write/2026-08-20" class="active" aria-current="page">WRITE</a>
+  <a href="/en/rust/debug/2026-08-20">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-20</h2>
+  <div class="code-frame">
+    <p class="code-filename">max_of.rs</p>
+    <pre class="code"><code>fn max_of(nums: &amp;[i32]) -&gt; Option&lt;i32&gt; {
+    // write this
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    Implement <code>max_of</code>: return the largest value in <code>nums</code>, or <code>None</code> if it's empty.
+  </p>
+
+  <details class="answer">
+    <summary>Reference</summary>
+    <div class="answer-body">
+      <pre class="code"><code>fn max_of(nums: &amp;[i32]) -&gt; Option&lt;i32&gt; {
+    nums.iter().copied().max()
+}
+</code></pre>
+      <p>
+        <code>Iterator::max()</code> already returns <code>None</code> on an empty iterator, so there's no separate empty check to write.
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/en/rust/write">Today</a></li>
+    <li class="current">2026-08-20</li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+  <nav class="locale-nav" aria-label="Language"><span aria-current="page">EN</span><a href="/ja/rust/write/2026-08-20">JA</a></nav>
+</footer>
+
+</div>
+</body>
+</html>

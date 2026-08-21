@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Haskell FIX drill from 2026-08-20.">
+<title>Namara — Haskell / FIX — 2026-08-20</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/read">C</a>
+  <a href="/cpp/read">C++</a>
+  <a href="/rust/read">Rust</a>
+  <a href="/haskell/read" class="active" aria-current="page">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/haskell/read">READ</a>
+  <a href="/haskell/write">WRITE</a>
+  <a href="/haskell/fix" class="active" aria-current="page">FIX</a>
+</nav>
+
+<main>
+  <h2>2026-08-20</h2>
+  <p class="path">-- haskell/fix/2026-08-20</p>
+
+  <pre class="code"><code>sign :: Int -&gt; String
+sign n
+  | n &gt; 0 = "positive"
+  | n &lt; 0 = "negative"
+</code></pre>
+
+  <p class="question">
+    This crashes at runtime for one particular input. Which one, and how do you fix it?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>sign 0</code> crashes with a non-exhaustive guards error &mdash; neither guard matches when <code>n</code> is 0. Add a catch-all: <code>| otherwise = "zero"</code>.
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/haskell/fix">Today</a></li>
+    <li class="current">2026-08-20</li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+</footer>
+
+</div>
+</body>
+</html>

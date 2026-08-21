@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Haskell WRITE drill from 2026-08-20.">
+<title>Namara — Haskell / WRITE — 2026-08-20</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/read">C</a>
+  <a href="/cpp/read">C++</a>
+  <a href="/rust/read">Rust</a>
+  <a href="/haskell/read" class="active" aria-current="page">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/haskell/read">READ</a>
+  <a href="/haskell/write" class="active" aria-current="page">WRITE</a>
+  <a href="/haskell/fix">FIX</a>
+</nav>
+
+<main>
+  <h2>2026-08-20</h2>
+  <p class="path">-- haskell/write/2026-08-20</p>
+
+  <pre class="code"><code>myReverse :: [a] -&gt; [a]
+myReverse = undefined  -- write this
+</code></pre>
+
+  <p class="question">
+    Implement <code>myReverse</code> without using the built-in <code>reverse</code>.
+  </p>
+
+  <details class="answer">
+    <summary>Reference</summary>
+    <div class="answer-body">
+      <pre class="code"><code>myReverse :: [a] -&gt; [a]
+myReverse = foldl (flip (:)) []
+</code></pre>
+      <p>
+        Fold left over the list, consing each element onto the front of the accumulator as you go &mdash; by the time you reach the end, the accumulator is the list in reverse.
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/haskell/write">Today</a></li>
+    <li class="current">2026-08-20</li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Read a small piece of C++ and predict what it does. No compiler, no score — just today's code.">
+<title>Namara — C++ / READ</title>
+<link rel="canonical" href="https://namara.jocarium.productions/en/cpp/read">
+<link rel="stylesheet" href="/style.css">
+<link rel="alternate" hreflang="ja" href="https://namara.jocarium.productions/ja/cpp/read">
+<link rel="alternate" hreflang="en" href="https://namara.jocarium.productions/en/cpp/read">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C++ / READ" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C++ / READ",
+      "url": "https://namara.jocarium.productions/en/cpp/read",
+      "inLanguage": "en",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C++ — member initialization order" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "Read a small piece of C++ and predict what it does. No compiler, no score — just today's code."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/en/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/en/c/read">C</a>
+  <a href="/en/cpp/read" class="active" aria-current="page">C++</a>
+  <a href="/en/rust/read">Rust</a>
+  <a href="/en/haskell/read">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/en/cpp/read" class="active" aria-current="page">READ</a>
+  <a href="/en/cpp/write">WRITE</a>
+  <a href="/en/cpp/debug">DEBUG</a>
+</nav>
+
+<main>
+  <h2>Today's code</h2>
+  <div class="code-frame">
+    <p class="code-filename">init_order.cpp</p>
+    <pre class="code"><code>#include &lt;iostream&gt;
+
+struct A { A() { std::cout &lt;&lt; "A"; } };
+struct B { B() { std::cout &lt;&lt; "B"; } };
+
+struct C {
+    B b;
+    A a;
+    C() : a(), b() { std::cout &lt;&lt; "C"; }
+};
+
+int main() {
+    C c;
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    What does this print?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>BAC</code>. Members are initialized in declaration order &mdash; <code>b</code>, then <code>a</code> &mdash; regardless of the order they're listed in the mem-initializer list (<code>a(), b()</code>). The constructor body runs last, after both members exist, printing <code>C</code>.
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/en/cpp/read/2026-08-20">2026-08-20</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+  <nav class="locale-nav" aria-label="Language"><span aria-current="page">EN</span><a href="/ja/cpp/read">JA</a></nav>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Write a small piece of C by hand. No compiler, no score — just today's code.">
+<title>Namara — C / WRITE</title>
+<link rel="canonical" href="https://namara.jocarium.productions/en/c/write">
+<link rel="stylesheet" href="/style.css">
+<link rel="alternate" hreflang="ja" href="https://namara.jocarium.productions/ja/c/write">
+<link rel="alternate" hreflang="en" href="https://namara.jocarium.productions/en/c/write">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C / WRITE" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C / WRITE",
+      "url": "https://namara.jocarium.productions/en/c/write",
+      "inLanguage": "en",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C — string reversal" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "Write a small piece of C by hand. No compiler, no score — just today's code."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/en/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/en/c/write" class="active" aria-current="page">C</a>
+  <a href="/en/cpp/write">C++</a>
+  <a href="/en/rust/write">Rust</a>
+  <a href="/en/haskell/write">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/en/c/read">READ</a>
+  <a href="/en/c/write" class="active" aria-current="page">WRITE</a>
+  <a href="/en/c/debug">DEBUG</a>
+</nav>
+
+<main>
+  <h2>Today's code</h2>
+  <div class="code-frame">
+    <p class="code-filename">reverse.c</p>
+    <pre class="code"><code>#include &lt;string.h&gt;
+
+void reverse(char *s) {
+    /* write this: reverse s in place, no extra buffer */
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    Implement <code>reverse</code> so it reverses a NUL-terminated string in place.
+  </p>
+
+  <details class="answer">
+    <summary>Reference</summary>
+    <div class="answer-body">
+      <pre class="code"><code>void reverse(char *s) {
+    size_t len = strlen(s);
+    for (size_t i = 0, j = len - 1; i &lt; j; i++, j--) {
+        char tmp = s[i];
+        s[i] = s[j];
+        s[j] = tmp;
+    }
+}
+</code></pre>
+      <p>
+        Two pointers closing in from both ends. This is a reference implementation, not the only correct one &mdash; compare it against your own.
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/en/c/write/2026-08-20">2026-08-20</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+  <nav class="locale-nav" aria-label="Language"><span aria-current="page">EN</span><a href="/ja/c/write">JA</a></nav>
+</footer>
+
+</div>
+</body>
+</html>

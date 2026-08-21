@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Find and fix a small bug in C. No compiler, no score — just today's code.">
+<title>Namara — C / FIX</title>
+<link rel="canonical" href="https://namara.jocarium.productions/c/fix">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C / FIX" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C / FIX",
+      "url": "https://namara.jocarium.productions/c/fix",
+      "inLanguage": "en",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C — buffer overflow (off-by-one)" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "Find and fix a small bug in C. No compiler, no score — just today's code."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/read" class="active" aria-current="page">C</a>
+  <a href="/cpp/read">C++</a>
+  <a href="/rust/read">Rust</a>
+  <a href="/haskell/read">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/c/read">READ</a>
+  <a href="/c/write">WRITE</a>
+  <a href="/c/fix" class="active" aria-current="page">FIX</a>
+</nav>
+
+<main>
+  <h2>Today's code</h2>
+  <p class="path">/* c/fix */</p>
+
+  <pre class="code"><code>#include &lt;string.h&gt;
+
+int main(void) {
+    char buf[6];
+    const char *name = "namara";
+
+    for (int i = 0; i &lt;= strlen(name); i++) {
+        buf[i] = name[i];
+    }
+}
+</code></pre>
+
+  <p class="question">
+    This overflows <code>buf</code> by one byte. Find it and fix it with a minimal change.
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        Make room for the terminator: <code>char buf[7];</code>. <code>"namara"</code> is 6 bytes plus a NUL, so it needs 7. The loop's <code>&lt;=</code> is correct &mdash; it's meant to copy the NUL too &mdash; but <code>buf</code> was one byte too small to receive it.
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/c/fix/2026-08-20">2026-08-20</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Rust READ drill from 2026-08-20: iterator adaptors like map are lazy and don't run until consumed.">
+<title>Namara — Rust / READ — 2026-08-20</title>
+<link rel="canonical" href="https://namara.jocarium.productions/en/rust/read/2026-08-20">
+<link rel="stylesheet" href="/style.css">
+<link rel="alternate" hreflang="ja" href="https://namara.jocarium.productions/ja/rust/read/2026-08-20">
+<link rel="alternate" hreflang="en" href="https://namara.jocarium.productions/en/rust/read/2026-08-20">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Rust / READ", "item": "https://namara.jocarium.productions/en/rust/read" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-20" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Rust / READ — 2026-08-20",
+      "url": "https://namara.jocarium.productions/en/rust/read/2026-08-20",
+      "datePublished": "2026-08-20",
+      "dateModified": "2026-08-20",
+      "inLanguage": "en",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Rust — iterator laziness" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Rust READ drill from 2026-08-20: iterator adaptors like map are lazy and don't run until consumed."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/en/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/en/c/read/2026-08-20">C</a>
+  <a href="/en/cpp/read/2026-08-20">C++</a>
+  <a href="/en/rust/read/2026-08-20" class="active" aria-current="page">Rust</a>
+  <a href="/en/haskell/read/2026-08-20">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/en/rust/read/2026-08-20" class="active" aria-current="page">READ</a>
+  <a href="/en/rust/write/2026-08-20">WRITE</a>
+  <a href="/en/rust/debug/2026-08-20">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-20</h2>
+  <div class="code-frame">
+    <p class="code-filename">iterator.rs</p>
+    <pre class="code"><code>fn main() {
+    let v = vec![1, 2, 3];
+    let mut iter = v.iter().map(|x| {
+        println!("mapping {}", x);
+        x * 2
+    });
+
+    println!("created");
+    let first = iter.next();
+    println!("{:?}", first);
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    What order do the lines print in?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>created</code>, then <code>mapping 1</code>, then <code>Some(2)</code>. Rust iterators are lazy &mdash; <code>.map()</code> doesn't run its closure until something actually pulls a value out via <code>.next()</code>. Creating the iterator does no work; only consuming it does.
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/en/rust/read">Today</a></li>
+    <li class="current">2026-08-20</li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+  <nav class="locale-nav" aria-label="Language"><span aria-current="page">EN</span><a href="/ja/rust/read/2026-08-20">JA</a></nav>
+</footer>
+
+</div>
+</body>
+</html>

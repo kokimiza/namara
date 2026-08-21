@@ -4,3 +4,8 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: no-referrer
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# doc/ is internal planning material (requirements/design docs), not product content.
+# It deploys to the Pages build root along with everything else, so keep it out of search results.
+/doc/*
+  X-Robots-Tag: noindex, nofollow

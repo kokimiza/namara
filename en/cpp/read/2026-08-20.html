@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C++ READ drill from 2026-08-20: default arguments are resolved statically, even through virtual dispatch.">
+<title>Namara — C++ / READ — 2026-08-20</title>
+<link rel="canonical" href="https://namara.jocarium.productions/en/cpp/read/2026-08-20">
+<link rel="stylesheet" href="/style.css">
+<link rel="alternate" hreflang="ja" href="https://namara.jocarium.productions/ja/cpp/read/2026-08-20">
+<link rel="alternate" hreflang="en" href="https://namara.jocarium.productions/en/cpp/read/2026-08-20">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C++ / READ", "item": "https://namara.jocarium.productions/en/cpp/read" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-20" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C++ / READ — 2026-08-20",
+      "url": "https://namara.jocarium.productions/en/cpp/read/2026-08-20",
+      "datePublished": "2026-08-20",
+      "dateModified": "2026-08-20",
+      "inLanguage": "en",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C++ — default arguments and virtual dispatch" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C++ READ drill from 2026-08-20: default arguments are resolved statically, even through virtual dispatch."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/en/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/en/c/read/2026-08-20">C</a>
+  <a href="/en/cpp/read/2026-08-20" class="active" aria-current="page">C++</a>
+  <a href="/en/rust/read/2026-08-20">Rust</a>
+  <a href="/en/haskell/read/2026-08-20">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/en/cpp/read/2026-08-20" class="active" aria-current="page">READ</a>
+  <a href="/en/cpp/write/2026-08-20">WRITE</a>
+  <a href="/en/cpp/debug/2026-08-20">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-20</h2>
+  <div class="code-frame">
+    <p class="code-filename">dispatch.cpp</p>
+    <pre class="code"><code>#include &lt;iostream&gt;
+
+struct Base {
+    virtual void greet(int n = 1) { std::cout &lt;&lt; n; }
+};
+
+struct Derived : Base {
+    void greet(int n = 2) override { std::cout &lt;&lt; n; }
+};
+
+int main() {
+    Base* b = new Derived();
+    b-&gt;greet();
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    What does this print?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>1</code>. Virtual dispatch picks <code>Derived::greet</code>'s body at runtime &mdash; that part is dynamic. But default argument values are bound statically, based on the declared type of the expression used to call, not the object's dynamic type. Since <code>b</code> is typed <code>Base*</code>, the default that gets used is <code>Base</code>'s (<code>n = 1</code>), even though <code>Derived::greet</code> is what actually runs. Well-defined, and a very well-known trap.
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/en/cpp/read">Today</a></li>
+    <li class="current">2026-08-20</li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+  <nav class="locale-nav" aria-label="Language"><span aria-current="page">EN</span><a href="/ja/cpp/read/2026-08-20">JA</a></nav>
+</footer>
+
+</div>
+</body>
+</html>

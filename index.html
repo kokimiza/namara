@@ -4,16 +4,86 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>Namara</title>
+<meta name="description" content="Namara is a one-question-a-day coding drill in C, C++, Rust, and Haskell — for programmers who want to keep reading, writing, and fixing code by hand.">
+<title>Namara — Code daily. Without assist.</title>
+<link rel="canonical" href="https://namara.jocarium.productions/">
 <link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": "Namara",
+      "alternateName": "Code daily. Without assist.",
+      "url": "https://namara.jocarium.productions/",
+      "description": "Namara is a one-question-a-day coding drill in C, C++, Rust, and Haskell — for programmers who want to keep reading, writing, and fixing code by hand.",
+      "inLanguage": "en"
+    },
+    {
+      "@type": "CollectionPage",
+      "name": "Namara — Code daily. Without assist.",
+      "url": "https://namara.jocarium.productions/",
+      "isPartOf": { "@type": "WebSite", "url": "https://namara.jocarium.productions/" },
+      "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "C / READ", "url": "https://namara.jocarium.productions/c/read" },
+          { "@type": "ListItem", "position": 2, "name": "C / WRITE", "url": "https://namara.jocarium.productions/c/write" },
+          { "@type": "ListItem", "position": 3, "name": "C / FIX", "url": "https://namara.jocarium.productions/c/fix" },
+          { "@type": "ListItem", "position": 4, "name": "C++ / READ", "url": "https://namara.jocarium.productions/cpp/read" },
+          { "@type": "ListItem", "position": 5, "name": "C++ / WRITE", "url": "https://namara.jocarium.productions/cpp/write" },
+          { "@type": "ListItem", "position": 6, "name": "C++ / FIX", "url": "https://namara.jocarium.productions/cpp/fix" },
+          { "@type": "ListItem", "position": 7, "name": "Rust / READ", "url": "https://namara.jocarium.productions/rust/read" },
+          { "@type": "ListItem", "position": 8, "name": "Rust / WRITE", "url": "https://namara.jocarium.productions/rust/write" },
+          { "@type": "ListItem", "position": 9, "name": "Rust / FIX", "url": "https://namara.jocarium.productions/rust/fix" },
+          { "@type": "ListItem", "position": 10, "name": "Haskell / READ", "url": "https://namara.jocarium.productions/haskell/read" },
+          { "@type": "ListItem", "position": 11, "name": "Haskell / WRITE", "url": "https://namara.jocarium.productions/haskell/write" },
+          { "@type": "ListItem", "position": 12, "name": "Haskell / FIX", "url": "https://namara.jocarium.productions/haskell/fix" }
+        ]
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <div class="wrap">
-  <header class="masthead">
-    <h1><a href="/c/read">Namara</a></h1>
-    <p class="tagline">Code daily. Without assist.</p>
-  </header>
-  <p><a href="/c/read">Continue to today's code &rarr;</a></p>
+
+<header class="masthead">
+  <h1>Namara</h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<p class="lede">
+  Namara is a one-question-a-day coding drill for programmers who already know how to code, and want to make sure they still can.
+</p>
+
+<p>
+  AI coding assistants are useful, and Namara has no argument with them. But the more of the typing they take over, the fewer chances there are to notice whether the underlying skill is still there. Namara is a place to check, briefly, without the assist.
+</p>
+
+<p>
+  No compiler, no login, no score. Pick a language and an exercise type below, read a small piece of code, and see if you still reach the answer on your own. Three seconds is fine. Getting it wrong is fine. The point isn't to prove anything &mdash; it's to touch the code once today.
+</p>
+
+<section class="guide">
+  <h2>Choose a drill</h2>
+  <p><strong>C</strong> &mdash; <a href="/c/read">READ</a> &middot; <a href="/c/write">WRITE</a> &middot; <a href="/c/fix">FIX</a></p>
+  <p><strong>C++</strong> &mdash; <a href="/cpp/read">READ</a> &middot; <a href="/cpp/write">WRITE</a> &middot; <a href="/cpp/fix">FIX</a></p>
+  <p><strong>Rust</strong> &mdash; <a href="/rust/read">READ</a> &middot; <a href="/rust/write">WRITE</a> &middot; <a href="/rust/fix">FIX</a></p>
+  <p><strong>Haskell</strong> &mdash; <a href="/haskell/read">READ</a> &middot; <a href="/haskell/write">WRITE</a> &middot; <a href="/haskell/fix">FIX</a></p>
+</section>
+
+<p>
+  READ means predicting what a piece of code does. WRITE means filling in a small function by hand. FIX means finding and correcting a bug. None of the three are scored, timed, or compared against anyone else's.
+</p>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
 </div>
 </body>
 </html>

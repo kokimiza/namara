@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Rust FIX drill from 2026-08-20: two simultaneous mutable borrows of the same Vec.">
+<title>Namara — Rust / FIX — 2026-08-20</title>
+<link rel="canonical" href="https://namara.jocarium.productions/rust/fix/2026-08-20">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Rust / FIX", "item": "https://namara.jocarium.productions/rust/fix" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-20" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Rust / FIX — 2026-08-20",
+      "url": "https://namara.jocarium.productions/rust/fix/2026-08-20",
+      "datePublished": "2026-08-20",
+      "dateModified": "2026-08-20",
+      "inLanguage": "en",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Rust — simultaneous mutable borrows" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Rust FIX drill from 2026-08-20: two simultaneous mutable borrows of the same Vec."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/read">C</a>
+  <a href="/cpp/read">C++</a>
+  <a href="/rust/read" class="active" aria-current="page">Rust</a>
+  <a href="/haskell/read">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/rust/read">READ</a>
+  <a href="/rust/write">WRITE</a>
+  <a href="/rust/fix" class="active" aria-current="page">FIX</a>
+</nav>
+
+<main>
+  <h2>2026-08-20</h2>
+  <p class="path">// rust/fix/2026-08-20</p>
+
+  <pre class="code"><code>fn main() {
+    let mut v = vec![1, 2, 3];
+    let a = &amp;mut v;
+    let b = &amp;mut v;
+    a.push(4);
+    b.push(5);
+}
+</code></pre>
+
+  <p class="question">
+    This doesn't compile. Fix it while still pushing both 4 and 5 onto <code>v</code>.
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>a</code> and <code>b</code> are two simultaneous mutable borrows of <code>v</code> &mdash; Rust forbids that. There's no need to hold either borrow open; just call the methods directly:
+      </p>
+      <pre class="code"><code>fn main() {
+    let mut v = vec![1, 2, 3];
+    v.push(4);
+    v.push(5);
+}
+</code></pre>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/rust/fix">Today</a></li>
+    <li class="current">2026-08-20</li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

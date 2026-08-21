@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C++ WRITE drill from 2026-08-20: implement operator== for a simple Point struct.">
+<title>Namara — C++ / WRITE — 2026-08-20</title>
+<link rel="canonical" href="https://namara.jocarium.productions/en/cpp/write/2026-08-20">
+<link rel="stylesheet" href="/style.css">
+<link rel="alternate" hreflang="ja" href="https://namara.jocarium.productions/ja/cpp/write/2026-08-20">
+<link rel="alternate" hreflang="en" href="https://namara.jocarium.productions/en/cpp/write/2026-08-20">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C++ / WRITE", "item": "https://namara.jocarium.productions/en/cpp/write" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-20" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C++ / WRITE — 2026-08-20",
+      "url": "https://namara.jocarium.productions/en/cpp/write/2026-08-20",
+      "datePublished": "2026-08-20",
+      "dateModified": "2026-08-20",
+      "inLanguage": "en",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C++ — operator== overloading" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C++ WRITE drill from 2026-08-20: implement operator== for a simple Point struct."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/en/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/en/c/write/2026-08-20">C</a>
+  <a href="/en/cpp/write/2026-08-20" class="active" aria-current="page">C++</a>
+  <a href="/en/rust/write/2026-08-20">Rust</a>
+  <a href="/en/haskell/write/2026-08-20">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/en/cpp/read/2026-08-20">READ</a>
+  <a href="/en/cpp/write/2026-08-20" class="active" aria-current="page">WRITE</a>
+  <a href="/en/cpp/debug/2026-08-20">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-20</h2>
+  <div class="code-frame">
+    <p class="code-filename">point.cpp</p>
+    <pre class="code"><code>struct Point {
+    int x;
+    int y;
+
+    // write operator== here
+};
+</code></pre>
+  </div>
+
+  <p class="question">
+    Implement <code>operator==</code> so two <code>Point</code>s compare equal when their <code>x</code> and <code>y</code> are both equal.
+  </p>
+
+  <details class="answer">
+    <summary>Reference</summary>
+    <div class="answer-body">
+      <pre class="code"><code>bool operator==(const Point&amp; a, const Point&amp; b) {
+    return a.x == b.x &amp;&amp; a.y == b.y;
+}
+</code></pre>
+      <p>
+        Written here as a free function; a member <code>bool operator==(const Point&amp; other) const</code> comparing <code>x == other.x &amp;&amp; y == other.y</code> works just as well.
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/en/cpp/write">Today</a></li>
+    <li class="current">2026-08-20</li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+  <nav class="locale-nav" aria-label="Language"><span aria-current="page">EN</span><a href="/ja/cpp/write/2026-08-20">JA</a></nav>
+</footer>
+
+</div>
+</body>
+</html>

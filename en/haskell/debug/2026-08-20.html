@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Haskell FIX drill from 2026-08-20.">
+<title>Namara — Haskell / DEBUG — 2026-08-20</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="alternate" hreflang="ja" href="https://namara.jocarium.productions/ja/haskell/debug/2026-08-20">
+<link rel="alternate" hreflang="en" href="https://namara.jocarium.productions/en/haskell/debug/2026-08-20">
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/en/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/en/c/debug/2026-08-20">C</a>
+  <a href="/en/cpp/debug/2026-08-20">C++</a>
+  <a href="/en/rust/debug/2026-08-20">Rust</a>
+  <a href="/en/haskell/debug/2026-08-20" class="active" aria-current="page">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/en/haskell/read/2026-08-20">READ</a>
+  <a href="/en/haskell/write/2026-08-20">WRITE</a>
+  <a href="/en/haskell/debug/2026-08-20" class="active" aria-current="page">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-20</h2>
+  <div class="code-frame">
+    <p class="code-filename">Sign.hs</p>
+    <pre class="code"><code>sign :: Int -&gt; String
+sign n
+  | n &gt; 0 = "positive"
+  | n &lt; 0 = "negative"
+</code></pre>
+  </div>
+
+  <p class="question">
+    This crashes at runtime for one particular input. Which one, and how do you fix it?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>sign 0</code> crashes with a non-exhaustive guards error &mdash; neither guard matches when <code>n</code> is 0. Add a catch-all: <code>| otherwise = "zero"</code>.
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/en/haskell/debug">Today</a></li>
+    <li class="current">2026-08-20</li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <nav class="locale-nav" aria-label="Language"><span aria-current="page">EN</span><a href="/ja/haskell/debug/2026-08-20">JA</a></nav>
+</footer>
+
+</div>
+</body>
+</html>

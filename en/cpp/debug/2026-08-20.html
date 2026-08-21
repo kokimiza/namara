@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C++ FIX drill from 2026-08-20: an iterator invalidated by vector::erase, then incremented anyway.">
+<title>Namara — C++ / DEBUG — 2026-08-20</title>
+<link rel="canonical" href="https://namara.jocarium.productions/en/cpp/debug/2026-08-20">
+<link rel="stylesheet" href="/style.css">
+<link rel="alternate" hreflang="ja" href="https://namara.jocarium.productions/ja/cpp/debug/2026-08-20">
+<link rel="alternate" hreflang="en" href="https://namara.jocarium.productions/en/cpp/debug/2026-08-20">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C++ / DEBUG", "item": "https://namara.jocarium.productions/en/cpp/debug" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-20" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C++ / DEBUG — 2026-08-20",
+      "url": "https://namara.jocarium.productions/en/cpp/debug/2026-08-20",
+      "datePublished": "2026-08-20",
+      "dateModified": "2026-08-20",
+      "inLanguage": "en",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C++ — iterator invalidation on erase" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C++ FIX drill from 2026-08-20: an iterator invalidated by vector::erase, then incremented anyway."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/en/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/en/c/debug/2026-08-20">C</a>
+  <a href="/en/cpp/debug/2026-08-20" class="active" aria-current="page">C++</a>
+  <a href="/en/rust/debug/2026-08-20">Rust</a>
+  <a href="/en/haskell/debug/2026-08-20">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/en/cpp/read/2026-08-20">READ</a>
+  <a href="/en/cpp/write/2026-08-20">WRITE</a>
+  <a href="/en/cpp/debug/2026-08-20" class="active" aria-current="page">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-20</h2>
+  <div class="code-frame">
+    <p class="code-filename">remove_negatives.cpp</p>
+    <pre class="code"><code>#include &lt;vector&gt;
+
+void remove_negatives(std::vector&lt;int&gt;&amp; v) {
+    for (auto it = v.begin(); it != v.end(); ++it) {
+        if (*it &lt; 0) {
+            v.erase(it);
+        }
+    }
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    This has a bug that shows up on inputs with more than one negative number. Find it and fix it.
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>v.erase(it)</code> invalidates <code>it</code>; the loop's <code>++it</code> then increments an invalidated iterator &mdash; undefined behavior. <code>erase</code> already returns a valid iterator to the next element, so use that instead of blindly incrementing:
+      </p>
+      <pre class="code"><code>for (auto it = v.begin(); it != v.end(); ) {
+    if (*it &lt; 0) it = v.erase(it);
+    else ++it;
+}
+</code></pre>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/en/cpp/debug">Today</a></li>
+    <li class="current">2026-08-20</li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+  <nav class="locale-nav" aria-label="Language"><span aria-current="page">EN</span><a href="/ja/cpp/debug/2026-08-20">JA</a></nav>
+</footer>
+
+</div>
+</body>
+</html>
