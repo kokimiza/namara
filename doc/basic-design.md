@@ -132,7 +132,8 @@ namara/
 │   └── _middleware.js         # 日付つきURLの入口判定・「今日」エイリアスの解決（§5.2）
 ├── c/
 │   ├── read/
-│   │   └── 2026-08-21.html     # 公開日ごとに増えるアーカイブ（1日1ファイル、公開後は編集しない）
+│   │   ├── 2026-08-21.html     # 公開日ごとに増えるアーカイブ（1日1ファイル、公開後は編集しない）
+│   │   └── archive.html        # 全日付への一覧（§7.1a）。新しい日を公開するたびに1行だけ編集する唯一の例外
 │   ├── write/
 │   │   └── 2026-08-21.html
 │   └── debug/
@@ -167,8 +168,9 @@ Cloudflare Pagesは `.html` 拡張子付きのURLへアクセスがあった場�
 | `c/read/2026-08-20.html` | `/c/read/2026-08-20` |
 | `c/read/2026-08-21.html` | `/c/read/2026-08-21` |
 | （`c/read.html` のようなファイルは存在しない） | `/c/read` ← §5.2のエイリアスで解決 |
+| `c/read/archive.html` | `/c/read/archive`（全日付への一覧、§7.1a） |
 
-（`write` / `debug` および他の3言語も同じパターン。アーカイブは各組み合わせにつき公開日の数だけ増えていく。）
+（`write` / `debug` および他の3言語も同じパターン。日付つきアーカイブは各組み合わせにつき公開日の数だけ増えていく。`archive` は日付の正規表現にもマッチしないため、§5.1・§5.2 のミドルウェア判定はそのまま素通りし、他の静的ファイルと同じ経路で配信される。）
 
 ### 5.1 未来日URLの扱い
 
@@ -370,8 +372,7 @@ env.ASSETS.fetch("/c/read/2026-08-21") を取得し、そのままレスポン�
   <h2>Past</h2>
   <ul class="past-list">
     <li><a href="/c/read">Today</a></li>
-    <li class="current">2026-08-21</li>
-    <li><a href="/c/read/2026-08-20">2026-08-20</a></li>
+    <li><a href="/c/read/archive">Archive</a></li>
   </ul>
 </aside>
 
@@ -397,8 +398,88 @@ env.ASSETS.fetch("/c/read/2026-08-21") を取得し、そのままレスポン�
 * コードは `<div class="code-frame">` で囲み、直下の `<p class="code-filename">` にお題に沿ったファイル名を、対象言語の命名規則で書く（C/C++/Rustはsnake_case、Haskellはモジュール名慣習のPascalCase）。以前あった `<p class="path">/* c/read */</p>` のようなコメント演出は廃止した
 * WRITEページは `<summary>Answer</summary>` を `<summary>Reference</summary>` に変える（要件定義 §9 WRITEの節）
 * コード内の `<` `>` `&` は `&lt;` `&gt;` `&amp;` に置換してから貼る
-* `past-list` の先頭は必ず `Today` リンク（日付なしURL）。続けて新しい日付から降順に並べ、自分自身の日付だけ `class="current"` にしてリンクにしない。件数の上限は設けない
-* このページを公開する際、他の直近の日付ページ（Today以外の既存アーカイブ）の `past-list` にも、この新しい日付へのリンクを追加する（§9）。**アーカイブページは公開したら二度と編集しない**が、この「他ページのPastリストに新しい行を足す」操作は例外とする——ページ本文（code / question / answer）そのものは変えない
+* `past-list` は常に2行固定：`Today` リンク（日付なしURL）と `Archive` リンク（`/{lang}/{type}/archive`、§7.1a）。日付を直接列挙しない。これにより **この2行はどの日付のページでも同じ内容になり、公開後のページは本当に一度も編集しない**（旧版は全過去日付を降順で列挙しており、新しい日を公開するたびに既存アーカイブ全ページの編集が必要だった。§7.1a 参照）
+
+### 7.1a アーカイブ一覧ページ（例: `c/read/archive.html`）
+
+`{lang}/{type}` の組み合わせごとに1枚、その組み合わせの全アーカイブ日付を新しい順に列挙するページを置く（4言語 × 3種別 × 2ロケール = 24枚）。日付ページからは `past-list` の `Archive` リンクでここへ来る。
+
+構成要素は日付ページ（§7.1）とほぼ同じだが、次の点が異なる：
+
+* `<main>` の中身は `code-frame` / `question` / `answer` ではなく、`<h2>Archive</h2>` と `past-list` 形式の `<ul>` のみ（`.past-list` はスコープなしのクラスなので `<aside>` の外でもそのまま使える。追加CSSは不要）
+* この `<ul>` が全日付の一覧そのものなので、ページ自身は `<aside class="past">` を持たない（`.page:not(:has(.past))` により自動で1カラムへ戻る。§8）
+* `lang-nav` / `type-nav` は日付を保持できないので、兄弟の archive ページ（例: `/rust/read/archive`）へリンクする
+* JSON-LDは `BreadcrumbList` のみとし、`TechArticle` / `LearningResource` は付けない（ドリル本体ではなく索引のため）
+* `<title>` は `Namara — {言語} / {種別} — Archive`、`<h2>` は `Archive`
+
+具体例：
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Every past Namara C READ drill, archived by date.">
+<title>Namara — C / READ — Archive</title>
+<link rel="canonical" href="https://namara.jocarium.productions/en/c/read/archive">
+<link rel="stylesheet" href="/style.css">
+<link rel="alternate" hreflang="ja" href="https://namara.jocarium.productions/ja/c/read/archive">
+<link rel="alternate" hreflang="en" href="https://namara.jocarium.productions/en/c/read/archive">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+    { "@type": "ListItem", "position": 2, "name": "C / READ", "item": "https://namara.jocarium.productions/en/c/read" },
+    { "@type": "ListItem", "position": 3, "name": "Archive" }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/en/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/en/c/read/archive" class="active" aria-current="page">C</a>
+  <a href="/en/cpp/read/archive">C++</a>
+  <a href="/en/rust/read/archive">Rust</a>
+  <a href="/en/haskell/read/archive">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/en/c/read/archive" class="active" aria-current="page">READ</a>
+  <a href="/en/c/write/archive">WRITE</a>
+  <a href="/en/c/debug/archive">DEBUG</a>
+</nav>
+
+<main>
+  <h2>Archive</h2>
+  <ul class="past-list">
+    <li><a href="/en/c/read/2026-08-21">2026-08-21</a></li>
+    <li><a href="/en/c/read/2026-08-20">2026-08-20</a></li>
+  </ul>
+</main>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+  <nav class="locale-nav" aria-label="Language"><span aria-current="page">EN</span><a href="/ja/c/read/archive">JA</a></nav>
+</footer>
+
+</div>
+</body>
+</html>
+```
+
+新しい日を公開するたびに触るのはこのファイル**だけ**（対応する `{lang}/{type}/{locale}` の archive.html 1枚に、新しい日付の `<li>` を先頭へ1行足す）。**これが「公開後は編集しない」の唯一かつ明示的な例外である。** それ以外の（日付つきの）アーカイブページは、公開後は本当に一度も編集されない。
 
 > **原則：ページ間のHTML重複は意図的に許容する。** 12ページ間の重複（既出）に加えて、日付ページどうしの構造重複も同様に許容する。重複除去のためだけにビルド処理・テンプレートエンジン・JavaScriptを導入しない。
 
@@ -441,16 +522,15 @@ CSSファイルは1枚のみとし、ページ側の `<link>` は共通で `/sty
    - <title>・<h2> の日付を今日の日付にする
    - code-filename にお題に沿ったファイル名（対象言語の命名規則）を書く
    - コードは HTML エスケープする
-   - Past ペインは「Today」リンク＋現在地（class="current"）＋既存の古い日付（あれば）にする
-3. 直近の既存アーカイブページの Past リストに、手順2で作ったページへのリンクを1行追加する
-   （例: 前日分の `2026-08-20.html` に `<li><a href="/c/read/2026-08-21">2026-08-21</a></li>` を足す。
-   本文（code / question / answer）には触れない）
+   - Past ペインは常に固定の2行（「Today」リンク＋「Archive」リンク、§7.1）
+3. 同じ {lang}/{type}/{locale} の archive.html（§7.1a）に、手順2で作ったページへのリンクを
+   先頭へ1行追加する（例: `<li><a href="/c/read/2026-08-21">2026-08-21</a></li>`）
 4. git commit
 5. git push
 6. Cloudflare Pages が自動デプロイ
 ```
 
-「今日ページ」という別ファイルは存在しないため、上書きするファイルは無い。手順2で新規作成したファイルは、以後二度と編集しない。`/c/read` のような日付なしURLは、ミドルウェア（§5.2）が常に最新の日付ページへ自動的に解決するので、公開のたびに触るのは「新しい日付のファイルを1つ追加する」ことと「直近の数ファイルのPastリストにリンクを1行足す」ことだけになる。
+「今日ページ」という別ファイルは存在しないため、上書きするファイルは無い。手順2で新規作成したファイルは、以後二度と編集しない。`/c/read` のような日付なしURLは、ミドルウェア（§5.2）が常に最新の日付ページへ自動的に解決するので、公開のたびに触るのは「新しい日付のファイルを1つ追加する」ことと「対応する archive.html 1枚に1行足す」ことだけになる——過去日の日付ページ自体は増えても触らない（§7.1a）。
 
 新しい言語・種別を追加することは v1 の想定に含まれない（要件定義 §8 で4言語固定、§9 で3種別固定）。
 
