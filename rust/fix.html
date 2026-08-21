@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Find and fix a small bug in Rust. No compiler, no score — just today's code.">
+<title>Namara — Rust / FIX</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <h1><a href="/c/read">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/read">C</a>
+  <a href="/cpp/read">C++</a>
+  <a href="/rust/read" class="active" aria-current="page">Rust</a>
+  <a href="/haskell/read">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/rust/read">READ</a>
+  <a href="/rust/write">WRITE</a>
+  <a href="/rust/fix" class="active" aria-current="page">FIX</a>
+</nav>
+
+<main>
+  <h2>Today's code</h2>
+  <p class="path">// rust/fix</p>
+
+  <pre class="code"><code>fn push_and_print(v: &amp;mut Vec&lt;i32&gt;) {
+    let first = &amp;v[0];
+    v.push(42);
+    println!("{}", first);
+}
+</code></pre>
+
+  <p class="question">
+    This doesn't compile. Fix it while keeping the printed value the original first element.
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>first</code> borrows <code>v</code> immutably, but <code>v.push</code> needs a mutable borrow, and <code>first</code> is still alive at the <code>println!</code>. Since <code>i32</code> is <code>Copy</code>, take the value instead of a reference: <code>let first = v[0];</code> &mdash; then push and print freely.
+      </p>
+    </div>
+  </details>
+</main>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+</footer>
+
+</div>
+</body>
+</html>

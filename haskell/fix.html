@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Find and fix a small bug in Haskell. No compiler, no score — just today's code.">
+<title>Namara — Haskell / FIX</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <h1><a href="/c/read">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/read">C</a>
+  <a href="/cpp/read">C++</a>
+  <a href="/rust/read">Rust</a>
+  <a href="/haskell/read" class="active" aria-current="page">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/haskell/read">READ</a>
+  <a href="/haskell/write">WRITE</a>
+  <a href="/haskell/fix" class="active" aria-current="page">FIX</a>
+</nav>
+
+<main>
+  <h2>Today's code</h2>
+  <p class="path">-- haskell/fix</p>
+
+  <pre class="code"><code>factorial :: Integer -&gt; Integer
+factorial n = n * factorial (n - 1)
+</code></pre>
+
+  <p class="question">
+    This never terminates. Fix it.
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        There's no base case, so it recurses forever &mdash; past zero, into negative numbers, without ever stopping. Add <code>factorial 0 = 1</code> as a separate equation before the recursive case.
+      </p>
+    </div>
+  </details>
+</main>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+</footer>
+
+</div>
+</body>
+</html>

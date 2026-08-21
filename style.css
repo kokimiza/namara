@@ -1,0 +1,331 @@
+/* Namara — one stylesheet, shared by every page. No build step touches this file. */
+
+:root {
+  --bg: #eeefea;
+  --panel: #e3e2d9;
+  --ink: #1b1a17;
+  --ink-muted: #5b5a54;
+  --rule: #d2d1c6;
+  --accent: #9c5e20;
+  --accent-strong: #7c4a19;
+
+  --font-body: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+  --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15130f;
+    --panel: #201c15;
+    --ink: #ece7da;
+    --ink-muted: #938d7b;
+    --rule: #332e25;
+    --accent: #d79a4b;
+    --accent-strong: #e8af63;
+  }
+}
+
+/* ==================================================
+   Reset — moderate but thorough. Kills the browser
+   defaults that would otherwise fight the rules below,
+   without stripping semantics (headings stay headings,
+   lists stay lists).
+   ================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+h1, h2, h3, h4, h5, h6,
+p, blockquote, pre,
+dl, dd, ol, ul,
+figure, hr,
+fieldset, legend {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+img, picture, svg, video, canvas {
+  display: block;
+  max-width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid currentColor;
+}
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ==================================================
+   Base
+   ================================================== */
+
+html {
+  background: var(--bg);
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+
+/* ---------- masthead ---------- */
+
+.masthead {
+  margin-bottom: 2rem;
+}
+
+.masthead h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.masthead h1 a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+}
+
+.tagline {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+/* ---------- nav: bracketed, terminal-menu style ---------- */
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+
+.lang-nav {
+  margin-bottom: 0.5rem;
+}
+
+.type-nav {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+nav a {
+  position: relative;
+  padding: 0.1rem 0.3rem;
+  color: var(--ink-muted);
+  border-radius: 2px;
+}
+
+nav a::before {
+  content: "[";
+  margin-right: 0.15em;
+  color: var(--rule);
+}
+
+nav a::after {
+  content: "]";
+  margin-left: 0.15em;
+  color: var(--rule);
+}
+
+nav a:hover {
+  color: var(--ink);
+}
+
+nav a.active {
+  color: var(--bg);
+  background: var(--ink);
+}
+
+nav a.active::before,
+nav a.active::after {
+  color: var(--bg);
+}
+
+/* ---------- main content ---------- */
+
+main h2 {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin: 0 0 0.5rem;
+}
+
+.path {
+  margin: 0 0 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--accent-strong);
+}
+
+pre.code {
+  margin: 0 0 1.75rem;
+  padding: 1.25rem 1.25rem;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  overflow-x: auto;
+}
+
+pre.code code {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.65;
+  white-space: pre;
+}
+
+.question {
+  margin: 0 0 2rem;
+  font-size: 1.125rem;
+  line-height: 1.65;
+  max-width: 34rem;
+}
+
+/* ---------- answer / reference disclosure ---------- */
+
+details.answer {
+  border-top: 1px solid var(--rule);
+  padding-top: 1.25rem;
+}
+
+details.answer summary {
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-strong);
+}
+
+details.answer summary::-webkit-details-marker {
+  display: none;
+}
+
+details.answer summary::before {
+  content: "\25b8";
+  display: inline-block;
+  margin-right: 0.5em;
+  color: var(--accent);
+}
+
+details.answer[open] summary::before {
+  content: "\25be";
+}
+
+details.answer summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.answer-body {
+  margin-top: 1rem;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  max-width: 34rem;
+}
+
+.answer-body pre.code {
+  margin-top: 0.75rem;
+}
+
+.answer-body code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--panel);
+  padding: 0.1em 0.3em;
+  border-radius: 2px;
+}
+
+/* ---------- footer ---------- */
+
+footer {
+  margin-top: 3.5rem;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+}
+
+/* ---------- accessibility & restraint ---------- */
+
+a:focus-visible,
+nav a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  nav a,
+  .masthead h1 a {
+    transition: color 120ms ease, background-color 120ms ease;
+  }
+}
+
+@media (max-width: 480px) {
+  .wrap {
+    padding: 2rem 1.25rem 3rem;
+  }
+
+  .question {
+    font-size: 1.0625rem;
+  }
+}

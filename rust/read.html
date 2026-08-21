@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Read a small piece of Rust and predict what it does. No compiler, no score — just today's code.">
+<title>Namara — Rust / READ</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <h1><a href="/c/read">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/read">C</a>
+  <a href="/cpp/read">C++</a>
+  <a href="/rust/read" class="active" aria-current="page">Rust</a>
+  <a href="/haskell/read">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/rust/read" class="active" aria-current="page">READ</a>
+  <a href="/rust/write">WRITE</a>
+  <a href="/rust/fix">FIX</a>
+</nav>
+
+<main>
+  <h2>Today's code</h2>
+  <p class="path">// rust/read</p>
+
+  <pre class="code"><code>fn main() {
+    let s1 = String::from("namara");
+    let s2 = s1;
+
+    println!("{}", s1);
+}
+</code></pre>
+
+  <p class="question">
+    Does this compile? If not, why?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        No. <code>String</code> doesn't implement <code>Copy</code>, so <code>let s2 = s1;</code> moves ownership out of <code>s1</code>. Using <code>s1</code> again on the next line is a use of a moved value, and the compiler rejects it: <code>error[E0382]: borrow of moved value: `s1`</code>.
+      </p>
+    </div>
+  </details>
+</main>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+</footer>
+
+</div>
+</body>
+</html>
