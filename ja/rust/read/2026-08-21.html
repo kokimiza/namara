@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="2026-08-21に出題されたNamara Rust READのアーカイブ問題:Stringの代入は所有権をムーブするため、元の変数はその後使えなくなることを扱う。">
+<title>Namara — Rust / READ — 2026-08-21</title>
+<link rel="canonical" href="https://namara.jocarium.productions/ja/rust/read/2026-08-21">
+<link rel="stylesheet" href="/style.css">
+<link rel="alternate" hreflang="ja" href="https://namara.jocarium.productions/ja/rust/read/2026-08-21">
+<link rel="alternate" hreflang="en" href="https://namara.jocarium.productions/en/rust/read/2026-08-21">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Rust / READ", "item": "https://namara.jocarium.productions/ja/rust/read" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-21" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Rust / READ — 2026-08-21",
+      "url": "https://namara.jocarium.productions/ja/rust/read/2026-08-21",
+      "datePublished": "2026-08-21",
+      "dateModified": "2026-08-21",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Rust — 所有権とムーブ" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "2026-08-21に出題されたNamara Rust READのアーカイブ問題:Stringの代入は所有権をムーブするため、元の変数はその後使えなくなることを扱う。"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/ja/">Namara</a></h1>
+  <p class="tagline">毎日コード。手助けなし。</p>
+</header>
+
+<nav class="lang-nav" aria-label="言語">
+  <a href="/ja/c/read/2026-08-21">C</a>
+  <a href="/ja/cpp/read/2026-08-21">C++</a>
+  <a href="/ja/rust/read/2026-08-21" class="active" aria-current="page">Rust</a>
+  <a href="/ja/haskell/read/2026-08-21">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="練習の種類">
+  <a href="/ja/rust/read/2026-08-21" class="active" aria-current="page">READ</a>
+  <a href="/ja/rust/write/2026-08-21">WRITE</a>
+  <a href="/ja/rust/debug/2026-08-21">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-21</h2>
+  <div class="code-frame">
+    <p class="code-filename">ownership.rs</p>
+    <pre class="code"><code>fn main() {
+    let s1 = String::from("namara");
+    let s2 = s1;
+
+    println!("{}", s1);
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    これはコンパイルできるでしょうか?できない場合、その理由は?
+  </p>
+
+  <details class="answer">
+    <summary>答え</summary>
+    <div class="answer-body">
+      <p>
+        できません。<code>String</code>は<code>Copy</code>を実装していないため、<code>let s2 = s1;</code>は<code>s1</code>から所有権をムーブします。次の行で再び<code>s1</code>を使おうとすると、ムーブ済みの値を使用することになり、コンパイラはこれを拒否します:<code>error[E0382]: borrow of moved value: `s1`</code>。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>過去</h2>
+  <ul class="past-list">
+    <li><a href="/ja/rust/read">本日</a></li>
+    <li class="current">2026-08-21</li>
+    <li><a href="/ja/rust/read/2026-08-20">2026-08-20</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>プログラマの毎日のメンテナンス習慣。</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">誤りを見つけたら、GitHubで修正してください。</a></p>
+  <nav class="locale-nav" aria-label="言語"><span aria-current="page">JA</span><a href="/en/rust/read/2026-08-21">EN</a></nav>
+</footer>
+
+</div>
+</body>
+</html>

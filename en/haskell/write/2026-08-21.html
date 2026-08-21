@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Haskell WRITE drill from 2026-08-21: implement myLength by recursing over a list.">
+<title>Namara — Haskell / WRITE — 2026-08-21</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="alternate" hreflang="ja" href="https://namara.jocarium.productions/ja/haskell/write/2026-08-21">
+<link rel="alternate" hreflang="en" href="https://namara.jocarium.productions/en/haskell/write/2026-08-21">
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/en/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/en/c/write/2026-08-21">C</a>
+  <a href="/en/cpp/write/2026-08-21">C++</a>
+  <a href="/en/rust/write/2026-08-21">Rust</a>
+  <a href="/en/haskell/write/2026-08-21" class="active" aria-current="page">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/en/haskell/read/2026-08-21">READ</a>
+  <a href="/en/haskell/write/2026-08-21" class="active" aria-current="page">WRITE</a>
+  <a href="/en/haskell/debug/2026-08-21">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-21</h2>
+  <div class="code-frame">
+    <p class="code-filename">MyLength.hs</p>
+    <pre class="code"><code>myLength :: [a] -&gt; Int
+myLength = undefined  -- write this
+</code></pre>
+  </div>
+
+  <p class="question">
+    Implement <code>myLength</code> without using the built-in <code>length</code>.
+  </p>
+
+  <details class="answer">
+    <summary>Reference</summary>
+    <div class="answer-body">
+      <pre class="code"><code>myLength :: [a] -&gt; Int
+myLength []     = 0
+myLength (_:xs) = 1 + myLength xs
+</code></pre>
+      <p>
+        One equation per case: the empty list has length zero, and a non-empty list is one plus the length of its tail.
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/en/haskell/write">Today</a></li>
+    <li class="current">2026-08-21</li>
+    <li><a href="/en/haskell/write/2026-08-20">2026-08-20</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <nav class="locale-nav" aria-label="Language"><span aria-current="page">EN</span><a href="/ja/haskell/write/2026-08-21">JA</a></nav>
+</footer>
+
+</div>
+</body>
+</html>

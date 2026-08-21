@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C DEBUG drill from 2026-08-21: a loop copies one byte past the end of a fixed-size buffer.">
+<title>Namara — C / DEBUG — 2026-08-21</title>
+<link rel="canonical" href="https://namara.jocarium.productions/en/c/debug/2026-08-21">
+<link rel="stylesheet" href="/style.css">
+<link rel="alternate" hreflang="ja" href="https://namara.jocarium.productions/ja/c/debug/2026-08-21">
+<link rel="alternate" hreflang="en" href="https://namara.jocarium.productions/en/c/debug/2026-08-21">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C / DEBUG", "item": "https://namara.jocarium.productions/en/c/debug" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-21" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C / DEBUG — 2026-08-21",
+      "url": "https://namara.jocarium.productions/en/c/debug/2026-08-21",
+      "datePublished": "2026-08-21",
+      "dateModified": "2026-08-21",
+      "inLanguage": "en",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C — buffer overflow (off-by-one)" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C DEBUG drill from 2026-08-21: a loop copies one byte past the end of a fixed-size buffer."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/en/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/en/c/debug/2026-08-21" class="active" aria-current="page">C</a>
+  <a href="/en/cpp/debug/2026-08-21">C++</a>
+  <a href="/en/rust/debug/2026-08-21">Rust</a>
+  <a href="/en/haskell/debug/2026-08-21">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/en/c/read/2026-08-21">READ</a>
+  <a href="/en/c/write/2026-08-21">WRITE</a>
+  <a href="/en/c/debug/2026-08-21" class="active" aria-current="page">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-21</h2>
+  <div class="code-frame">
+    <p class="code-filename">buffer.c</p>
+    <pre class="code"><code>#include &lt;string.h&gt;
+
+int main(void) {
+    char buf[6];
+    const char *name = "namara";
+
+    for (int i = 0; i &lt;= strlen(name); i++) {
+        buf[i] = name[i];
+    }
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    This overflows <code>buf</code> by one byte. Find it and fix it with a minimal change.
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        Make room for the terminator: <code>char buf[7];</code>. <code>"namara"</code> is 6 bytes plus a NUL, so it needs 7. The loop's <code>&lt;=</code> is correct &mdash; it's meant to copy the NUL too &mdash; but <code>buf</code> was one byte too small to receive it.
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/en/c/debug">Today</a></li>
+    <li class="current">2026-08-21</li>
+    <li><a href="/en/c/debug/2026-08-20">2026-08-20</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+  <nav class="locale-nav" aria-label="Language"><span aria-current="page">EN</span><a href="/ja/c/debug/2026-08-21">JA</a></nav>
+</footer>
+
+</div>
+</body>
+</html>

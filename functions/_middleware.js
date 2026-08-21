@@ -6,7 +6,15 @@ const datedPath =
 const legacyFixPath =
   /^\/(ja|en)\/(c|cpp|rust|haskell)\/fix(\.html)?(\/.*)?$/;
 
-export function onRequest(context) {
+// There is no standalone "today" page on disk any more — only dated archive
+// pages (/{locale}/{lang}/{type}/{date}) exist. Requesting the bare category
+// URL (e.g. /en/c/debug) transparently serves whichever dated page matches
+// today's date in Japan, so publishing a new day is just adding one new
+// dated file — no copying the previous "today" file into an archive first.
+const todayAliasPath =
+  /^\/(ja|en)\/(c|cpp|rust|haskell)\/(read|write|debug)(?:\.html)?\/?$/;
+
+export async function onRequest(context) {
   const url = new URL(context.request.url);
 
   if (url.pathname === "/") {
@@ -33,6 +41,19 @@ export function onRequest(context) {
     if (match[1] > today) {
       return new Response("Not Found", { status: 404 });
     }
+  }
+
+  const todayMatch = pathname.match(todayAliasPath);
+  if (todayMatch) {
+    const [, locale, lang, type] = todayMatch;
+    const today = todayInJapan();
+    const target = new URL(`/${locale}/${lang}/${type}/${today}`, url.origin);
+
+    // Serves the dated page's bytes as-is at the bare category URL. Its own
+    // <link rel="canonical"> already points at the dated URL, so this never
+    // creates duplicate-content ambiguity — it's a transparent alias, not a
+    // redirect (the address bar keeps showing the bare category URL).
+    return context.env.ASSETS.fetch(new Request(target, context.request));
   }
 
   return context.next();

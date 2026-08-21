@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="2026-08-21に出題されたNamara C WRITEのアーカイブ問題:NUL終端文字列をその場で反転するreverseを実装する。">
+<title>Namara — C / WRITE — 2026-08-21</title>
+<link rel="canonical" href="https://namara.jocarium.productions/ja/c/write/2026-08-21">
+<link rel="stylesheet" href="/style.css">
+<link rel="alternate" hreflang="ja" href="https://namara.jocarium.productions/ja/c/write/2026-08-21">
+<link rel="alternate" hreflang="en" href="https://namara.jocarium.productions/en/c/write/2026-08-21">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C / WRITE", "item": "https://namara.jocarium.productions/ja/c/write" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-21" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C / WRITE — 2026-08-21",
+      "url": "https://namara.jocarium.productions/ja/c/write/2026-08-21",
+      "datePublished": "2026-08-21",
+      "dateModified": "2026-08-21",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C — 文字列の反転" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "2026-08-21に出題されたNamara C WRITEのアーカイブ問題:NUL終端文字列をその場で反転するreverseを実装する。"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/ja/">Namara</a></h1>
+  <p class="tagline">毎日コード。手助けなし。</p>
+</header>
+
+<nav class="lang-nav" aria-label="言語">
+  <a href="/ja/c/write/2026-08-21" class="active" aria-current="page">C</a>
+  <a href="/ja/cpp/write/2026-08-21">C++</a>
+  <a href="/ja/rust/write/2026-08-21">Rust</a>
+  <a href="/ja/haskell/write/2026-08-21">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="練習の種類">
+  <a href="/ja/c/read/2026-08-21">READ</a>
+  <a href="/ja/c/write/2026-08-21" class="active" aria-current="page">WRITE</a>
+  <a href="/ja/c/debug/2026-08-21">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-21</h2>
+  <div class="code-frame">
+    <p class="code-filename">reverse.c</p>
+    <pre class="code"><code>#include &lt;string.h&gt;
+
+void reverse(char *s) {
+    /* write this: reverse s in place, no extra buffer */
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    NUL終端文字列をその場で反転するように、<code>reverse</code>を実装してください。
+  </p>
+
+  <details class="answer">
+    <summary>参考実装</summary>
+    <div class="answer-body">
+      <pre class="code"><code>void reverse(char *s) {
+    size_t len = strlen(s);
+    for (size_t i = 0, j = len - 1; i &lt; j; i++, j--) {
+        char tmp = s[i];
+        s[i] = s[j];
+        s[j] = tmp;
+    }
+}
+</code></pre>
+      <p>
+        両端から中央に向かって閉じていく、2つのポインタを使う方法です。これはあくまで参考実装であり、唯一の正解ではありません &mdash; 自分の実装と見比べてみてください。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>過去</h2>
+  <ul class="past-list">
+    <li><a href="/ja/c/write">本日</a></li>
+    <li class="current">2026-08-21</li>
+    <li><a href="/ja/c/write/2026-08-20">2026-08-20</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>プログラマの毎日のメンテナンス習慣。</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">誤りを見つけたら、GitHubで修正してください。</a></p>
+  <nav class="locale-nav" aria-label="言語"><span aria-current="page">JA</span><a href="/en/c/write/2026-08-21">EN</a></nav>
+</footer>
+
+</div>
+</body>
+</html>

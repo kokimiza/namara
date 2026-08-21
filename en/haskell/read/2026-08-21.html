@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Haskell READ drill from 2026-08-21: laziness means an undefined element is never forced if it's never demanded.">
+<title>Namara — Haskell / READ — 2026-08-21</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="alternate" hreflang="ja" href="https://namara.jocarium.productions/ja/haskell/read/2026-08-21">
+<link rel="alternate" hreflang="en" href="https://namara.jocarium.productions/en/haskell/read/2026-08-21">
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/en/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/en/c/read/2026-08-21">C</a>
+  <a href="/en/cpp/read/2026-08-21">C++</a>
+  <a href="/en/rust/read/2026-08-21">Rust</a>
+  <a href="/en/haskell/read/2026-08-21" class="active" aria-current="page">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/en/haskell/read/2026-08-21" class="active" aria-current="page">READ</a>
+  <a href="/en/haskell/write/2026-08-21">WRITE</a>
+  <a href="/en/haskell/debug/2026-08-21">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-21</h2>
+  <div class="code-frame">
+    <p class="code-filename">Lazy.hs</p>
+    <pre class="code"><code>main :: IO ()
+main = do
+  let xs = [1, 2, undefined, 4] :: [Int]
+  print (take 2 xs)
+</code></pre>
+  </div>
+
+  <p class="question">
+    What does this print? Why doesn't <code>undefined</code> crash it?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>[1,2]</code>. Haskell is lazy: <code>take 2 xs</code> only forces the first two cons cells of the list. The <code>undefined</code> sitting at index 2 is never touched, so it's never evaluated &mdash; and never throws.
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/en/haskell/read">Today</a></li>
+    <li class="current">2026-08-21</li>
+    <li><a href="/en/haskell/read/2026-08-20">2026-08-20</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <nav class="locale-nav" aria-label="Language"><span aria-current="page">EN</span><a href="/ja/haskell/read/2026-08-21">JA</a></nav>
+</footer>
+
+</div>
+</body>
+</html>

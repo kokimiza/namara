@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Rust DEBUG drill from 2026-08-21: an immutable borrow is still alive when a mutable borrow is needed.">
+<title>Namara — Rust / DEBUG — 2026-08-21</title>
+<link rel="canonical" href="https://namara.jocarium.productions/en/rust/debug/2026-08-21">
+<link rel="stylesheet" href="/style.css">
+<link rel="alternate" hreflang="ja" href="https://namara.jocarium.productions/ja/rust/debug/2026-08-21">
+<link rel="alternate" hreflang="en" href="https://namara.jocarium.productions/en/rust/debug/2026-08-21">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Rust / DEBUG", "item": "https://namara.jocarium.productions/en/rust/debug" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-21" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Rust / DEBUG — 2026-08-21",
+      "url": "https://namara.jocarium.productions/en/rust/debug/2026-08-21",
+      "datePublished": "2026-08-21",
+      "dateModified": "2026-08-21",
+      "inLanguage": "en",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Rust — borrow checker (mutable + immutable borrow)" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Rust DEBUG drill from 2026-08-21: an immutable borrow is still alive when a mutable borrow is needed."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/en/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/en/c/debug/2026-08-21">C</a>
+  <a href="/en/cpp/debug/2026-08-21">C++</a>
+  <a href="/en/rust/debug/2026-08-21" class="active" aria-current="page">Rust</a>
+  <a href="/en/haskell/debug/2026-08-21">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/en/rust/read/2026-08-21">READ</a>
+  <a href="/en/rust/write/2026-08-21">WRITE</a>
+  <a href="/en/rust/debug/2026-08-21" class="active" aria-current="page">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-21</h2>
+  <div class="code-frame">
+    <p class="code-filename">borrow.rs</p>
+    <pre class="code"><code>fn push_and_print(v: &amp;mut Vec&lt;i32&gt;) {
+    let first = &amp;v[0];
+    v.push(42);
+    println!("{}", first);
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    This doesn't compile. Fix it while keeping the printed value the original first element.
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>first</code> borrows <code>v</code> immutably, but <code>v.push</code> needs a mutable borrow, and <code>first</code> is still alive at the <code>println!</code>. Since <code>i32</code> is <code>Copy</code>, take the value instead of a reference: <code>let first = v[0];</code> &mdash; then push and print freely.
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/en/rust/debug">Today</a></li>
+    <li class="current">2026-08-21</li>
+    <li><a href="/en/rust/debug/2026-08-20">2026-08-20</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+  <nav class="locale-nav" aria-label="Language"><span aria-current="page">EN</span><a href="/ja/rust/debug/2026-08-21">JA</a></nav>
+</footer>
+
+</div>
+</body>
+</html>
