@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Haskell DEBUG drill from 2026-08-24: an off-by-one index makes !! run one past the last element.">
+<title>Namara — Haskell / DEBUG — 2026-08-24</title>
+<link rel="canonical" href="https://namara.jocarium.productions/haskell/debug/2026-08-24">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Haskell / DEBUG", "item": "https://namara.jocarium.productions/haskell/debug" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-24" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Haskell / DEBUG — 2026-08-24",
+      "url": "https://namara.jocarium.productions/haskell/debug/2026-08-24",
+      "datePublished": "2026-08-24",
+      "dateModified": "2026-08-24",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Haskell — off-by-one list index" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Haskell DEBUG drill from 2026-08-24: an off-by-one index makes !! run one past the last element."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/debug/2026-08-24">C</a>
+  <a href="/cpp/debug/2026-08-24">C++</a>
+  <a href="/rust/debug/2026-08-24">Rust</a>
+  <a href="/haskell/debug/2026-08-24" class="active" aria-current="page">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/haskell/read/2026-08-24">READ</a>
+  <a href="/haskell/write/2026-08-24">WRITE</a>
+  <a href="/haskell/debug/2026-08-24" class="active" aria-current="page">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-24</h2>
+  <div class="code-frame">
+    <p class="code-filename">LastElement.hs</p>
+    <pre class="code"><code>lastElement :: [a] -&gt; a
+lastElement xs = xs !! length xs
+</code></pre>
+  </div>
+
+  <p class="question">
+    これはすべての空でないリストに対して、実行時にクラッシュします。何が問題で、どう直せばよいでしょうか?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>!!</code>は0始まりのインデックスなので、最後の要素は<code>length xs</code>ではなく<code>length xs - 1</code>の位置にあります。<code>lastElement xs = xs !! (length xs - 1)</code>とすれば直ります(空のリストに対しては、組み込みの<code>last</code>と同様、依然としてクラッシュします)。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/haskell/debug">Today</a></li>
+    <li><a href="/haskell/debug/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

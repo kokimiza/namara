@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Haskell WRITE drill from 2026-08-24: implement myMax by recursing over a non-empty list.">
+<title>Namara — Haskell / WRITE — 2026-08-24</title>
+<link rel="canonical" href="https://namara.jocarium.productions/haskell/write/2026-08-24">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Haskell / WRITE", "item": "https://namara.jocarium.productions/haskell/write" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-24" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Haskell / WRITE — 2026-08-24",
+      "url": "https://namara.jocarium.productions/haskell/write/2026-08-24",
+      "datePublished": "2026-08-24",
+      "dateModified": "2026-08-24",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Haskell — structural recursion over a list" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Haskell WRITE drill from 2026-08-24: implement myMax by recursing over a non-empty list."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/write/2026-08-24">C</a>
+  <a href="/cpp/write/2026-08-24">C++</a>
+  <a href="/rust/write/2026-08-24">Rust</a>
+  <a href="/haskell/write/2026-08-24" class="active" aria-current="page">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/haskell/read/2026-08-24">READ</a>
+  <a href="/haskell/write/2026-08-24" class="active" aria-current="page">WRITE</a>
+  <a href="/haskell/debug/2026-08-24">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-24</h2>
+  <div class="code-frame">
+    <p class="code-filename">MyMax.hs</p>
+    <pre class="code"><code>myMax :: Ord a =&gt; [a] -&gt; a
+myMax = undefined  -- write this
+</code></pre>
+  </div>
+
+  <p class="question">
+    組み込みの<code>maximum</code>を使わずに<code>myMax</code>を実装してください。リストは空でないものとします。
+  </p>
+
+  <details class="answer">
+    <summary>Reference</summary>
+    <div class="answer-body">
+      <pre class="code"><code>myMax :: Ord a =&gt; [a] -&gt; a
+myMax [x]    = x
+myMax (x:xs) = max x (myMax xs)
+</code></pre>
+      <p>
+        要素が1つだけのリストの最大値はその要素自身です。それ以外の場合は、先頭要素と残りの部分の最大値を比較します。これはリストが空でないことを前提としています &mdash; <code>myMax []</code>はパターンマッチ失敗になります。これは組み込みの<code>maximum</code>と同じ挙動です。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/haskell/write">Today</a></li>
+    <li><a href="/haskell/write/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

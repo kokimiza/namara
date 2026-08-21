@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C++ DEBUG drill from 2026-08-24: a range-based for loop copies each element, so mutating it does nothing.">
+<title>Namara — C++ / DEBUG — 2026-08-24</title>
+<link rel="canonical" href="https://namara.jocarium.productions/cpp/debug/2026-08-24">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C++ / DEBUG", "item": "https://namara.jocarium.productions/cpp/debug" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-24" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C++ / DEBUG — 2026-08-24",
+      "url": "https://namara.jocarium.productions/cpp/debug/2026-08-24",
+      "datePublished": "2026-08-24",
+      "dateModified": "2026-08-24",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C++ — range-based for by value vs by reference" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C++ DEBUG drill from 2026-08-24: a range-based for loop copies each element, so mutating it does nothing."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/debug/2026-08-24">C</a>
+  <a href="/cpp/debug/2026-08-24" class="active" aria-current="page">C++</a>
+  <a href="/rust/debug/2026-08-24">Rust</a>
+  <a href="/haskell/debug/2026-08-24">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/cpp/read/2026-08-24">READ</a>
+  <a href="/cpp/write/2026-08-24">WRITE</a>
+  <a href="/cpp/debug/2026-08-24" class="active" aria-current="page">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-24</h2>
+  <div class="code-frame">
+    <p class="code-filename">double_all.cpp</p>
+    <pre class="code"><code>#include &lt;vector&gt;
+
+void double_all(std::vector&lt;int&gt;&amp; nums) {
+    for (int n : nums) {
+        n *= 2;
+    }
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    <code>double_all(v)</code>を呼び出しても、<code>v</code>はまったく変化しません。バグを見つけて、最小限の変更で直してください。
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>for (int n : nums)</code>は各要素を<code>n</code>にコピーしているため、<code>n</code>を2倍にしてもコピーが変わるだけです。<code>for (int&amp; n : nums)</code>に変更し、<code>n</code>が<code>nums</code>内の実際の要素への参照になるようにしてください。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/cpp/debug">Today</a></li>
+    <li><a href="/cpp/debug/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

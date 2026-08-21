@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C DEBUG drill from 2026-08-24: missing break statements let a switch fall through into every later case.">
+<title>Namara — C / DEBUG — 2026-08-24</title>
+<link rel="canonical" href="https://namara.jocarium.productions/c/debug/2026-08-24">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C / DEBUG", "item": "https://namara.jocarium.productions/c/debug" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-24" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C / DEBUG — 2026-08-24",
+      "url": "https://namara.jocarium.productions/c/debug/2026-08-24",
+      "datePublished": "2026-08-24",
+      "dateModified": "2026-08-24",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C — switch fallthrough" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C DEBUG drill from 2026-08-24: missing break statements let a switch fall through into every later case."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/debug/2026-08-24" class="active" aria-current="page">C</a>
+  <a href="/cpp/debug/2026-08-24">C++</a>
+  <a href="/rust/debug/2026-08-24">Rust</a>
+  <a href="/haskell/debug/2026-08-24">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/c/read/2026-08-24">READ</a>
+  <a href="/c/write/2026-08-24">WRITE</a>
+  <a href="/c/debug/2026-08-24" class="active" aria-current="page">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-24</h2>
+  <div class="code-frame">
+    <p class="code-filename">day_type.c</p>
+    <pre class="code"><code>#include &lt;stdio.h&gt;
+
+void print_day_type(int day) {
+    switch (day) {
+        case 0:
+        case 6:
+            printf("weekend\n");
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+            printf("weekday\n");
+        default:
+            printf("invalid\n");
+    }
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    <code>print_day_type(0)</code>を呼び出すと、1行ではなく3行出力されてしまいます。バグを見つけて、最小限の変更で直してください。
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>break;</code>文が抜けています。<code>printf("weekend\n");</code>の後と<code>printf("weekday\n");</code>の後にそれぞれ追加し、制御が次の<code>case</code>へフォールスルーしないようにしてください。<code>break;</code>がないと、<code>case 0</code>にマッチした時点で、それ以降のすべての<code>case</code>も実行されてしまいます。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/c/debug">Today</a></li>
+    <li><a href="/c/debug/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

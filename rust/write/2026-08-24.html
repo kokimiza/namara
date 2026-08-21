@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Rust WRITE drill from 2026-08-24: check whether a slice is sorted in non-decreasing order.">
+<title>Namara — Rust / WRITE — 2026-08-24</title>
+<link rel="canonical" href="https://namara.jocarium.productions/rust/write/2026-08-24">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Rust / WRITE", "item": "https://namara.jocarium.productions/rust/write" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-24" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Rust / WRITE — 2026-08-24",
+      "url": "https://namara.jocarium.productions/rust/write/2026-08-24",
+      "datePublished": "2026-08-24",
+      "dateModified": "2026-08-24",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Rust — slice iteration" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Rust WRITE drill from 2026-08-24: check whether a slice is sorted in non-decreasing order."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/write/2026-08-24">C</a>
+  <a href="/cpp/write/2026-08-24">C++</a>
+  <a href="/rust/write/2026-08-24" class="active" aria-current="page">Rust</a>
+  <a href="/haskell/write/2026-08-24">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/rust/read/2026-08-24">READ</a>
+  <a href="/rust/write/2026-08-24" class="active" aria-current="page">WRITE</a>
+  <a href="/rust/debug/2026-08-24">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-24</h2>
+  <div class="code-frame">
+    <p class="code-filename">is_sorted.rs</p>
+    <pre class="code"><code>fn is_sorted(nums: &amp;[i32]) -&gt; bool {
+    // write this: true if nums is sorted in non-decreasing order
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    <code>is_sorted</code>を実装してください。<code>nums</code>が非減少順(non-decreasing order)にソートされていれば<code>true</code>を返します(空のスライスや要素が1つだけの場合もソート済みとみなします)。
+  </p>
+
+  <details class="answer">
+    <summary>Reference</summary>
+    <div class="answer-body">
+      <pre class="code"><code>fn is_sorted(nums: &amp;[i32]) -&gt; bool {
+    nums.windows(2).all(|w| w[0] &lt;= w[1])
+}
+</code></pre>
+      <p>
+        <code>.windows(2)</code>は隣接するすべてのペアを返します。どのペアも順序が逆転していなければ、スライス全体がソートされていることになります。これは参考実装であり、唯一の正解ではありません &mdash; 自分の実装と比較してみてください(素朴なインデックスループでも同様に書けます)。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/rust/write">Today</a></li>
+    <li><a href="/rust/write/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

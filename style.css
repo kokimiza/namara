@@ -28,12 +28,7 @@
   }
 }
 
-/* ==================================================
-   Reset — moderate but thorough. Kills the browser
-   defaults that would otherwise fight the rules below,
-   without stripping semantics (headings stay headings,
-   lists stay lists).
-   ================================================== */
+/* ---------- reset ---------- */
 
 *,
 *::before,
@@ -43,12 +38,13 @@
 
 html,
 body,
-h1, h2, h3, h4, h5, h6,
-p, blockquote, pre,
-dl, dd, ol, ul,
-figure, hr,
-fieldset, legend {
+h1, h2 {
   margin: 0;
+  padding: 0;
+}
+
+p {
+  margin: 0 0 1rem;
   padding: 0;
 }
 
@@ -57,44 +53,12 @@ html {
   text-size-adjust: 100%;
 }
 
-ol, ul {
-  list-style: none;
-}
-
-img, picture, svg, video, canvas {
-  display: block;
-  max-width: 100%;
-}
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-hr {
-  border: 0;
-  border-top: 1px solid currentColor;
-}
-
-button, input, select, textarea {
-  font: inherit;
-  color: inherit;
-  background: none;
-  border: 0;
-}
-
-button {
-  cursor: pointer;
-}
-
 a {
   color: inherit;
   text-decoration: none;
 }
 
-/* ==================================================
-   Base
-   ================================================== */
+/* ---------- base ---------- */
 
 html {
   background: var(--bg);
@@ -113,17 +77,87 @@ body {
 .wrap {
   max-width: 40rem;
   margin: 0 auto;
-  padding: 3rem 1.5rem 4rem;
+  padding: 3.5rem 2rem 4.5rem;
+}
+
+/* ---------- page: exercise/archive layout (main + past pane) ---------- */
+
+.page {
+  max-width: 54rem;
+  margin: 0 auto;
+  padding: 3.5rem 2rem 4.5rem;
+  display: grid;
+  gap: 0 2.5rem;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "header"
+    "langnav"
+    "typenav"
+    "main"
+    "past"
+    "footer";
+}
+
+.page > header {
+  grid-area: header;
+}
+
+.page > .lang-nav {
+  grid-area: langnav;
+}
+
+.page > .type-nav {
+  grid-area: typenav;
+}
+
+.page > main {
+  grid-area: main;
+  min-width: 0;
+}
+
+.page > .past {
+  grid-area: past;
+  margin-top: 2rem;
+}
+
+.page > footer {
+  grid-area: footer;
+}
+
+@media (min-width: 40rem) {
+  .page {
+    align-items: start;
+    grid-template-columns: minmax(0, 1fr) 11rem;
+    grid-template-areas:
+      "header header"
+      "langnav langnav"
+      "typenav typenav"
+      "main    past"
+      "footer  footer";
+  }
+
+  .page > .past {
+    margin-top: 0;
+  }
+
+  .page:not(:has(.past)) {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "langnav"
+      "typenav"
+      "main"
+      "footer";
+  }
 }
 
 /* ---------- masthead ---------- */
 
 .masthead {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .masthead h1 {
-  margin: 0;
   font-size: 1.75rem;
   font-weight: 400;
   letter-spacing: 0.02em;
@@ -144,12 +178,23 @@ body {
   color: var(--ink-muted);
 }
 
-/* ---------- nav: bracketed, terminal-menu style ---------- */
+/* ---------- home (index.html) ---------- */
+
+.lede {
+  font-size: 1.1875rem;
+  line-height: 1.65;
+}
+
+.guide {
+  margin: 2rem 0 2.5rem;
+}
+
+/* ---------- navigation ---------- */
 
 nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem 0.75rem;
+  gap: 0.35rem 0.75rem;
   font-family: var(--font-mono);
   font-size: 0.875rem;
 }
@@ -159,16 +204,14 @@ nav {
 }
 
 .type-nav {
-  margin-bottom: 2.5rem;
-  padding-bottom: 2.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
   border-bottom: 1px solid var(--rule);
 }
 
 nav a {
-  position: relative;
-  padding: 0.1rem 0.3rem;
+  padding: 0.2rem 0.3rem;
   color: var(--ink-muted);
-  border-radius: 2px;
 }
 
 nav a::before {
@@ -188,18 +231,13 @@ nav a:hover {
 }
 
 nav a.active {
-  color: var(--bg);
-  background: var(--ink);
+  color: var(--accent-strong);
+  font-weight: 700;
 }
 
-nav a.active::before,
-nav a.active::after {
-  color: var(--bg);
-}
+/* ---------- exercise ---------- */
 
-/* ---------- main content ---------- */
-
-main h2 {
+h2 {
   font-family: var(--font-ui);
   font-size: 0.8125rem;
   font-weight: 600;
@@ -209,16 +247,33 @@ main h2 {
   margin: 0 0 0.5rem;
 }
 
-.path {
-  margin: 0 0 1rem;
+.code-frame {
+  margin: 0 0 2rem;
+  border: 1px solid var(--rule);
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--panel);
+}
+
+.code-filename {
+  margin: 0;
+  padding: 0.5rem 1rem;
   font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  color: var(--accent-strong);
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
+}
+
+.code-frame pre.code {
+  margin: 0;
+  border: none;
+  border-radius: 0;
 }
 
 pre.code {
-  margin: 0 0 1.75rem;
-  padding: 1.25rem 1.25rem;
+  margin: 0 0 2rem;
+  padding: 1.25rem 1.5rem;
   background: var(--panel);
   border: 1px solid var(--rule);
   border-radius: 3px;
@@ -233,17 +288,17 @@ pre.code code {
 }
 
 .question {
-  margin: 0 0 2rem;
+  margin: 0 0 2.25rem;
   font-size: 1.125rem;
   line-height: 1.65;
   max-width: 34rem;
 }
 
-/* ---------- answer / reference disclosure ---------- */
+/* ---------- answer ---------- */
 
 details.answer {
   border-top: 1px solid var(--rule);
-  padding-top: 1.25rem;
+  padding-top: 1.5rem;
 }
 
 details.answer summary {
@@ -296,36 +351,61 @@ details.answer summary:focus-visible {
   border-radius: 2px;
 }
 
+/* ---------- past: the date pane, styled like a quiet changelog ---------- */
+
+.past h2 {
+  margin-bottom: 0.75rem;
+}
+
+.past-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+
+.past-list a {
+  color: var(--ink-muted);
+}
+
+.past-list a:hover {
+  color: var(--ink);
+}
+
+.past-list .current {
+  color: var(--accent-strong);
+  font-weight: 700;
+}
+
 /* ---------- footer ---------- */
 
 footer {
-  margin-top: 3.5rem;
+  margin-top: 4rem;
   font-family: var(--font-ui);
   font-size: 0.75rem;
   color: var(--ink-muted);
 }
 
-/* ---------- accessibility & restraint ---------- */
+footer p:last-child,
+.answer-body p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 39.99rem) {
+  .wrap,
+  .page {
+    padding: 2.5rem 1.25rem 3.5rem;
+  }
+}
+
+/* ---------- focus ---------- */
 
 a:focus-visible,
 nav a:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  nav a,
-  .masthead h1 a {
-    transition: color 120ms ease, background-color 120ms ease;
-  }
-}
-
-@media (max-width: 480px) {
-  .wrap {
-    padding: 2rem 1.25rem 3rem;
-  }
-
-  .question {
-    font-size: 1.0625rem;
-  }
 }

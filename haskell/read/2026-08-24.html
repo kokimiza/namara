@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Haskell READ drill from 2026-08-24: guards are tried top-to-bottom, so the widest match has to come first.">
+<title>Namara — Haskell / READ — 2026-08-24</title>
+<link rel="canonical" href="https://namara.jocarium.productions/haskell/read/2026-08-24">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Haskell / READ", "item": "https://namara.jocarium.productions/haskell/read" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-24" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Haskell / READ — 2026-08-24",
+      "url": "https://namara.jocarium.productions/haskell/read/2026-08-24",
+      "datePublished": "2026-08-24",
+      "dateModified": "2026-08-24",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Haskell — guard order" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Haskell READ drill from 2026-08-24: guards are tried top-to-bottom, so the widest match has to come first."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/read/2026-08-24">C</a>
+  <a href="/cpp/read/2026-08-24">C++</a>
+  <a href="/rust/read/2026-08-24">Rust</a>
+  <a href="/haskell/read/2026-08-24" class="active" aria-current="page">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/haskell/read/2026-08-24" class="active" aria-current="page">READ</a>
+  <a href="/haskell/write/2026-08-24">WRITE</a>
+  <a href="/haskell/debug/2026-08-24">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-24</h2>
+  <div class="code-frame">
+    <p class="code-filename">Classify.hs</p>
+    <pre class="code"><code>classify :: Int -&gt; String
+classify n
+  | n `mod` 15 == 0 = "fizzbuzz"
+  | n `mod` 3  == 0 = "fizz"
+  | n `mod` 5  == 0 = "buzz"
+  | otherwise       = show n
+
+main :: IO ()
+main = mapM_ (putStrLn . classify) [3, 5, 15]
+</code></pre>
+  </div>
+
+  <p class="question">
+    これは何を出力するでしょうか?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>fizz</code>、<code>buzz</code>、<code>fizzbuzz</code> &mdash; 1行ずつ。ガードは上から順に試され、最初にマッチしたものが採用されます。そのため、3でも5でも割り切れる数を判定するには、より狭い<code>mod 3</code>/<code>mod 5</code>のガードより先に<code>mod 15</code>をチェックする必要があります。そうしないと<code>"fizz"</code>で止まってしまい、<code>"fizzbuzz"</code>にはたどり着けません。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/haskell/read">Today</a></li>
+    <li><a href="/haskell/read/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>
