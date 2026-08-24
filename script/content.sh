@@ -66,11 +66,25 @@ code_ext() {
   esac
 }
 
+# The lang-nav buttons name a specific language edition/standard, so readers
+# know exactly which dialect a drill assumes. Everywhere else (title, JSON-LD,
+# meta description) keeps the plain lang_label() name — the edition suffix is
+# a nav-button-only convention, not a rename of the language.
+lang_nav_label() {
+  case "$1" in
+    c) echo "C23" ;;
+    cpp) echo "C++26" ;;
+    rust) echo "Rust 2024" ;;
+    haskell) echo "Haskell 2010" ;;
+    *) echo "unknown language: $1" >&2; exit 1 ;;
+  esac
+}
+
 build_lang_nav() {
   local active_lang="$1" type="$2" date="$3" lang label href
   echo '<nav class="lang-nav" aria-label="Language">'
   for lang in "${ALL_LANGS[@]}"; do
-    label="$(lang_label "$lang")"
+    label="$(lang_nav_label "$lang")"
     href="/$lang/$type/$date"
     if [ "$lang" = "$active_lang" ]; then
       echo "  <a href=\"$href\" class=\"active\" aria-current=\"page\">$label</a>"
