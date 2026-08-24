@@ -5,7 +5,11 @@
   Referrer-Policy: no-referrer
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 
-# doc/ is internal planning material (requirements/design docs), not product content.
-# It deploys to the Pages build root along with everything else, so keep it out of search results.
+# doc/ and script/ are internal material (design docs, the local content-authoring
+# script), not product content. Both deploy to the Pages build root along with
+# everything else, so keep them out of search results.
 /doc/*
+  X-Robots-Tag: noindex, nofollow
+
+/script/*
   X-Robots-Tag: noindex, nofollow

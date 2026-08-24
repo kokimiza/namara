@@ -165,6 +165,9 @@ namara/
 ├── cpp/                       # 同じパターン（read/ / write/ / debug/）
 ├── rust/                      # 同じパターン
 ├── haskell/                   # 同じパターン
+├── script/
+│   ├── content.sh              # ローカル運用スクリプト（§9.1）。サイトには配信されない
+│   └── template.html           # 雛形生成元のテンプレート
 └── doc/
     ├── requirements.md
     └── basic-design.md
@@ -538,20 +541,32 @@ CSSファイルは1枚のみとし、ページ側の `<link>` は共通で `/sty
 
 ```text
 1. 問題を1つ作る（言語・種別・code・question・answerを決める）
-2. {lang}/{type}/{今日の日付}.html を新規作成する（例: c/read/2026-08-21.html）
-   - §7.1の規約に沿って code / question / answer を書く
-   - <title>・<h2> の日付を今日の日付にする
+2. script/content.sh new を実行し、{lang}/{type}/{今日の日付}.html の雛形（§7.1の構造そのまま、
+   code/question/answerはTODOプレースホルダー）を作らせ、対応する archive.html（§7.1a）にも
+   同時に1行追加させる（例: script/content.sh new 2026-08-25 c/read）
+   - TODOになっている code / question / answer を埋める
    - code-filename にお題に沿ったファイル名（対象言語の命名規則）を書く
    - コードは HTML エスケープする
-   - Past ペインは常に固定の2行（「Today」リンク＋「Archive」リンク、§7.1）
-3. 同じ {lang}/{type} の archive.html（§7.1a）に、手順2で作ったページへのリンクを
-   先頭へ1行追加する（例: `<li><a href="/c/read/2026-08-21">2026-08-21</a></li>`）
-4. git commit
-5. git push
-6. Cloudflare Pages が自動デプロイ
+3. git commit
+4. git push
+5. Cloudflare Pages が自動デプロイ
 ```
 
+`script/content.sh`（§9.1）はローカルの運用スクリプトであり、デプロイされるサイトの一部ではない——毎日同じnav・JSON-LD・footerを手でコピペする作業を機械的な処理に置き換えているだけで、code/question/answerという編集判断（§24）そのものはTODOのまま人間に残す。
+
 「今日ページ」という別ファイルは存在しないため、上書きするファイルは無い。手順2で新規作成したファイルは、以後二度と編集しない。`/c/read` のような日付なしURLは、ミドルウェア（§5.2）が常に最新の日付ページへ自動的に解決するので、公開のたびに触るのは「新しい日付のファイルを1つ追加する」ことと「対応する archive.html 1枚に1行足す」ことだけになる——過去日の日付ページ自体は増えても触らない（§7.1a）。
+
+### 9.1 `script/content.sh`（運用スクリプト）
+
+```text
+script/content.sh new  [DATE] [LANG/TYPE ...]   # 雛形生成 + archive.html への追記
+script/content.sh undo [DATE] [LANG/TYPE ...]   # その取り消し
+```
+
+* `DATE`省略時はAsia/Tokyoの今日（`functions/_middleware.js`の`todayInJapan()`と同じ基準）。`LANG/TYPE`省略時は12組全部が対象
+* `new`は`script/template.html`から雛形を生成する。既存の日付付きファイルは上書きしない（公開後は編集しないという方針、§7.1と同じ理由）。archive.htmlに同じ日付の行がすでにあれば追記しない——何度実行しても安全（冪等）
+* `undo`は`new`の逆で、生成したファイルとarchive.htmlの行を削除する。ただし安全装置として、ファイルの中に`TODO:`が1つも残っていない（＝すでに中身を書き始めている）場合は削除を拒否し、手動での判断に委ねる
+* このスクリプト自身はCloudflare Pages上では一切動かない。配信されるのはこれまで通り生成済みの静的HTMLだけであり、「配信されるものを単純に保つ」ことと「それを作る手元の作業を自動化する」ことは別レイヤーの話である
 
 新しい言語・種別を追加することは v1 の想定に含まれない（要件定義 §8 で4言語固定、§9 で3種別固定）。
 

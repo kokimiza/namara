@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C DEBUG drill from 2026-08-22: comparing a string with == compares pointers, not contents.">
+<title>Namara — C / DEBUG — 2026-08-22</title>
+<link rel="canonical" href="https://namara.jocarium.productions/c/debug/2026-08-22">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C / DEBUG", "item": "https://namara.jocarium.productions/c/debug" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-22" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C / DEBUG — 2026-08-22",
+      "url": "https://namara.jocarium.productions/c/debug/2026-08-22",
+      "datePublished": "2026-08-22",
+      "dateModified": "2026-08-22",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C — comparing strings by pointer instead of strcmp" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C DEBUG drill from 2026-08-22: comparing a string with == compares pointers, not contents."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/debug/2026-08-22" class="active" aria-current="page">C</a>
+  <a href="/cpp/debug/2026-08-22">C++</a>
+  <a href="/rust/debug/2026-08-22">Rust</a>
+  <a href="/haskell/debug/2026-08-22">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/c/read/2026-08-22">READ</a>
+  <a href="/c/write/2026-08-22">WRITE</a>
+  <a href="/c/debug/2026-08-22" class="active" aria-current="page">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-22</h2>
+  <div class="code-frame">
+    <p class="code-filename">is_command.c</p>
+    <pre class="code"><code>#include &lt;string.h&gt;
+#include &lt;stdbool.h&gt;
+
+bool is_command(const char *s) {
+    return s == "quit";
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    <code>is_command("quit")</code>を呼び出しても、ほとんどの場合<code>false</code>が返ります。なぜでしょうか?どう直せばよいですか?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>s == "quit"</code>はポインタ同士を比較しており、文字列の中身ではなくアドレスを比較しています。たとえ<code>s</code>が"quit"というテキストを指していても、それが別のメモリ上にある文字列リテラルなら一致しません(コンパイラの最適化でたまたま一致することはありますが、それに依存すべきではありません)。<code>strcmp(s, "quit") == 0</code>に直してください。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/c/debug">Today</a></li>
+    <li><a href="/c/debug/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

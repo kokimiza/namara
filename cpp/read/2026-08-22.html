@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C++ READ drill from 2026-08-22: a static local counter plus C++17's guaranteed left-to-right operator<< evaluation order.">
+<title>Namara — C++ / READ — 2026-08-22</title>
+<link rel="canonical" href="https://namara.jocarium.productions/cpp/read/2026-08-22">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C++ / READ", "item": "https://namara.jocarium.productions/cpp/read" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-22" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C++ / READ — 2026-08-22",
+      "url": "https://namara.jocarium.productions/cpp/read/2026-08-22",
+      "datePublished": "2026-08-22",
+      "dateModified": "2026-08-22",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C++ — function-local static + guaranteed operator<< evaluation order" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C++ READ drill from 2026-08-22: a static local counter plus C++17's guaranteed left-to-right operator<< evaluation order."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/read/2026-08-22">C</a>
+  <a href="/cpp/read/2026-08-22" class="active" aria-current="page">C++</a>
+  <a href="/rust/read/2026-08-22">Rust</a>
+  <a href="/haskell/read/2026-08-22">Haskell</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/cpp/read/2026-08-22" class="active" aria-current="page">READ</a>
+  <a href="/cpp/write/2026-08-22">WRITE</a>
+  <a href="/cpp/debug/2026-08-22">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-22</h2>
+  <div class="code-frame">
+    <p class="code-filename">counter.cpp</p>
+    <pre class="code"><code>#include &lt;iostream&gt;
+
+int&amp; counter() {
+    static int n = 0;
+    return ++n;
+}
+
+int main() {
+    std::cout &lt;&lt; counter() &lt;&lt; counter() &lt;&lt; counter();
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    これは何を出力するでしょうか?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>123</code>。<code>counter()</code>が返しているのはブロックスコープの<code>static</code>変数で、これは最初にその宣言を通過したときに一度だけ初期化され、以降の呼び出しでも同じ変数が保持されます。さらにC++17以降、<code>&lt;&lt;</code>のようなオーバーロードされた演算子は左のオペランドの評価(そこに含まれる関数呼び出しも含む)が右のオペランドより先に完了することが保証されているため、3回の<code>counter()</code>呼び出しは必ず左から右の順に実行されます。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/cpp/read">Today</a></li>
+    <li><a href="/cpp/read/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>
