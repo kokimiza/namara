@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C++ READ drill from 2026-08-27: trace prefix and postfix operator++ overloads on a small counter class to see why they return different things.">
+<title>Namara — C++ / READ — 2026-08-27</title>
+<link rel="canonical" href="https://namara.jocarium.productions/cpp/read/2026-08-27">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C++ / READ", "item": "https://namara.jocarium.productions/cpp/read" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-27" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C++ / READ — 2026-08-27",
+      "url": "https://namara.jocarium.productions/cpp/read/2026-08-27",
+      "datePublished": "2026-08-27",
+      "dateModified": "2026-08-27",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C++ — prefix vs postfix operator++ overload return value" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C++ READ drill from 2026-08-27: trace prefix and postfix operator++ overloads on a small counter class to see why they return different things."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/read/2026-08-27">C23</a>
+  <a href="/cpp/read/2026-08-27" class="active" aria-current="page">C++26</a>
+  <a href="/rust/read/2026-08-27">Rust 2024</a>
+  <a href="/haskell/read/2026-08-27">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/cpp/read/2026-08-27" class="active" aria-current="page">READ</a>
+  <a href="/cpp/write/2026-08-27">WRITE</a>
+  <a href="/cpp/debug/2026-08-27">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-27</h2>
+  <div class="code-frame">
+    <p class="code-filename">counter.cpp</p>
+    <pre class="code"><code>#include &lt;iostream&gt;
+
+struct Counter {
+    int value = 0;
+
+    Counter&amp; operator++() {       // prefix
+        ++value;
+        return *this;
+    }
+    Counter operator++(int) {     // postfix
+        Counter old = *this;
+        ++value;
+        return old;
+    }
+};
+
+int main() {
+    Counter c;
+    std::cout &lt;&lt; (++c).value &lt;&lt; " ";
+    std::cout &lt;&lt; (c++).value &lt;&lt; " ";
+    std::cout &lt;&lt; c.value &lt;&lt; "\n";
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    これは何を出力するでしょうか?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>1 1 2</code>(その後に改行)。前置の<code>operator++()</code>は<code>value</code>をインクリメントしてから<code>*this</code>への参照を返すので、<code>(++c).value</code>はすぐに更新後の値<code>1</code>になります。後置の<code>operator++(int)</code>はインクリメントする前に自分自身のコピー<code>old</code>を取っておき、そのコピーを返すので、<code>(c++).value</code>は更新前の値、つまりまだ<code>1</code>です(<code>c</code>自身はこの時点で<code>2</code>になっています)。最後の<code>c.value</code>は<code>2</code>です。これはC/C++の組み込みの<code>++i</code>/<code>i++</code>と同じ「前置は新しい値、後置は古い値」という関係を、演算子オーバーロードでもそのまま踏襲した形です。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/cpp/read">Today</a></li>
+    <li><a href="/cpp/read/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

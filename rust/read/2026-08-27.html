@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Rust READ drill from 2026-08-27: check whether i++; compiles, and see why Rust has no increment or decrement operators at all.">
+<title>Namara — Rust / READ — 2026-08-27</title>
+<link rel="canonical" href="https://namara.jocarium.productions/rust/read/2026-08-27">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Rust / READ", "item": "https://namara.jocarium.productions/rust/read" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-27" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Rust / READ — 2026-08-27",
+      "url": "https://namara.jocarium.productions/rust/read/2026-08-27",
+      "datePublished": "2026-08-27",
+      "dateModified": "2026-08-27",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Rust — no ++/-- operators" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Rust READ drill from 2026-08-27: check whether i++; compiles, and see why Rust has no increment or decrement operators at all."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/read/2026-08-27">C23</a>
+  <a href="/cpp/read/2026-08-27">C++26</a>
+  <a href="/rust/read/2026-08-27" class="active" aria-current="page">Rust 2024</a>
+  <a href="/haskell/read/2026-08-27">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/rust/read/2026-08-27" class="active" aria-current="page">READ</a>
+  <a href="/rust/write/2026-08-27">WRITE</a>
+  <a href="/rust/debug/2026-08-27">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-27</h2>
+  <div class="code-frame">
+    <p class="code-filename">increment.rs</p>
+    <pre class="code"><code>fn main() {
+    let mut i = 0;
+    i++;
+    println!("{}", i);
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    これはコンパイルできるでしょうか?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        いいえ、コンパイルできません。Rustには<code>++</code>/<code>--</code>という前置・後置のインクリメント・デクリメント演算子がそもそも存在せず、<code>i++;</code>は構文エラーになります。値を1増やすには<code>i += 1;</code>と書きます。C/C++/Java/JavaScriptにはおなじみのこの演算子を、Rustが意図的に採用しなかったのは、代入と読み取りが1つの式に紛れ込み、前置か後置かで結果が変わる(そしてCではときに未定義動作にすらなる)という副作用のわかりにくさを避けるためです。ちなみにPythonにも<code>++</code>/<code>--</code>はありませんが、Rustと違って<code>++i</code>という記述自体は構文エラーにならず、単項<code>+</code>を2回適用しただけの(何もしない)式として静かにコンパイルが通ってしまう、という有名な罠があります。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/rust/read">Today</a></li>
+    <li><a href="/rust/read/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

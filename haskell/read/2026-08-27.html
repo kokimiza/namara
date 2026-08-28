@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Haskell READ drill from 2026-08-27: trace succ across Int and Char to see how the Enum class stands in for an increment operator.">
+<title>Namara — Haskell / READ — 2026-08-27</title>
+<link rel="canonical" href="https://namara.jocarium.productions/haskell/read/2026-08-27">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Haskell / READ", "item": "https://namara.jocarium.productions/haskell/read" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-27" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Haskell / READ — 2026-08-27",
+      "url": "https://namara.jocarium.productions/haskell/read/2026-08-27",
+      "datePublished": "2026-08-27",
+      "dateModified": "2026-08-27",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Haskell — succ as a generic increment" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Haskell READ drill from 2026-08-27: trace succ across Int and Char to see how the Enum class stands in for an increment operator."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/read/2026-08-27">C23</a>
+  <a href="/cpp/read/2026-08-27">C++26</a>
+  <a href="/rust/read/2026-08-27">Rust 2024</a>
+  <a href="/haskell/read/2026-08-27" class="active" aria-current="page">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/haskell/read/2026-08-27" class="active" aria-current="page">READ</a>
+  <a href="/haskell/write/2026-08-27">WRITE</a>
+  <a href="/haskell/debug/2026-08-27">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-27</h2>
+  <div class="code-frame">
+    <p class="code-filename">Increment.hs</p>
+    <pre class="code"><code>main :: IO ()
+main = do
+  print (succ 5)
+  print (succ 'y')
+  print (map succ [1, 2, 3])
+</code></pre>
+  </div>
+
+  <p class="question">
+    これは何を出力するでしょうか?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>6</code>、<code>'z'</code>、<code>[2,3,4]</code> &mdash; 1行ずつ。<code>succ</code>は<code>Enum</code>型クラスのメソッドで、Haskellにおける汎用的な「次の値」を表します。C系言語の<code>++</code>/<code>--</code>のような、変数を書き換える専用構文はHaskellにはありません(値は不変なので、そもそも「変数をインクリメントする」という発想になじみません)。<code>Int</code>でも<code>Char</code>でも同じ<code>succ</code>が使え、ユーザー定義の<code>Enum</code>型でも同様です。ちなみに<code>++</code>というトークンはHaskellにも存在しますが、意味はまったく別物で、リストの連結演算子(<code>[1,2] ++ [3,4]</code>)です。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/haskell/read">Today</a></li>
+    <li><a href="/haskell/read/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C++ WRITE drill from 2026-08-27: implement the canonical prefix and postfix operator++ overloads for a small counter class.">
+<title>Namara — C++ / WRITE — 2026-08-27</title>
+<link rel="canonical" href="https://namara.jocarium.productions/cpp/write/2026-08-27">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C++ / WRITE", "item": "https://namara.jocarium.productions/cpp/write" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-27" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C++ / WRITE — 2026-08-27",
+      "url": "https://namara.jocarium.productions/cpp/write/2026-08-27",
+      "datePublished": "2026-08-27",
+      "dateModified": "2026-08-27",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C++ — canonical prefix/postfix operator++ overloads" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C++ WRITE drill from 2026-08-27: implement the canonical prefix and postfix operator++ overloads for a small counter class."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/write/2026-08-27">C23</a>
+  <a href="/cpp/write/2026-08-27" class="active" aria-current="page">C++26</a>
+  <a href="/rust/write/2026-08-27">Rust 2024</a>
+  <a href="/haskell/write/2026-08-27">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/cpp/read/2026-08-27">READ</a>
+  <a href="/cpp/write/2026-08-27" class="active" aria-current="page">WRITE</a>
+  <a href="/cpp/debug/2026-08-27">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-27</h2>
+  <div class="code-frame">
+    <p class="code-filename">ticker.cpp</p>
+    <pre class="code"><code>struct Ticker {
+    int count = 0;
+
+    Ticker&amp; operator++() {
+        // write this: prefix form - increment count, return *this
+    }
+
+    Ticker operator++(int) {
+        // write this: postfix form - return the value from before incrementing
+    }
+};
+</code></pre>
+  </div>
+
+  <p class="question">
+    <code>Ticker</code>に前置・後置それぞれの<code>operator++</code>を実装してください。前置は<code>count</code>をインクリメントして<code>*this</code>への参照を返し、後置はインクリメントする前の状態のコピーを返します(引数の<code>int</code>は後置版であることを示すためだけのダミーです)。
+  </p>
+
+  <details class="answer">
+    <summary>Reference</summary>
+    <div class="answer-body">
+      <pre class="code"><code>Ticker&amp; operator++() {
+    ++count;
+    return *this;
+}
+
+Ticker operator++(int) {
+    Ticker old = *this;
+    ++count;
+    return old;
+}
+</code></pre>
+      <p>
+        前置版は自分自身を書き換えてから参照を返すだけなのでコピーが発生しません。後置版は「インクリメントする前」の状態を返す必要があるため、書き換える前に自分自身のコピー<code>old</code>を取っておき、それを返します &mdash; 引数の<code>int</code>はオーバーロード解決のためだけの目印で、実際には使いません。イテレータのような重い型では、この余分なコピーのぶんだけ後置よりも前置のほうが速いことが多く、<code>++it</code>を優先する習慣の理由になっています。これは参考実装であり、唯一の正解ではありません。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/cpp/write">Today</a></li>
+    <li><a href="/cpp/write/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>
