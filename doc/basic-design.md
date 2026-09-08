@@ -127,12 +127,14 @@ Cloudflare Pagesはリポジトリ直下に `_headers` ファイルを置くだ�
 
 ```text
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'none'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'
+  Content-Security-Policy: default-src 'none'; style-src 'self'; script-src 'none'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: no-referrer
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 ```
+
+`default-src 'self'` ではなく `default-src 'none'` を起点にし、実際に使うリソース種別だけを個別に許可する、ホワイトリスト方式を採る。Namaraは画像・favicon・外部/自前を問わずWebフォントを一切使わず(§8、システムフォントのみ)、`style.css` 1枚だけを自ホストから読み込む(§3.2)。そのため明示的に許可が要るのは `style-src 'self'` だけであり、`img-src` / `font-src` / `connect-src` / `media-src` などは指定せず `default-src 'none'` へのフォールバックに任せて閉じたままにする——使っていないリソース種別をあらかじめ `'self'` で開けておくことは、要件定義 §21・本書 §0 が拒否する「将来の拡張を見越した抽象化」に当たる。将来favicon・画像・自前フォント等を追加する時点で、そのときはじめて対応する `-src` を1つ足せばよい。
 
 特に `script-src 'none'` が重要である。これはブラウザに対して「このサイトではJavaScriptの実行自体を許さない」と宣言するものであり、将来だれかが誤って（あるいは意図的に）HTMLに `<script>` を混入させても、ブラウザ側でブロックされる。設計判断を文書に書くだけでなく、ブラウザに強制させるところまでやる。
 

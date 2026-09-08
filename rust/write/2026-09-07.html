@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Rust WRITE drill from 2026-09-07: write a function that swaps two i32 values via &amp;mut i32 parameters.">
+<title>Namara — Rust / WRITE — 2026-09-07</title>
+<link rel="canonical" href="https://namara.jocarium.productions/rust/write/2026-09-07">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Rust / WRITE", "item": "https://namara.jocarium.productions/rust/write" },
+        { "@type": "ListItem", "position": 3, "name": "2026-09-07" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Rust / WRITE — 2026-09-07",
+      "url": "https://namara.jocarium.productions/rust/write/2026-09-07",
+      "datePublished": "2026-09-07",
+      "dateModified": "2026-09-07",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Rust — swapping through mutable references" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Rust WRITE drill from 2026-09-07: write a function that swaps two i32 values via &mut i32 parameters."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/write/2026-09-07">C23</a>
+  <a href="/cpp/write/2026-09-07">C++26</a>
+  <a href="/rust/write/2026-09-07" class="active" aria-current="page">Rust 2024</a>
+  <a href="/haskell/write/2026-09-07">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/rust/read/2026-09-07">READ</a>
+  <a href="/rust/write/2026-09-07" class="active" aria-current="page">WRITE</a>
+  <a href="/rust/debug/2026-09-07">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-09-07</h2>
+  <div class="code-frame">
+    <p class="code-filename">swap_values.rs</p>
+    <pre class="code"><code>fn swap_values(a: &amp;mut i32, b: &amp;mut i32) {
+    // write this: swap the values that a and b point to
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    <code>swap_values</code>を実装してください。可変参照<code>a</code>と<code>b</code>が指している値を入れ替えます。
+  </p>
+
+  <details class="answer">
+    <summary>Reference</summary>
+    <div class="answer-body">
+      <pre class="code"><code>fn swap_values(a: &amp;mut i32, b: &amp;mut i32) {
+    let tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+</code></pre>
+      <p>
+        <code>*a</code>・<code>*b</code>でそれぞれの参照先の値を読み書きします。<code>a</code>と<code>b</code>は同時に有効な2つの可変参照ですが、これは異なる変数を指しているために借用チェッカーが許してくれます(同じ変数への2つの可変参照はコンパイルエラーになります)。これは参考実装であり、唯一の正解ではありません &mdash; 実務では自作せずに標準ライブラリの<code>std::mem::swap(a, b)</code>を使うのが普通です。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/rust/write">Today</a></li>
+    <li><a href="/rust/write/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

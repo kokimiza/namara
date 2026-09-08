@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C++ READ drill from 2026-09-07: assigning through a reference never rebinds it — it writes through to whatever it already refers to.">
+<title>Namara — C++ / READ — 2026-09-07</title>
+<link rel="canonical" href="https://namara.jocarium.productions/cpp/read/2026-09-07">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C++ / READ", "item": "https://namara.jocarium.productions/cpp/read" },
+        { "@type": "ListItem", "position": 3, "name": "2026-09-07" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C++ / READ — 2026-09-07",
+      "url": "https://namara.jocarium.productions/cpp/read/2026-09-07",
+      "datePublished": "2026-09-07",
+      "dateModified": "2026-09-07",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C++ — a reference cannot be rebound" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C++ READ drill from 2026-09-07: assigning through a reference never rebinds it — it writes through to whatever it already refers to."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/read/2026-09-07">C23</a>
+  <a href="/cpp/read/2026-09-07" class="active" aria-current="page">C++26</a>
+  <a href="/rust/read/2026-09-07">Rust 2024</a>
+  <a href="/haskell/read/2026-09-07">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/cpp/read/2026-09-07" class="active" aria-current="page">READ</a>
+  <a href="/cpp/write/2026-09-07">WRITE</a>
+  <a href="/cpp/debug/2026-09-07">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-09-07</h2>
+  <div class="code-frame">
+    <p class="code-filename">rebind.cpp</p>
+    <pre class="code"><code>#include &lt;iostream&gt;
+
+int main() {
+    int a = 1, b = 2;
+    int &amp;r = a;
+    r = b;
+    std::cout &lt;&lt; a &lt;&lt; " " &lt;&lt; b &lt;&lt; " " &lt;&lt; (&amp;r == &amp;a) &lt;&lt; "\n";
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    これは何を出力するでしょうか?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>2 2 1</code>(その後に改行)。<code>int &amp;r = a;</code>で<code>r</code>は<code>a</code>の別名になり、これは一度決まると変えられません。<code>r = b;</code>は<code>r</code>を<code>b</code>に向け直す(ポインタなら<code>r = &amp;b</code>で起きること)のではなく、<code>r</code>が指している<code>a</code>に<code>b</code>の値を代入するだけです。そのため<code>a</code>も<code>2</code>になり、<code>&amp;r == &amp;a</code>は最後まで真のままです。ポインタとの一番の違いはここで、ポインタなら再代入で指し先そのものを変えられますが、参照は初期化時に決まった対象への「書き込み専用の窓」であり続けます。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/cpp/read">Today</a></li>
+    <li><a href="/cpp/read/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>
