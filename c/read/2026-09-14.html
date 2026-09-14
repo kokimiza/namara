@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C READ drill from 2026-09-14: continue inside do { } while (0) jumps to the condition, not back to the top — so it leaves the loop.">
+<title>Namara — C / READ — 2026-09-14</title>
+<link rel="canonical" href="https://namara.jocarium.productions/c/read/2026-09-14">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C / READ", "item": "https://namara.jocarium.productions/c/read" },
+        { "@type": "ListItem", "position": 3, "name": "2026-09-14" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C / READ — 2026-09-14",
+      "url": "https://namara.jocarium.productions/c/read/2026-09-14",
+      "datePublished": "2026-09-14",
+      "dateModified": "2026-09-14",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C — continue in a do-while loop" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C READ drill from 2026-09-14: continue inside do { } while (0) jumps to the condition, not back to the top — so it leaves the loop."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/read/2026-09-14" class="active" aria-current="page">C23</a>
+  <a href="/cpp/read/2026-09-14">C++26</a>
+  <a href="/rust/read/2026-09-14">Rust 2024</a>
+  <a href="/haskell/read/2026-09-14">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/c/read/2026-09-14" class="active" aria-current="page">READ</a>
+  <a href="/c/write/2026-09-14">WRITE</a>
+  <a href="/c/debug/2026-09-14">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-09-14</h2>
+  <div class="code-frame">
+    <p class="code-filename">do_continue.c</p>
+    <pre class="code"><code>#include &lt;stdio.h&gt;
+
+int main(void) {
+    int i = 0;
+    do {
+        i++;
+        if (i &lt; 3) continue;
+        printf("%d\n", i);
+    } while (0);
+    printf("end %d\n", i);
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    これは何を出力するでしょうか?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>end 1</code>(その後に改行)のみ。<code>continue</code>は「ループの先頭へ戻る」文ではなく「ループ本体の末尾へ飛ぶ」文で、<code>do</code>〜<code>while</code>では本体の末尾の次に条件式が評価されます。1周目の<code>continue</code>で<code>while (0)</code>の判定へ進み、偽なのでそのままループを抜けます。<code>do { ... } while (0)</code>の中の<code>continue</code>は、実質<code>break</code>と同じです。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/c/read">Today</a></li>
+    <li><a href="/c/read/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

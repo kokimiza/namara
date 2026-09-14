@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Haskell WRITE drill from 2026-09-14: Haskell has no while loop, but because IO actions are values you can write one as an ordinary function.">
+<title>Namara — Haskell / WRITE — 2026-09-14</title>
+<link rel="canonical" href="https://namara.jocarium.productions/haskell/write/2026-09-14">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Haskell / WRITE", "item": "https://namara.jocarium.productions/haskell/write" },
+        { "@type": "ListItem", "position": 3, "name": "2026-09-14" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Haskell / WRITE — 2026-09-14",
+      "url": "https://namara.jocarium.productions/haskell/write/2026-09-14",
+      "datePublished": "2026-09-14",
+      "dateModified": "2026-09-14",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Haskell — a while loop as a function over IO actions" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Haskell WRITE drill from 2026-09-14: Haskell has no while loop, but because IO actions are values you can write one as an ordinary function."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/write/2026-09-14">C23</a>
+  <a href="/cpp/write/2026-09-14">C++26</a>
+  <a href="/rust/write/2026-09-14">Rust 2024</a>
+  <a href="/haskell/write/2026-09-14" class="active" aria-current="page">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/haskell/read/2026-09-14">READ</a>
+  <a href="/haskell/write/2026-09-14" class="active" aria-current="page">WRITE</a>
+  <a href="/haskell/debug/2026-09-14">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-09-14</h2>
+  <div class="code-frame">
+    <p class="code-filename">While.hs</p>
+    <pre class="code"><code>import Control.Monad (when)
+
+while :: IO Bool -&gt; IO () -&gt; IO ()
+while cond body = undefined -- write this: run body repeatedly while cond yields True
+</code></pre>
+  </div>
+
+  <p class="question">
+    <code>cond</code>が<code>True</code>を返す間、<code>body</code>を繰り返し実行する<code>while</code>を書いてください。
+  </p>
+
+  <details class="answer">
+    <summary>Reference</summary>
+    <div class="answer-body">
+      <pre class="code"><code>while :: IO Bool -&gt; IO () -&gt; IO ()
+while cond body = do
+  ok &lt;- cond
+  when ok $ do
+    body
+    while cond body
+</code></pre>
+      <p>
+        <code>cond</code>は「一度だけ計算済みの<code>Bool</code>」ではなく「実行するたびに<code>Bool</code>を返すアクション」という値なので、同じ<code>cond</code>を毎周実行し直せば、そのたびに最新の状態を読めます。<code>body</code>も同様です。ループ構文がなくても、アクションを引数に取る普通の再帰関数で制御構造そのものを書けます。これは参考実装であり、唯一の正解ではありません。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/haskell/write">Today</a></li>
+    <li><a href="/haskell/write/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

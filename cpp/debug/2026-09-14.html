@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C++ DEBUG drill from 2026-09-14: iterating a std::map with const std::pair&lt;std::string, int&gt;&amp; silently binds to a temporary copy, so pointers into it dangle.">
+<title>Namara — C++ / DEBUG — 2026-09-14</title>
+<link rel="canonical" href="https://namara.jocarium.productions/cpp/debug/2026-09-14">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C++ / DEBUG", "item": "https://namara.jocarium.productions/cpp/debug" },
+        { "@type": "ListItem", "position": 3, "name": "2026-09-14" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C++ / DEBUG — 2026-09-14",
+      "url": "https://namara.jocarium.productions/cpp/debug/2026-09-14",
+      "datePublished": "2026-09-14",
+      "dateModified": "2026-09-14",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C++ — map value_type and a loop variable bound to a temporary" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C++ DEBUG drill from 2026-09-14: iterating a std::map with const std::pair<std::string, int>& silently binds to a temporary copy, so pointers into it dangle."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/debug/2026-09-14">C23</a>
+  <a href="/cpp/debug/2026-09-14" class="active" aria-current="page">C++26</a>
+  <a href="/rust/debug/2026-09-14">Rust 2024</a>
+  <a href="/haskell/debug/2026-09-14">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/cpp/read/2026-09-14">READ</a>
+  <a href="/cpp/write/2026-09-14">WRITE</a>
+  <a href="/cpp/debug/2026-09-14" class="active" aria-current="page">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-09-14</h2>
+  <div class="code-frame">
+    <p class="code-filename">key_ptrs.cpp</p>
+    <pre class="code"><code>#include &lt;map&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+
+std::vector&lt;const std::string*&gt; key_ptrs(const std::map&lt;std::string, int&gt;&amp; m) {
+    std::vector&lt;const std::string*&gt; out;
+    for (const std::pair&lt;std::string, int&gt;&amp; kv : m)
+        out.push_back(&amp;kv.first);
+    return out;
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    <code>m</code>の各キーへのポインタを集める関数です。コンパイルは通りますが、返ってきたポインタを読むとゴミが出たりクラッシュしたりします。何が問題で、どう直せばよいでしょうか?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>std::map&lt;std::string, int&gt;</code>の要素型は<code>std::pair&lt;const std::string, int&gt;</code>で、ループ変数の<code>std::pair&lt;std::string, int&gt;</code>とはキーの<code>const</code>の有無だけ違う、別の型です。<code>const</code>参照は変換で作られた一時オブジェクトにも束縛できるため、反復のたびに要素のコピーが作られ、<code>kv</code>はそのコピーを指します。コピーはその反復の終わりで破棄されるので、集めたポインタはすべてダングリングです。要素型をそのまま受ければ直ります:
+      </p>
+      <pre class="code"><code>for (const auto&amp; kv : m)
+    out.push_back(&amp;kv.first);
+</code></pre>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/cpp/debug">Today</a></li>
+    <li><a href="/cpp/debug/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

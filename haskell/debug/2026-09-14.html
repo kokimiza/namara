@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Haskell DEBUG drill from 2026-09-14: let is recursive, so let acc = acc + i in a loop refers to itself instead of the previous acc.">
+<title>Namara — Haskell / DEBUG — 2026-09-14</title>
+<link rel="canonical" href="https://namara.jocarium.productions/haskell/debug/2026-09-14">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Haskell / DEBUG", "item": "https://namara.jocarium.productions/haskell/debug" },
+        { "@type": "ListItem", "position": 3, "name": "2026-09-14" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Haskell / DEBUG — 2026-09-14",
+      "url": "https://namara.jocarium.productions/haskell/debug/2026-09-14",
+      "datePublished": "2026-09-14",
+      "dateModified": "2026-09-14",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Haskell — let bindings are recursive" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Haskell DEBUG drill from 2026-09-14: let is recursive, so let acc = acc + i in a loop refers to itself instead of the previous acc."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/debug/2026-09-14">C23</a>
+  <a href="/cpp/debug/2026-09-14">C++26</a>
+  <a href="/rust/debug/2026-09-14">Rust 2024</a>
+  <a href="/haskell/debug/2026-09-14" class="active" aria-current="page">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/haskell/read/2026-09-14">READ</a>
+  <a href="/haskell/write/2026-09-14">WRITE</a>
+  <a href="/haskell/debug/2026-09-14" class="active" aria-current="page">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-09-14</h2>
+  <div class="code-frame">
+    <p class="code-filename">SumTo.hs</p>
+    <pre class="code"><code>sumTo :: Int -&gt; Int
+sumTo n = go 1 0
+  where
+    go i acc
+      | i &gt; n = acc
+      | otherwise =
+          let acc = acc + i
+          in go (i + 1) acc
+</code></pre>
+  </div>
+
+  <p class="question">
+    <code>1</code>から<code>n</code>までの和を求めるつもりですが、<code>print (sumTo 10)</code>は<code>55</code>を出力せず、止まるか<code>&lt;&lt;loop&gt;&gt;</code>で異常終了します。何が問題で、どう直せばよいでしょうか?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        Haskellの<code>let</code>は再帰的で、右辺の<code>acc</code>は引数の<code>acc</code>ではなく、いま定義している<code>acc</code>自身を指します。つまり<code>acc = acc + i</code>は「自分自身に<code>i</code>を足したもの」という終わらない定義で、値が必要になった時点で無限に自分を評価し続けます(GHCはこれを検出すると<code>&lt;&lt;loop&gt;&gt;</code>例外にします)。新しい名前を付ければ直ります:
+      </p>
+      <pre class="code"><code>let acc' = acc + i
+in go (i + 1) acc'
+</code></pre>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/haskell/debug">Today</a></li>
+    <li><a href="/haskell/debug/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>
