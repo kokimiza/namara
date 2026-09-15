@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Rust WRITE drill from 2026-09-16: destructure two tuple arguments directly as formal parameter patterns, without an intermediate let inside the body.">
+<title>Namara — Rust / WRITE — 2026-09-16</title>
+<link rel="canonical" href="https://namara.jocarium.productions/rust/write/2026-09-16">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Rust / WRITE", "item": "https://namara.jocarium.productions/rust/write" },
+        { "@type": "ListItem", "position": 3, "name": "2026-09-16" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Rust / WRITE — 2026-09-16",
+      "url": "https://namara.jocarium.productions/rust/write/2026-09-16",
+      "datePublished": "2026-09-16",
+      "dateModified": "2026-09-16",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Rust — patterns as formal parameters" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Rust WRITE drill from 2026-09-16: destructure two tuple arguments directly as formal parameter patterns, without an intermediate let inside the body."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/write/2026-09-16">C23</a>
+  <a href="/cpp/write/2026-09-16">C++26</a>
+  <a href="/rust/write/2026-09-16" class="active" aria-current="page">Rust 2024</a>
+  <a href="/haskell/write/2026-09-16">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/rust/read/2026-09-16">READ</a>
+  <a href="/rust/write/2026-09-16" class="active" aria-current="page">WRITE</a>
+  <a href="/rust/debug/2026-09-16">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-09-16</h2>
+  <div class="code-frame">
+    <p class="code-filename">midpoint.rs</p>
+    <pre class="code"><code>// write this: a function `midpoint` that takes two points, each an
+// (f64, f64) tuple, destructured directly as parameter patterns (no
+// `let` inside the body), and returns their midpoint as a tuple
+</code></pre>
+  </div>
+
+  <p class="question">
+    2つの点をそれぞれ<code>(f64, f64)</code>のタプルとして受け取り、中点を返す<code>midpoint</code>を書いてください。関数本体で<code>let</code>によるタプルの分解はせず、仮引数の位置でパターンとして受け取ること。
+  </p>
+
+  <details class="answer">
+    <summary>Reference</summary>
+    <div class="answer-body">
+      <pre class="code"><code>fn midpoint((x1, y1): (f64, f64), (x2, y2): (f64, f64)) -&gt; (f64, f64) {
+    ((x1 + x2) / 2.0, (y1 + y2) / 2.0)
+}
+</code></pre>
+      <p>
+        Rustの仮引数は単なる名前ではなく、パターンとして書けます。実引数として渡されたタプルは呼び出しの時点でそのままこの位置に束縛されるので、<code>x1</code> <code>y1</code> <code>x2</code> <code>y2</code>は関数本体に入った時点ですでに分解済みです。本体で改めて<code>let (x1, y1) = p1;</code>のように書き直す必要がありません。これは参考実装であり、唯一の正解ではありません。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/rust/write">Today</a></li>
+    <li><a href="/rust/write/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

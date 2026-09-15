@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C READ drill from 2026-09-16: an array parameter decays to a pointer, so sizeof(arr) inside the function reports the pointer's size, not the array's.">
+<title>Namara — C / READ — 2026-09-16</title>
+<link rel="canonical" href="https://namara.jocarium.productions/c/read/2026-09-16">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C / READ", "item": "https://namara.jocarium.productions/c/read" },
+        { "@type": "ListItem", "position": 3, "name": "2026-09-16" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C / READ — 2026-09-16",
+      "url": "https://namara.jocarium.productions/c/read/2026-09-16",
+      "datePublished": "2026-09-16",
+      "dateModified": "2026-09-16",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C — array-to-pointer decay in function parameters" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C READ drill from 2026-09-16: an array parameter decays to a pointer, so sizeof(arr) inside the function reports the pointer's size, not the array's."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/read/2026-09-16" class="active" aria-current="page">C23</a>
+  <a href="/cpp/read/2026-09-16">C++26</a>
+  <a href="/rust/read/2026-09-16">Rust 2024</a>
+  <a href="/haskell/read/2026-09-16">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/c/read/2026-09-16" class="active" aria-current="page">READ</a>
+  <a href="/c/write/2026-09-16">WRITE</a>
+  <a href="/c/debug/2026-09-16">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-09-16</h2>
+  <div class="code-frame">
+    <p class="code-filename">array_sizeof.c</p>
+    <pre class="code"><code>#include &lt;stdio.h&gt;
+
+void show(int arr[10]) {
+    printf("%zu\n", sizeof(arr));
+}
+
+int main(void) {
+    int arr[10];
+    printf("%zu\n", sizeof(arr));
+    show(arr);
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    これは何を出力するでしょうか?(このターゲット環境では<code>int</code>は4バイト、ポインタは8バイトです)
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>40</code>と<code>8</code>を1行ずつ。<code>main</code>の<code>arr</code>は本物の配列型なので、<code>sizeof</code>は要素10個分のバイト数(4×10=40)を返します。一方、関数の仮引数として書いた<code>int arr[10]</code>は実際には<code>int *</code>型として扱われる、というCの規則があります(配列を関数に渡すと先頭要素へのポインタに読み替えられ、`[10]`という長さの情報は失われます)。そのため<code>show</code>の中の<code>arr</code>はただのポインタ変数で、<code>sizeof(arr)</code>はポインタ自身のバイト数(8)を返します。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/c/read">Today</a></li>
+    <li><a href="/c/read/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>
