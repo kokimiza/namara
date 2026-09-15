@@ -153,6 +153,7 @@ jobs:
         uses: haskell-actions/hlint-setup@v2
 
       - name: Write drills with Claude Code (namara-daily skill)
+        id: claude
         if: steps.plan.outputs.combos != ''
         uses: anthropics/claude-code-action@v1
         with:
@@ -168,7 +169,57 @@ jobs:
             --model ${{ env.CLAUDE_MODEL }}
             --max-turns 400
             --add-dir ${{ steps.plan.outputs.verify_dir }}
-            --allowedTools "Read,Edit,Write,Glob,Grep,Bash(./script/content.sh:*),Bash(./script/verify.sh:*),Bash(ls:*),Bash(mkdir:*),Bash(cat:*),Bash(head:*),Bash(tail:*),Bash(sort:*),Bash(grep:*),Bash(gcc-14:*),Bash(g++-14:*),Bash(rustc:*),Bash(clippy-driver:*),Bash(ghc:*),Bash(hlint:*)"
+            --allowedTools "Read,Edit,Write,Glob,Grep,Bash"
+          # Bash is not narrowed to a command list. Writing a drill means
+          # compiling and running code Claude just wrote (and verify.sh runs
+          # it anyway), so a list never contained what that code can do; it
+          # only made Claude give up when a needed command (running a built
+          # program, diff, cd ...) was denied. What keeps a run from doing
+          # harm is outside Claude's reach: this job's token is read-only,
+          # its input is only this repository's own files, and publishing is
+          # a separate job that takes nothing but the verified patch.
+
+      # Claude's own messages stay hidden (show_full_output would print every
+      # tool result into this public log). Print just enough to see why a run
+      # stopped: turns, denied tool calls, and Claude's final report.
+      - name: Summarize the Claude Code run
+        if: always() && steps.claude.outcome != 'skipped'
+        env:
+          EXECUTION_FILE: ${{ steps.claude.outputs.execution_file }}
+        run: |
+          file="${EXECUTION_FILE:-$RUNNER_TEMP/claude-execution-output.json}"
+          [ -f "$file" ] || { echo "no execution file at $file"; exit 0; }
+          python3 - "$file" <<'PY'
+          import json, sys
+
+          text = open(sys.argv[1], encoding="utf-8").read()
+          try:
+              data = json.loads(text)
+              messages = data if isinstance(data, list) else [data]
+          except json.JSONDecodeError:
+              messages = [json.loads(l) for l in text.splitlines() if l.strip()]
+
+          results = [m for m in messages if isinstance(m, dict) and m.get("type") == "result"]
+          if not results:
+              print("no result message in the execution file")
+              sys.exit(0)
+          r = results[-1]
+          print(f"subtype={r.get('subtype')} is_error={r.get('is_error')} "
+                f"turns={r.get('num_turns')} duration_ms={r.get('duration_ms')}")
+          denials = r.get("permission_denials") or []
+          print(f"\npermission denials: {len(denials)}")
+          for d in denials:
+              tool_input = json.dumps(d.get("tool_input"), ensure_ascii=False)
+              print(f"  - {d.get('tool_name')}: {tool_input[:300]}")
+          print("\nfinal report:")
+          print(str(r.get("result") or "(none)")[:4000])
+          PY
+          echo
+          echo "changed files:"
+          git status --porcelain --untracked-files=all | head -50
+          echo
+          echo "verification sources:"
+          find "$RUNNER_TEMP/namara-verify" -type f 2> /dev/null | sed "s|^$RUNNER_TEMP/namara-verify/||" | sort | head -80
 
       # The gate. Claude is told to run this itself, but the result that
       # counts is this step's, not the model's report.
