@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C READ drill from 2026-09-15: case labels are just jump targets, so they can sit inside an if/else nested in the switch body.">
+<title>Namara — C / READ — 2026-09-15</title>
+<link rel="canonical" href="https://namara.jocarium.productions/c/read/2026-09-15">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C / READ", "item": "https://namara.jocarium.productions/c/read" },
+        { "@type": "ListItem", "position": 3, "name": "2026-09-15" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C / READ — 2026-09-15",
+      "url": "https://namara.jocarium.productions/c/read/2026-09-15",
+      "datePublished": "2026-09-15",
+      "dateModified": "2026-09-15",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C — case labels inside a nested if/else" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C READ drill from 2026-09-15: case labels are just jump targets, so they can sit inside an if/else nested in the switch body."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/read/2026-09-15" class="active" aria-current="page">C23</a>
+  <a href="/cpp/read/2026-09-15">C++26</a>
+  <a href="/rust/read/2026-09-15">Rust 2024</a>
+  <a href="/haskell/read/2026-09-15">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/c/read/2026-09-15" class="active" aria-current="page">READ</a>
+  <a href="/c/write/2026-09-15">WRITE</a>
+  <a href="/c/debug/2026-09-15">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-09-15</h2>
+  <div class="code-frame">
+    <p class="code-filename">case_in_if.c</p>
+    <pre class="code"><code>#include &lt;stdio.h&gt;
+
+void f(int n) {
+    switch (n) {
+        if (0) {
+    case 1:
+            puts("one");
+        } else {
+    case 2:
+            puts("two");
+        }
+    }
+}
+
+int main(void) {
+    f(1);
+    f(2);
+    f(3);
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    これはコンパイルでき、何かを出力します。何が出力されるでしょうか?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>one</code>と<code>two</code>を1行ずつ。<code>case</code>は<code>switch</code>本体の中ならどこに置いてもよいただのジャンプ先で、ブロックの入れ子に縛られません。<code>f(1)</code>は<code>if (0)</code>の条件を評価せずに<code>then</code>側の中へ直接飛び、<code>one</code>を出したあと<code>then</code>の終わりから<code>else</code>を飛び越えて抜けます。<code>f(2)</code>は<code>else</code>側へ飛んで<code>two</code>。<code>f(3)</code>は一致する<code>case</code>も<code>default</code>もないので何もしません。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/c/read">Today</a></li>
+    <li><a href="/c/read/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

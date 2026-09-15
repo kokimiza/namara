@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Haskell WRITE drill from 2026-09-15: use Haskell 2010 pattern guards to match a Maybe and test the bound value in one guard, without nesting case.">
+<title>Namara — Haskell / WRITE — 2026-09-15</title>
+<link rel="canonical" href="https://namara.jocarium.productions/haskell/write/2026-09-15">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Haskell / WRITE", "item": "https://namara.jocarium.productions/haskell/write" },
+        { "@type": "ListItem", "position": 3, "name": "2026-09-15" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Haskell / WRITE — 2026-09-15",
+      "url": "https://namara.jocarium.productions/haskell/write/2026-09-15",
+      "datePublished": "2026-09-15",
+      "dateModified": "2026-09-15",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Haskell — pattern guards" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Haskell WRITE drill from 2026-09-15: use Haskell 2010 pattern guards to match a Maybe and test the bound value in one guard, without nesting case."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/write/2026-09-15">C23</a>
+  <a href="/cpp/write/2026-09-15">C++26</a>
+  <a href="/rust/write/2026-09-15">Rust 2024</a>
+  <a href="/haskell/write/2026-09-15" class="active" aria-current="page">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/haskell/read/2026-09-15">READ</a>
+  <a href="/haskell/write/2026-09-15" class="active" aria-current="page">WRITE</a>
+  <a href="/haskell/debug/2026-09-15">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-09-15</h2>
+  <div class="code-frame">
+    <p class="code-filename">Describe.hs</p>
+    <pre class="code"><code>describe :: String -&gt; [(String, Int)] -&gt; String
+describe name ages = undefined -- write this: "adult" if found with age &gt;= 20, "minor" if found otherwise, "unknown" if not found
+</code></pre>
+  </div>
+
+  <p class="question">
+    <code>describe</code>を、<code>case</code>や<code>if</code>を使わずガードだけで書いてください。<code>lookup</code>は1回だけ書くこと。
+  </p>
+
+  <details class="answer">
+    <summary>Reference</summary>
+    <div class="answer-body">
+      <pre class="code"><code>describe :: String -&gt; [(String, Int)] -&gt; String
+describe name ages
+  | Just age &lt;- found, age &gt;= 20 = "adult"
+  | Just _ &lt;- found = "minor"
+  | otherwise = "unknown"
+  where
+    found = lookup name ages
+</code></pre>
+      <p>
+        ガードには<code>Bool</code>式だけでなく、<code>パターン &lt;- 式</code>という「パターンガード」も書けます(Haskell 2010で標準入り)。マッチに失敗すれば次のガードへ進み、成功すれば束縛した<code>age</code>を<code>,</code>で続く条件でそのまま使えます。<code>where</code>で束縛した<code>found</code>は、すべてのガードから参照できます。これは参考実装であり、唯一の正解ではありません。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/haskell/write">Today</a></li>
+    <li><a href="/haskell/write/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

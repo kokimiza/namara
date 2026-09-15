@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C++ WRITE drill from 2026-09-15: an if statement with an initializer and a structured binding, whose variables stay in scope in the else branch.">
+<title>Namara — C++ / WRITE — 2026-09-15</title>
+<link rel="canonical" href="https://namara.jocarium.productions/cpp/write/2026-09-15">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C++ / WRITE", "item": "https://namara.jocarium.productions/cpp/write" },
+        { "@type": "ListItem", "position": 3, "name": "2026-09-15" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C++ / WRITE — 2026-09-15",
+      "url": "https://namara.jocarium.productions/cpp/write/2026-09-15",
+      "datePublished": "2026-09-15",
+      "dateModified": "2026-09-15",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C++ — if with an init-statement" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C++ WRITE drill from 2026-09-15: an if statement with an initializer and a structured binding, whose variables stay in scope in the else branch."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/write/2026-09-15">C23</a>
+  <a href="/cpp/write/2026-09-15" class="active" aria-current="page">C++26</a>
+  <a href="/rust/write/2026-09-15">Rust 2024</a>
+  <a href="/haskell/write/2026-09-15">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/cpp/read/2026-09-15">READ</a>
+  <a href="/cpp/write/2026-09-15" class="active" aria-current="page">WRITE</a>
+  <a href="/cpp/debug/2026-09-15">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-09-15</h2>
+  <div class="code-frame">
+    <p class="code-filename">count_word.cpp</p>
+    <pre class="code"><code>#include &lt;iostream&gt;
+#include &lt;map&gt;
+#include &lt;string&gt;
+
+void count_word(std::map&lt;std::string, int&gt;&amp; counts, const std::string&amp; word) {
+    // write this: if word is new, register it with count 1 and
+    // print "new: word"; otherwise increment its count
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    <code>count_word</code>を実装してください。ただし<code>map</code>の探索は1回だけにし、途中で使う変数は<code>if</code>文の外へ漏らさないこと。
+  </p>
+
+  <details class="answer">
+    <summary>Reference</summary>
+    <div class="answer-body">
+      <pre class="code"><code>void count_word(std::map&lt;std::string, int&gt;&amp; counts, const std::string&amp; word) {
+    if (auto [it, inserted] = counts.try_emplace(word, 1); inserted)
+        std::cout &lt;&lt; "new: " &lt;&lt; word &lt;&lt; '\n';
+    else
+        ++it-&gt;second;
+}
+</code></pre>
+      <p>
+        C++17からは<code>if (初期化文; 条件)</code>と書け、初期化文で宣言した変数は<code>if</code>文全体、つまり<code>else</code>側でも使えて、文の外には漏れません。<code>try_emplace</code>は「挿入を試みた位置」と「挿入したか」の組を返すので、構造化束縛で受ければ探索1回で両方の分岐を書けます。これは参考実装であり、唯一の正解ではありません。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/cpp/write">Today</a></li>
+    <li><a href="/cpp/write/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>
