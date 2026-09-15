@@ -63,4 +63,313 @@ C23: 関数プロトタイプと引数の型
 C23: if文の条件でゼロと非ゼロが意味するもの
 C23: for文の初期化・条件・更新の役割
 C23: 前置と後置のインクリメントを単独で使う場合と式で使う場合
-C23: 再帰関数で階乗を計算する
+C23: 再帰関数で階乗を計算するC23: a[i]とi[a]が同じ意味になる理由
+C23: 配列を関数に渡すとsizeofが変わる理由
+C23: sizeof('a')がCではintの大きさになる理由
+C23: sizeofの中の式は評価されない
+C23: 文字列リテラルを書き換えてはいけない理由
+C23: char配列の初期化と文字列リテラルへのポインタの違い
+C23: strlenとsizeofが食い違う場面
+C23: strncpyが終端のNULを書かない場合
+C23: getcharの戻り値をintで受ける理由とEOF
+C23: while(!feof(fp))が1回余計に回る罠
+C23: scanfの戻り値を確かめない入力処理
+C23: strtolでエラーと0を区別する方法
+C23: unsigned charやuint8_tに~を掛けると整数拡張される
+C23: 符号付き整数と符号なし整数の比較で起きる変換
+C23: 符号なし整数の減算がラップアラウンドする場面
+C23: シフト量が型の幅以上になると未定義動作になる
+C23: INT_MIN / -1 と abs(INT_MIN) の落とし穴
+C23: 負の数の除算と剰余はゼロ方向に切り捨てられる
+C23: 2147483648という整数リテラルの型
+C23: ckd_addによるオーバーフロー検査付きの加算
+C23: _BitIntで幅を指定した整数を使う
+C23: 数字区切り1'000'000と2進リテラル0b1010
+C23: nullptrとNULLの違い
+C23: typeofとtypeof_unqualで型を取り出す
+C23: C23のautoによる型推論
+C23: constexprオブジェクトとconst変数の違い
+C23: C23で引数なしのf()がf(void)と同じ意味になった
+C23: boolとtrue/falseがキーワードになった
+C23: 空の初期化子{}によるゼロ初期化
+C23: [[nodiscard]]で戻り値の無視を警告させる
+C23: [[maybe_unused]]と[[deprecated]]属性
+C23: unreachable()で到達しない分岐を伝える
+C23: 列挙型の基底型を指定する
+C23: constへのポインタとconstなポインタの違い
+C23: restrictが最適化に与える約束
+C23: 厳密な別名規則とchar*の例外
+C23: memcpyとmemmoveの違いと領域の重なり
+C23: reallocの戻り値を元のポインタに直接代入する罠
+C23: free(NULL)は何もしない
+C23: 可変長配列(VLA)の寿命と大きさ
+C23: 複合リテラルで名前のないオブジェクトを作る
+C23: 指示付き初期化子で構造体と配列を初期化する
+C23: フレキシブル配列メンバで可変長の構造体を作る
+C23: 構造体のパディングとoffsetof
+C23: ビットフィールドの使いどころと注意点
+C23: 関数引数のint a[static 10]という宣言
+C23: staticなローカル変数の寿命
+C23: staticな関数と内部結合
+C23: externと仮定義(tentative definition)
+C23: マクロ引数が二重に評価される罠
+C23: 複文マクロをdo { } while (0)で包む理由
+C23: #演算子と##演算子によるマクロでのトークン操作
+C23: _Genericによる型ごとの分岐
+C23: goto cleanupによるエラー時の後始末
+C23: setjmpとlongjmpでローカル変数の値が不定になる場面
+C23: qsortの比較関数でa - bと書く危険
+C23: 0.1 + 0.2 != 0.3 と浮動小数点の比較
+C23: NaNは自分自身とも等しくない
+C23: assertの中に副作用を書くとNDEBUGで消える
+C23: argv[argc]はNULLポインタである
+C23: mainの末尾のreturn 0は省略できる
+C23: 関数ポインタとコールバック
+C23: 関数ポインタの配列によるディスパッチ表
+C23: 評価順序が規定されない式と副作用
+C23: volatileが必要になる場面
+C23: 構造体の代入はメンバごとのコピーになる
+C23: 2次元配列とポインタのポインタの違い
+C++26: 最も厄介な構文解析(most vexing parse)
+C++26: vector<int>(3, 5)とvector<int>{3, 5}の違い
+C++26: 波括弧初期化と縮小変換の禁止
+C++26: auto x = {1}とauto x{1}の型
+C++26: decltype(x)とdecltype((x))の違い
+C++26: 転送参照T&&と参照の圧縮
+C++26: std::forwardとstd::moveの使い分け
+C++26: std::moveは何もムーブしない
+C++26: ムーブ後のオブジェクトの状態
+C++26: 保証されたコピー省略とNRVO
+C++26: ルール・オブ・ゼロ、スリー、ファイブ
+C++26: explicitコンストラクタと暗黙の変換
+C++26: 仮想デストラクタがないときの基底クラスポインタ経由のdelete
+C++26: オブジェクトのスライシング
+C++26: コンストラクタの中で仮想関数を呼ぶと何が起きるか
+C++26: overrideとfinalで防げる間違い
+C++26: 名前隠蔽と基底クラスのオーバーロード
+C++26: 引数依存の名前探索(ADL)
+C++26: using std::swap; swap(a, b);という二段構え
+C++26: noexceptなムーブコンストラクタとvectorの再確保
+C++26: デストラクタから例外を投げるとstd::terminateになる
+C++26: unique_ptrとカスタムデリータ
+C++26: shared_ptrの循環参照とweak_ptr
+C++26: make_sharedとshared_ptrのコンストラクタの違い
+C++26: string_viewが指す先の寿命
+C++26: map::operator[]は存在しないキーを挿入する
+C++26: unordered_mapの再ハッシュとイテレータの無効化
+C++26: std::erase_ifによる要素の削除
+C++26: std::sortの比較関数と狭義の弱順序
+C++26: 三方比較演算子<=>とdefaultの比較
+C++26: vector<bool>が普通のコンテナではない理由
+C++26: std::arrayと組み込み配列の違い
+C++26: size_tのループ変数でカウントダウンする罠
+C++26: std::optionalで値がないことを表す
+C++26: std::variantとstd::visitによる分岐
+C++26: std::expectedによるエラー処理
+C++26: constexpr、constinit、constの違い
+C++26: 静的初期化順序の問題
+C++26: inline変数とODR
+C++26: テンプレートの完全特殊化と関数オーバーロード
+C++26: コンセプトとrequires節でオーバーロードを選ぶ
+C++26: クラステンプレートの実引数推論(CTAD)
+C++26: 構造化束縛と参照
+C++26: 範囲ライブラリのビューは遅延評価される
+C++26: filterビューのbeginが結果をキャッシュする
+C++26: std::ranges::toでビューをコンテナにする
+C++26: std::formatとstd::printによる書式付き出力
+C++26: std::generatorによるコルーチンでの数列生成
+C++26: mutableなラムダとコピーキャプチャ
+C++26: ラムダでthisをキャプチャする場合と*thisをキャプチャする場合
+C++26: 初期化キャプチャでムーブキャプチャする
+C++26: ジェネリックラムダとauto引数
+C++26: 明示的オブジェクト引数(deducing this)
+C++26: auto(x)による減衰コピー
+C++26: if constevalでコンパイル時と実行時を分ける
+C++26: 名前を持たないプレースホルダ変数_
+C++26: 多次元の添字演算子operator[]
+C++26: staticなoperator()
+C++26: std::unreachableと[[assume]]
+C++26: static_assertとコンパイル時の検査
+C++26: 可変長テンプレートと畳み込み式
+C++26: 型特性とstd::is_same_v
+C++26: enum classと暗黙の変換の禁止
+C++26: std::to_underlyingで列挙型の値を取り出す
+C++26: 一時オブジェクトの寿命とconst参照による延長の限界
+C++26: 範囲for文の範囲式で一時オブジェクトを使う
+C++26: 参照メンバを持つクラスの代入
+C++26: 例外安全性と強い保証
+C++26: std::lock_guardとstd::scoped_lock
+C++26: std::atomicとデータ競合
+C++26: std::jthreadと協調的な停止
+Rust2024: Rust 2024でのif letの一時値の寿命
+Rust2024: Rust 2024でのブロック末尾の式の一時値の寿命
+Rust2024: Rust 2024でのimpl Traitのライフタイム捕捉規則
+Rust2024: Rust 2024でのnever型のフォールバック
+Rust2024: Rust 2024でstd::env::set_varがunsafeになった理由
+Rust2024: Rust 2024のunsafe extern
+Rust2024: unsafe fnの中でもunsafeブロックが必要になった
+Rust2024: Rust 2024で予約されたgenキーワード
+Rust2024: dropの順序(変数、フィールド、一時値)
+Rust2024: let _ = xとlet _y = xでdropのタイミングが違う
+Rust2024: CopyとCloneの違い
+Rust2024: moveクロージャとCopy型のキャプチャ
+Rust2024: Fn、FnMut、FnOnceの違い
+Rust2024: クロージャが構造体のフィールドを個別にキャプチャする
+Rust2024: 再借用(reborrow)と&mutの暗黙のコピー
+Rust2024: 二段階借用でv.push(v.len())がコンパイルできる理由
+Rust2024: NLL(非字句的ライフタイム)で借用が終わる位置
+Rust2024: ライフタイム省略規則
+Rust2024: 'staticの2つの意味
+Rust2024: Derefによる型強制
+Rust2024: Stringを添字でアクセスできない理由
+Rust2024: len()はバイト数でchars().count()は文字数
+Rust2024: 文字列スライスが文字の境界でないとパニックする
+Rust2024: &strとStringの使い分け
+Rust2024: デバッグビルドとリリースビルドの整数オーバーフロー
+Rust2024: checked_、wrapping_、saturating_演算の使い分け
+Rust2024: asによる数値変換の切り捨てと飽和
+Rust2024: f64がOrdを実装していない理由
+Rust2024: PartialEqとEqの違い
+Rust2024: derive(PartialOrd)の比較順はフィールドの宣言順
+Rust2024: Option<Box<T>>の大きさがBox<T>と同じ理由
+Rust2024: ?演算子とFromによるエラー変換
+Rust2024: mainからResultを返す
+Rust2024: let elseで早期に抜ける
+Rust2024: matchのガードとバインディング@
+Rust2024: matches!マクロ
+Rust2024: while letとVec::popでスタックを処理する
+Rust2024: イテレータのzipは短い方で止まる
+Rust2024: chunksとwindowsの違い
+Rust2024: foldとscanで状態を持ち回す
+Rust2024: collectの型推論とターボフィッシュ
+Rust2024: Result<Vec<T>, E>へのcollect
+Rust2024: iter、iter_mut、into_iterの違い
+Rust2024: binary_searchが返すErrの意味
+Rust2024: sortとsort_unstableの違い
+Rust2024: HashMapのentry APIでカウントする
+Rust2024: std::mem::take、replace、swap
+Rust2024: Option::takeで値を取り出す
+Rust2024: Dropを実装した型からフィールドをムーブできない
+Rust2024: Rc<RefCell<T>>と実行時の借用チェックによるパニック
+Rust2024: CellとRefCellの違い
+Rust2024: Box<dyn Trait>と動的ディスパッチ
+Rust2024: dyn互換性(オブジェクト安全性)
+Rust2024: ジェネリクスとトレイト境界による静的ディスパッチ
+Rust2024: 関連型とジェネリクス引数の違い
+Rust2024: 孤児ルールとnewtypeパターン
+Rust2024: Defaultトレイトと構造体更新記法..Default::default()
+Rust2024: FromStrとparse
+Rust2024: Displayを実装してto_stringを得る
+Rust2024: const fnとコンパイル時評価
+Rust2024: 列挙型の判別値とasによる変換
+Rust2024: unreachable!、todo!、unimplemented!の違い
+Rust2024: パニックとResultの使い分け
+Rust2024: スレッド間で共有するためのArc<Mutex<T>>
+Rust2024: SendとSync
+Rust2024: std::thread::scopeで借用をスレッドに渡す
+Rust2024: PhantomDataで型に意味を持たせる
+Haskell2010: foldlとfoldrの違いと無限リスト
+Haskell2010: foldlがスペースリークを起こす理由
+Haskell2010: seqが評価するのは弱頭部正規形まで
+Haskell2010: $!による正格な関数適用
+Haskell2010: 反駁不能パターン~
+Haskell2010: asパターン@
+Haskell2010: ワイルドカードパターンと未使用の変数
+Haskell2010: ボトム(undefined)と非正格性
+Haskell2010: 無限リストで遅延評価を体感する
+Haskell2010: 自己参照によるリストの定義(fibsではない例)
+Haskell2010: zipWithで数列を組み立てる
+Haskell2010: iterateとtakeWhileによる反復
+Haskell2010: リスト内包表記と複数のジェネレータ
+Haskell2010: 演算子セクションと(-1)がセクションにならない理由
+Haskell2010: subtractと負のリテラル
+Haskell2010: 中置記法のバッククォートと結合性宣言
+Haskell2010: 関数合成(.)とポイントフリースタイル
+Haskell2010: カリー化と部分適用
+Haskell2010: flipで引数の順番を入れ替える
+Haskell2010: レイアウト規則とインデント
+Haskell2010: whereのスコープとガードをまたぐ共有
+Haskell2010: letの多相性
+Haskell2010: 単相性制限
+Haskell2010: 数値リテラルの型とデフォルティング規則
+Haskell2010: IntとIntegerの違いとオーバーフロー
+Haskell2010: fromIntegralによる数値型の変換
+Haskell2010: divとquot、modとremの違い
+Haskell2010: /とdivの違い
+Haskell2010: showが負の数に括弧を付ける場面
+Haskell2010: readと型注釈
+Haskell2010: newtypeとdataの違い(正格性を含む)
+Haskell2010: 型シノニムtypeとnewtypeの違い
+Haskell2010: レコード構文とフィールドセレクタが部分関数になる場合
+Haskell2010: deriving(Eq, Ord, Show)と導出された比較の順序
+Haskell2010: 型クラスのデフォルトメソッドと最小完全定義
+Haskell2010: Functorとfmap
+Haskell2010: Monadとdo記法の脱糖
+Haskell2010: Maybeモナドで失敗を連鎖させる
+Haskell2010: Eitherでエラーの理由を持ち回る
+Haskell2010: リストモナドで組み合わせを列挙する
+Haskell2010: mapMとsequenceとmapM_
+Haskell2010: IOアクションは値であり、実行とは別である
+Haskell2010: returnは関数から抜けない
+Haskell2010: headやfromJustのような部分関数の危険
+Haskell2010: caseとパターンの網羅性
+Haskell2010: パターンは上から順に照合される
+Haskell2010: 文字列はCharのリストである
+Haskell2010: ++の計算量と左結合で連結する罠
+Haskell2010: 末尾再帰と遅延評価のアキュムレータ
+Haskell2010: 共有とメモ化(let束縛は1回だけ評価される)
+Haskell2010: whereで定義した値の再計算を避ける
+Haskell2010: Data.Listのgroup、sortBy、nubの計算量
+Haskell2010: Data.Maybeのmaybe、fromMaybe、catMaybes
+Haskell2010: zip、unzip、lookupによる連想リスト
+Haskell2010: 型注釈がないと曖昧になる式
+Haskell2010: 高階関数と型シグネチャを読む
+Haskell2010: 型変数と多相関数でできることの制限
+Haskell2010: Ordering型とcompare、comparing
+Haskell2010: Enumと範囲[x, y .. z]の意外な挙動
+Haskell2010: 浮動小数点の範囲[0.1, 0.2 .. 1.0]が1.0を超える
+Haskell2010: Data.Arrayによる配列と遅延評価を使った動的計画法
+Haskell2010: Data.Bitsによるビット演算
+Haskell2010: interactで入出力をリスト処理として書く
+Haskell2010: System.IO.hSetBufferingとバッファリング
+Haskell2010: errorと例外とExitFailure
+Any: 整数のオーバーフローを各言語はどう扱うか
+Any: 値がないことの表し方(NULL、nullptr、Option、Maybe)
+Any: エラーを返すか、例外を投げるか、型で表すか
+Any: 文字列の長さはバイト数か文字数か
+Any: 二分探索の中点(lo + hi) / 2のオーバーフロー
+Any: 浮動小数点数の等値比較
+Any: 安定ソートと不安定ソート
+Any: 同値(値が等しい)と同一(同じオブジェクト)の違い
+Any: 関数の引数の評価順序
+Any: 一時オブジェクトの寿命
+Any: 静的ディスパッチと動的ディスパッチ
+Any: 型推論が決める型を読む
+Any: ジェネリクスとテンプレートと型クラス
+Any: 直和型(タグ付き共用体)で状態を表す
+Any: 不変条件を型で守る
+Any: イテレータと遅延評価の連鎖
+Any: 末尾呼び出しとスタックの深さ
+Any: メモ化で同じ計算を繰り返さない
+Any: 状態機械を分岐で書く
+Any: ビット演算でフラグを扱う
+Any: 2の補数と符号付き整数の表現
+Any: ゼロ除算の扱い
+Any: 剰余演算と負の数
+Any: 文字と数値の変換('0' + n)
+Any: 定数と不変の違い(const、let、immutable)
+Any: 資源の後始末(デストラクタ、Drop、goto cleanup、bracket)
+Any: 共有された可変状態が生むバグ
+Any: エイリアシング(同じ場所を2つの名前で指す)
+Any: コピーとムーブと参照
+Any: 境界チェックがある配列アクセスとない配列アクセス
+Any: 番兵値と専用の型
+Any: デフォルト引数と関数のオーバーロード
+Any: 可変長引数
+Any: 文字列の連結の計算量
+Any: 辞書(マップ)で数を数える
+Any: 空のコレクションに対する最大値や先頭要素
+Any: ループ不変条件で正しさを確かめる
+Any: 早期リターンとガード節
+Any: 読みやすさのための変数の分割と名前付け
+Any: 比較関数の書き方と全順序
