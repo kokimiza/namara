@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C DEBUG drill from 2026-09-13: a recursive binary search calls itself but forgets to return the result, so the caller reads a value that was never returned.">
+<title>Namara — C / DEBUG — 2026-09-13</title>
+<link rel="canonical" href="https://namara.jocarium.productions/c/debug/2026-09-13">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C / DEBUG", "item": "https://namara.jocarium.productions/c/debug" },
+        { "@type": "ListItem", "position": 3, "name": "2026-09-13" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C / DEBUG — 2026-09-13",
+      "url": "https://namara.jocarium.productions/c/debug/2026-09-13",
+      "datePublished": "2026-09-13",
+      "dateModified": "2026-09-13",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C — returning the result of a recursive call" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C DEBUG drill from 2026-09-13: a recursive binary search calls itself but forgets to return the result, so the caller reads a value that was never returned."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/debug/2026-09-13" class="active" aria-current="page">C23</a>
+  <a href="/cpp/debug/2026-09-13">C++26</a>
+  <a href="/rust/debug/2026-09-13">Rust 2024</a>
+  <a href="/haskell/debug/2026-09-13">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/c/read/2026-09-13">READ</a>
+  <a href="/c/write/2026-09-13">WRITE</a>
+  <a href="/c/debug/2026-09-13" class="active" aria-current="page">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-09-13</h2>
+  <div class="code-frame">
+    <p class="code-filename">binary_search.c</p>
+    <pre class="code"><code>#include &lt;stddef.h&gt;
+
+// Returns the index of key in the sorted range a[lo, hi), or -1.
+int search(const int a[], size_t lo, size_t hi, int key) {
+    if (lo &gt;= hi)
+        return -1;
+
+    size_t mid = lo + (hi - lo) / 2;
+    if (a[mid] == key)
+        return (int)mid;
+
+    if (a[mid] &lt; key)
+        search(a, mid + 1, hi, key);
+    else
+        search(a, lo, mid, key);
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    手元のテストでは<code>search</code>は正しいインデックスを返していましたが、別のコンパイラで最適化を有効にしたら結果がおかしくなりました。何が問題で、どう直せばよいでしょうか?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        再帰呼び出しの結果を<code>return</code>していません。最初の比較で見つからなかった場合、内側の<code>search</code>が値を返しても外側はそれを捨て、<code>return</code>文のないまま関数の終わりの<code>}</code>に到達します。値を返す関数がそうやって終わり、呼び出し側がその値を使うのは未定義動作です。「たまたま動いていた」のは、内側の呼び出しが戻り値を置いたレジスタがそのまま残っていただけで、最適化の仕方次第でゴミ値にも暴走にもなります(<code>-Wall</code>なら警告が出ます)。再帰の結果をそのまま返せば直ります:
+      </p>
+      <pre class="code"><code>if (a[mid] &lt; key)
+    return search(a, mid + 1, hi, key);
+else
+    return search(a, lo, mid, key);
+</code></pre>
+      <p>
+        「区間が空なら<code>-1</code>、真ん中が当たりならその位置、そうでなければ半分の区間の答えがそのまま全体の答え」という定義を、各分岐がそれぞれ<code>return</code>で言い切る形になります。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/c/debug">Today</a></li>
+    <li><a href="/c/debug/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

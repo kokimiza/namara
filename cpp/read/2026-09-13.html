@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C++ READ drill from 2026-09-13: a variadic function template peels off two arguments per recursive call, so an odd argument count fails to compile.">
+<title>Namara — C++ / READ — 2026-09-13</title>
+<link rel="canonical" href="https://namara.jocarium.productions/cpp/read/2026-09-13">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C++ / READ", "item": "https://namara.jocarium.productions/cpp/read" },
+        { "@type": "ListItem", "position": 3, "name": "2026-09-13" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C++ / READ — 2026-09-13",
+      "url": "https://namara.jocarium.productions/cpp/read/2026-09-13",
+      "datePublished": "2026-09-13",
+      "dateModified": "2026-09-13",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C++ — recursion over a function parameter pack" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C++ READ drill from 2026-09-13: a variadic function template peels off two arguments per recursive call, so an odd argument count fails to compile."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/read/2026-09-13">C23</a>
+  <a href="/cpp/read/2026-09-13" class="active" aria-current="page">C++26</a>
+  <a href="/rust/read/2026-09-13">Rust 2024</a>
+  <a href="/haskell/read/2026-09-13">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/cpp/read/2026-09-13" class="active" aria-current="page">READ</a>
+  <a href="/cpp/write/2026-09-13">WRITE</a>
+  <a href="/cpp/debug/2026-09-13">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-09-13</h2>
+  <div class="code-frame">
+    <p class="code-filename">print_pairs.cpp</p>
+    <pre class="code"><code>#include &lt;iostream&gt;
+
+void print_pairs() {
+    std::cout &lt;&lt; '\n';
+}
+
+template &lt;class K, class V, class... Rest&gt;
+void print_pairs(const K&amp; key, const V&amp; value, const Rest&amp;... rest) {
+    std::cout &lt;&lt; key &lt;&lt; '=' &lt;&lt; value &lt;&lt; ';';
+    print_pairs(rest...);
+}
+
+int main() {
+    print_pairs("x", 1, "y", 2.5);
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    これは何を出力するでしょうか? また、<code>main</code>に<code>print_pairs("a", 1, "b");</code>を1行足すとどうなるでしょうか?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        出力は<code>x=1;y=2.5;</code>(その後に改行)です。テンプレート版は引数を2つずつ剥がして残りの<code>rest...</code>で自分を呼び、引数が尽きたところで非テンプレートの<code>print_pairs()</code>が選ばれて改行を出します。ただしこの「再帰」は実行時に同じ関数へ戻っているのではなく、<code>print_pairs&lt;char[2], int, char[2], double&gt;</code>→<code>print_pairs&lt;char[2], double&gt;</code>→<code>print_pairs()</code>という引数の型が違う別々の関数を、コンパイラが展開して作ったものです。
+      </p>
+      <p>
+        <code>print_pairs("a", 1, "b")</code>を足すとコンパイルエラーになります。2つ剥がした後の<code>print_pairs("b")</code>は、0引数の版にも2引数以上の版にも合わないからです。引数が奇数個という誤りを、専用のチェックを書かずに再帰の形そのものがコンパイル時に弾いてくれます。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/cpp/read">Today</a></li>
+    <li><a href="/cpp/read/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

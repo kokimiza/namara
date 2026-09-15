@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C WRITE drill from 2026-09-13: free a binary tree recursively, children first, so no node is read after it has been freed.">
+<title>Namara — C / WRITE — 2026-09-13</title>
+<link rel="canonical" href="https://namara.jocarium.productions/c/write/2026-09-13">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C / WRITE", "item": "https://namara.jocarium.productions/c/write" },
+        { "@type": "ListItem", "position": 3, "name": "2026-09-13" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C / WRITE — 2026-09-13",
+      "url": "https://namara.jocarium.productions/c/write/2026-09-13",
+      "datePublished": "2026-09-13",
+      "dateModified": "2026-09-13",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C — post-order recursion to free a tree" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C WRITE drill from 2026-09-13: free a binary tree recursively, children first, so no node is read after it has been freed."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/write/2026-09-13" class="active" aria-current="page">C23</a>
+  <a href="/cpp/write/2026-09-13">C++26</a>
+  <a href="/rust/write/2026-09-13">Rust 2024</a>
+  <a href="/haskell/write/2026-09-13">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/c/read/2026-09-13">READ</a>
+  <a href="/c/write/2026-09-13" class="active" aria-current="page">WRITE</a>
+  <a href="/c/debug/2026-09-13">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-09-13</h2>
+  <div class="code-frame">
+    <p class="code-filename">free_tree.c</p>
+    <pre class="code"><code>#include &lt;stdlib.h&gt;
+
+struct node {
+    int value;
+    struct node *left;
+    struct node *right;
+};
+
+void free_tree(struct node *t) {
+    // write this: free every node of the tree rooted at t
+    // (t may be NULL, meaning an empty tree)
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    すべてのノードが<code>malloc</code>で確保された二分木を、1つ残らず<code>free</code>する<code>free_tree</code>を再帰で実装してください。
+  </p>
+
+  <details class="answer">
+    <summary>Reference</summary>
+    <div class="answer-body">
+      <pre class="code"><code>void free_tree(struct node *t) {
+    if (t == NULL)
+        return;
+    free_tree(t-&gt;left);
+    free_tree(t-&gt;right);
+    free(t);
+}
+</code></pre>
+      <p>
+        空の木(<code>NULL</code>)を基底にし、左の部分木、右の部分木を片付けてから最後に自分を<code>free</code>します(後行順)。順番が本質で、先に<code>free(t)</code>してしまうと、その後の<code>t-&gt;left</code>は解放済みメモリの読み出しになります。ループで書こうとすると「まだ片付けていない子」を覚えておく自前のスタックが必要ですが、再帰なら呼び出しスタックがそれを持ってくれるので、木の定義(「空」か「値と2つの部分木」)をそのまま4行に写すだけで済みます。なお<code>free(NULL)</code>は何もしないと規定されているので、<code>NULL</code>チェックを子の側で行う書き方もありえます。これは参考実装であり、唯一の正解ではありません。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/c/write">Today</a></li>
+    <li><a href="/c/write/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

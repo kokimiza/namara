@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C++ DEBUG drill from 2026-09-13: a lambda declared with auto can't name itself in its own body, so a recursive DFS needs a C++23 explicit object parameter.">
+<title>Namara — C++ / DEBUG — 2026-09-13</title>
+<link rel="canonical" href="https://namara.jocarium.productions/cpp/debug/2026-09-13">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C++ / DEBUG", "item": "https://namara.jocarium.productions/cpp/debug" },
+        { "@type": "ListItem", "position": 3, "name": "2026-09-13" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C++ / DEBUG — 2026-09-13",
+      "url": "https://namara.jocarium.productions/cpp/debug/2026-09-13",
+      "datePublished": "2026-09-13",
+      "dateModified": "2026-09-13",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C++ — recursive lambdas with deducing this" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C++ DEBUG drill from 2026-09-13: a lambda declared with auto can't name itself in its own body, so a recursive DFS needs a C++23 explicit object parameter."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/debug/2026-09-13">C23</a>
+  <a href="/cpp/debug/2026-09-13" class="active" aria-current="page">C++26</a>
+  <a href="/rust/debug/2026-09-13">Rust 2024</a>
+  <a href="/haskell/debug/2026-09-13">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/cpp/read/2026-09-13">READ</a>
+  <a href="/cpp/write/2026-09-13">WRITE</a>
+  <a href="/cpp/debug/2026-09-13" class="active" aria-current="page">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-09-13</h2>
+  <div class="code-frame">
+    <p class="code-filename">dfs_order.cpp</p>
+    <pre class="code"><code>#include &lt;vector&gt;
+
+// Returns the vertices reachable from start, in depth-first visiting order.
+std::vector&lt;int&gt; dfs_order(const std::vector&lt;std::vector&lt;int&gt;&gt;&amp; graph, int start) {
+    std::vector&lt;bool&gt; seen(graph.size());
+    std::vector&lt;int&gt; order;
+
+    auto visit = [&amp;](int v) {
+        if (seen[v])
+            return;
+        seen[v] = true;
+        order.push_back(v);
+        for (int next : graph[v])
+            visit(next);
+    };
+
+    visit(start);
+    return order;
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    <code>seen</code>と<code>order</code>をキャプチャしたラムダで深さ優先探索を書きましたが、コンパイルが通りません。何が問題で、どう直せばよいでしょうか?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>auto</code>で宣言した変数は、初期化式からその型が決まるまで使えません。ラムダ本体の<code>visit(next)</code>は<code>visit</code>自身の初期化式の中にあるので、「型の決まっていない変数を参照している」としてエラーになります。C++23の明示的オブジェクト引数(deducing this)を使えば、ラムダは呼ばれた自分自身を第1引数として受け取れます:
+      </p>
+      <pre class="code"><code>auto visit = [&amp;](this const auto&amp; self, int v) {
+    if (seen[v])
+        return;
+    seen[v] = true;
+    order.push_back(v);
+    for (int next : graph[v])
+        self(next);
+};
+</code></pre>
+      <p>
+        呼び出し側は<code>visit(start)</code>のままで、<code>self</code>は自動で渡されます。C++20までは<code>std::function&lt;void(int)&gt;</code>で型を先に書いて逃げるのが定番でしたが、型消去による間接呼び出しが入るうえ、関数の型を二度書くことになりました。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/cpp/debug">Today</a></li>
+    <li><a href="/cpp/debug/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

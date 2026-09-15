@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Rust READ drill from 2026-09-13: a slice pattern splits off the head and recurses on the rest, and x - alt(rest) quietly turns into an alternating sum.">
+<title>Namara — Rust / READ — 2026-09-13</title>
+<link rel="canonical" href="https://namara.jocarium.productions/rust/read/2026-09-13">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Rust / READ", "item": "https://namara.jocarium.productions/rust/read" },
+        { "@type": "ListItem", "position": 3, "name": "2026-09-13" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Rust / READ — 2026-09-13",
+      "url": "https://namara.jocarium.productions/rust/read/2026-09-13",
+      "datePublished": "2026-09-13",
+      "dateModified": "2026-09-13",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Rust — recursion with slice patterns" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Rust READ drill from 2026-09-13: a slice pattern splits off the head and recurses on the rest, and x - alt(rest) quietly turns into an alternating sum."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/read/2026-09-13">C23</a>
+  <a href="/cpp/read/2026-09-13">C++26</a>
+  <a href="/rust/read/2026-09-13" class="active" aria-current="page">Rust 2024</a>
+  <a href="/haskell/read/2026-09-13">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/rust/read/2026-09-13" class="active" aria-current="page">READ</a>
+  <a href="/rust/write/2026-09-13">WRITE</a>
+  <a href="/rust/debug/2026-09-13">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-09-13</h2>
+  <div class="code-frame">
+    <p class="code-filename">alt_sum.rs</p>
+    <pre class="code"><code>fn alt(xs: &amp;[i32]) -&gt; i32 {
+    match xs {
+        [] =&gt; 0,
+        [x, rest @ ..] =&gt; x - alt(rest),
+    }
+}
+
+fn main() {
+    println!("{}", alt(&amp;[5, 3, 2, 1]));
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    これは何を出力するでしょうか?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>3</code>(その後に改行)。スライスパターン<code>[x, rest @ ..]</code>は「先頭1個」と「残りのスライス」に分け、<code>rest</code>は元の配列を指す<code>&amp;[i32]</code>なのでコピーは起きません。展開すると<code>5 - (3 - (2 - (1 - 0)))</code>で、内側から<code>1</code>、<code>1</code>、<code>2</code>、<code>3</code>です。括弧を外すと<code>5 - 3 + 2 - 1</code>、つまり「引く」を右から畳み込むと符号が交互に反転して交代和になります。<code>match</code>は<code>[]</code>と<code>[x, rest @ ..]</code>でスライスのあらゆる長さを網羅していることをコンパイラが確認するので、基底ケースを書き忘れればコンパイルが通りません。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/rust/read">Today</a></li>
+    <li><a href="/rust/read/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Haskell DEBUG drill from 2026-09-13: a tail-recursive filter with an accumulator can't yield anything until the whole input is consumed, so it hangs on an infinite list.">
+<title>Namara — Haskell / DEBUG — 2026-09-13</title>
+<link rel="canonical" href="https://namara.jocarium.productions/haskell/debug/2026-09-13">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Haskell / DEBUG", "item": "https://namara.jocarium.productions/haskell/debug" },
+        { "@type": "ListItem", "position": 3, "name": "2026-09-13" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Haskell / DEBUG — 2026-09-13",
+      "url": "https://namara.jocarium.productions/haskell/debug/2026-09-13",
+      "datePublished": "2026-09-13",
+      "dateModified": "2026-09-13",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Haskell — guarded recursion versus accumulators" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Haskell DEBUG drill from 2026-09-13: a tail-recursive filter with an accumulator can't yield anything until the whole input is consumed, so it hangs on an infinite list."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/debug/2026-09-13">C23</a>
+  <a href="/cpp/debug/2026-09-13">C++26</a>
+  <a href="/rust/debug/2026-09-13">Rust 2024</a>
+  <a href="/haskell/debug/2026-09-13" class="active" aria-current="page">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/haskell/read/2026-09-13">READ</a>
+  <a href="/haskell/write/2026-09-13">WRITE</a>
+  <a href="/haskell/debug/2026-09-13" class="active" aria-current="page">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-09-13</h2>
+  <div class="code-frame">
+    <p class="code-filename">Evens.hs</p>
+    <pre class="code"><code>evens :: [Int] -&gt; [Int]
+evens = go []
+  where
+    go acc [] = reverse acc
+    go acc (x:xs)
+      | even x    = go (x : acc) xs
+      | otherwise = go acc xs
+</code></pre>
+  </div>
+
+  <p class="question">
+    <code>print (evens [1 .. 10])</code>は<code>[2,4,6,8,10]</code>を出力しますが、<code>print (take 3 (evens [1 ..]))</code>は何も出力しないままメモリを食い続けます。何が問題で、どう直せばよいでしょうか?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        アキュムレータ付きの末尾再帰は、入力の<code>[]</code>に到達して<code>reverse acc</code>を返すまで、結果のリストを1要素も渡せません。<code>take 3</code>が最初の要素を要求しても、<code>go</code>は無限リストを最後まで読もうとして<code>acc</code>を伸ばし続けるだけです。正格評価の言語ではアキュムレータ付きの末尾再帰が定番の形ですが、遅延評価のHaskellでリストを作るなら、見つけた要素を<code>:</code>で先に返し、残りの再帰はその後ろに置く形(ガード付き再帰)にします:
+      </p>
+      <pre class="code"><code>evens :: [Int] -&gt; [Int]
+evens [] = []
+evens (x:xs)
+  | even x    = x : evens xs
+  | otherwise = evens xs
+</code></pre>
+      <p>
+        <code>x : evens xs</code>は、<code>evens xs</code>を評価する前に「先頭は<code>x</code>」という答えを返せるので、<code>take 3</code>は必要な3個を受け取った時点で残りを評価せずに終われます。アキュムレータも<code>reverse</code>も不要になり、有限のリストでも同じ結果です(標準の<code>filter even</code>もこの形で定義されています)。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/haskell/debug">Today</a></li>
+    <li><a href="/haskell/debug/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>
