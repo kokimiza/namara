@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Haskell DEBUG drill from 2026-08-25: deriving Eq, Ord, and Show fails when a field's type (a function) has none of those instances; write manual instances comparing only the comparable field.">
+<title>Namara — Haskell / DEBUG — 2026-08-25</title>
+<link rel="canonical" href="https://namara.jocarium.productions/haskell/debug/2026-08-25">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Haskell / DEBUG", "item": "https://namara.jocarium.productions/haskell/debug" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-25" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Haskell / DEBUG — 2026-08-25",
+      "url": "https://namara.jocarium.productions/haskell/debug/2026-08-25",
+      "datePublished": "2026-08-25",
+      "dateModified": "2026-08-25",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Haskell — deriving Eq/Ord/Show on a field with no such instance" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Haskell DEBUG drill from 2026-08-25: deriving Eq, Ord, and Show fails when a field's type (a function) has none of those instances; write manual instances comparing only the comparable field."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/debug/2026-08-25">C23</a>
+  <a href="/cpp/debug/2026-08-25">C++26</a>
+  <a href="/rust/debug/2026-08-25">Rust 2024</a>
+  <a href="/haskell/debug/2026-08-25" class="active" aria-current="page">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/haskell/read/2026-08-25">READ</a>
+  <a href="/haskell/write/2026-08-25">WRITE</a>
+  <a href="/haskell/debug/2026-08-25" class="active" aria-current="page">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-25</h2>
+  <div class="code-frame">
+    <p class="code-filename">Action.hs</p>
+    <pre class="code"><code>data Action = Action { label :: String, run :: Int -> Int }
+  deriving (Eq, Ord, Show)
+
+main :: IO ()
+main = print (Action "inc" (+ 1) == Action "inc" (+ 1))
+</code></pre>
+  </div>
+
+  <p class="question">
+    このコードはコンパイルできません。何が問題で、どう直せばよいでしょうか?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>run</code>フィールドの型<code>Int -&gt; Int</code>(関数)には<code>Eq</code>・<code>Ord</code>・<code>Show</code>のどのインスタンスもありません。関数同士が等しいかを判定したり表示したりする一般的な方法がないためです。<code>deriving</code>は全フィールドの比較・表示が可能であることを前提にするので、この3つとも導出に失敗します。<code>run</code>を比較や表示の対象から外し、<code>label</code>だけを見る手書きのインスタンスにすれば直ります:
+      </p>
+      <pre class="code"><code>data Action = Action { label :: String, run :: Int -> Int }
+
+instance Eq Action where
+  a == b = label a == label b
+
+instance Ord Action where
+  compare a b = compare (label a) (label b)
+
+instance Show Action where
+  show a = "Action " ++ show (label a)
+</code></pre>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/haskell/debug">Today</a></li>
+    <li><a href="/haskell/debug/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

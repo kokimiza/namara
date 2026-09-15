@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C++ WRITE drill from 2026-08-25: write a variadic function template that prints its arguments comma-separated using a comma-operator fold expression, no loop or recursion.">
+<title>Namara — C++ / WRITE — 2026-08-25</title>
+<link rel="canonical" href="https://namara.jocarium.productions/cpp/write/2026-08-25">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C++ / WRITE", "item": "https://namara.jocarium.productions/cpp/write" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-25" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C++ / WRITE — 2026-08-25",
+      "url": "https://namara.jocarium.productions/cpp/write/2026-08-25",
+      "datePublished": "2026-08-25",
+      "dateModified": "2026-08-25",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C++ — joining variadic arguments with a separator via a fold expression" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C++ WRITE drill from 2026-08-25: write a variadic function template that prints its arguments comma-separated using a comma-operator fold expression, no loop or recursion."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/write/2026-08-25">C23</a>
+  <a href="/cpp/write/2026-08-25" class="active" aria-current="page">C++26</a>
+  <a href="/rust/write/2026-08-25">Rust 2024</a>
+  <a href="/haskell/write/2026-08-25">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/cpp/read/2026-08-25">READ</a>
+  <a href="/cpp/write/2026-08-25" class="active" aria-current="page">WRITE</a>
+  <a href="/cpp/debug/2026-08-25">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-25</h2>
+  <div class="code-frame">
+    <p class="code-filename">print_csv.cpp</p>
+    <pre class="code"><code>#include &lt;iostream&gt;
+
+template &lt;typename... Args&gt;
+void print_csv(const Args&amp;... args) {
+    // write this: print every argument separated by ", " (no trailing
+    // separator), using a fold expression — not a loop or recursion
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    <code>print_csv</code>を、畳み込み式を1つ使って実装してください。ループや再帰は使わないこと。
+  </p>
+
+  <details class="answer">
+    <summary>Reference</summary>
+    <div class="answer-body">
+      <pre class="code"><code>template &lt;typename... Args&gt;
+void print_csv(const Args&amp;... args) {
+    const char* sep = "";
+    ((std::cout &lt;&lt; sep &lt;&lt; args, sep = ", "), ...);
+    std::cout &lt;&lt; '\n';
+}
+</code></pre>
+      <p>
+        畳み込みの各要素は「区切りを出力してから引数を出力し、区切りを<code>", "</code>に更新する」という2つの動作をカンマ演算子でつないだ式です。カンマ演算子は常に左を先に評価すると決まっているので、パックの並び順どおりに実行されます。最初の要素だけ<code>sep</code>が空文字列なので、先頭に余計な区切りが付きません。これは参考実装であり、唯一の正解ではありません。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/cpp/write">Today</a></li>
+    <li><a href="/cpp/write/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C READ drill from 2026-08-25: a static-array cache makes recursive Fibonacci compute each value once, so a call counter counts only 8 computations instead of an exponential recursion tree.">
+<title>Namara — C / READ — 2026-08-25</title>
+<link rel="canonical" href="https://namara.jocarium.productions/c/read/2026-08-25">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C / READ", "item": "https://namara.jocarium.productions/c/read" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-25" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C / READ — 2026-08-25",
+      "url": "https://namara.jocarium.productions/c/read/2026-08-25",
+      "datePublished": "2026-08-25",
+      "dateModified": "2026-08-25",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C — recursive Fibonacci with a memoizing static array" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C READ drill from 2026-08-25: a static-array cache makes recursive Fibonacci compute each value once, so a call counter counts only 8 computations instead of an exponential recursion tree."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/read/2026-08-25" class="active" aria-current="page">C23</a>
+  <a href="/cpp/read/2026-08-25">C++26</a>
+  <a href="/rust/read/2026-08-25">Rust 2024</a>
+  <a href="/haskell/read/2026-08-25">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/c/read/2026-08-25" class="active" aria-current="page">READ</a>
+  <a href="/c/write/2026-08-25">WRITE</a>
+  <a href="/c/debug/2026-08-25">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-25</h2>
+  <div class="code-frame">
+    <p class="code-filename">fib_memo.c</p>
+    <pre class="code"><code>static int memo[10];
+static int calls = 0;
+
+int fib(int n) {
+    if (n &lt; 2)
+        return n;
+    if (memo[n] != -1)
+        return memo[n];
+    calls++;
+    return memo[n] = fib(n - 1) + fib(n - 2);
+}
+
+int main(void) {
+    for (int i = 0; i &lt; 10; i++)
+        memo[i] = -1;
+    int result = fib(9);
+    printf("%d %d\n", result, calls);
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    これは何を出力するでしょうか?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>34 8</code>(その後に改行)。<code>fib(2)</code>から<code>fib(9)</code>までの8個の値だけが<code>calls</code>を1つずつ増やして実際に計算されます。一度計算された値は<code>memo</code>配列に残るので、以降その<code>n</code>が再び必要になっても<code>calls</code>を増やさずキャッシュからそのまま返ります。メモ化なしで同じ再帰を書けば呼び出し回数は指数的に増えますが、静的配列でメモ化すると必要な計算はちょうど8回で済みます。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/c/read">Today</a></li>
+    <li><a href="/c/read/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

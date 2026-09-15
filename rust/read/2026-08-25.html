@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Rust READ drill from 2026-08-25: a trait method returning Self is called only on the concrete type, exactly what where Self: Sized allows while keeping the trait usable as dyn Shape.">
+<title>Namara — Rust / READ — 2026-08-25</title>
+<link rel="canonical" href="https://namara.jocarium.productions/rust/read/2026-08-25">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Rust / READ", "item": "https://namara.jocarium.productions/rust/read" },
+        { "@type": "ListItem", "position": 3, "name": "2026-08-25" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Rust / READ — 2026-08-25",
+      "url": "https://namara.jocarium.productions/rust/read/2026-08-25",
+      "datePublished": "2026-08-25",
+      "dateModified": "2026-08-25",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Rust — a dyn-compatible trait with one method excluded via Self: Sized" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Rust READ drill from 2026-08-25: a trait method returning Self is called only on the concrete type, exactly what where Self: Sized allows while keeping the trait usable as dyn Shape."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/read/2026-08-25">C23</a>
+  <a href="/cpp/read/2026-08-25">C++26</a>
+  <a href="/rust/read/2026-08-25" class="active" aria-current="page">Rust 2024</a>
+  <a href="/haskell/read/2026-08-25">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/rust/read/2026-08-25" class="active" aria-current="page">READ</a>
+  <a href="/rust/write/2026-08-25">WRITE</a>
+  <a href="/rust/debug/2026-08-25">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-08-25</h2>
+  <div class="code-frame">
+    <p class="code-filename">shape_dyn.rs</p>
+    <pre class="code"><code>trait Shape {
+    fn area(&amp;self) -&gt; f64;
+
+    fn describe(&amp;self) -&gt; String {
+        format!("area = {:.1}", self.area())
+    }
+
+    fn scaled(&amp;self, factor: f64) -&gt; Self
+    where
+        Self: Sized;
+}
+
+struct Square {
+    side: f64,
+}
+
+impl Shape for Square {
+    fn area(&amp;self) -&gt; f64 {
+        self.side * self.side
+    }
+
+    fn scaled(&amp;self, factor: f64) -&gt; Self {
+        Square { side: self.side * factor }
+    }
+}
+
+fn main() {
+    let big = Square { side: 3.0 }.scaled(2.0);
+    let shapes: Vec&lt;Box&lt;dyn Shape&gt;&gt; = vec![Box::new(big)];
+    for s in &amp;shapes {
+        println!("{}", s.describe());
+    }
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    これは何を出力するでしょうか?
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        <code>area = 36.0</code>(その後に改行)。<code>scaled</code>は<code>Self</code>を値で返すので、そのままでは<code>dyn Shape</code>にできません(オブジェクト安全ではありません)。<code>where Self: Sized</code>を付けると、その1メソッドだけを仮想関数テーブルから除外でき、トレイト自体は<code>dyn Shape</code>のままにできます。実際コード中でも<code>scaled</code>は<code>dyn Shape</code>経由ではなく具体型<code>Square</code>に対して直接呼んでいます。<code>side: 3.0</code>を<code>factor: 2.0</code>倍した<code>Square { side: 6.0 }</code>を<code>Box&lt;dyn Shape&gt;</code>に入れ、動的ディスパッチで<code>describe</code>(デフォルト実装)を呼ぶと、内部で<code>self.area()</code>が<code>Square</code>の実装に仮想的に解決され<code>36.0</code>になります。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/rust/read">Today</a></li>
+    <li><a href="/rust/read/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>
