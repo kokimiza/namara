@@ -9,8 +9,10 @@
 #            Cloudflare Pages deploys the push as usual. Claude never holds a
 #            token that can push.
 #
-# Setup: add an ANTHROPIC_API_KEY repository secret (or see the comment on
-# the claude-code-action step to use a Claude subscription token instead).
+# Setup: run `claude setup-token` locally (needs a Claude Pro/Max/Team/
+# Enterprise subscription) and add the printed token as the
+# CLAUDE_CODE_OAUTH_TOKEN repository secret. Runs count against that
+# subscription's usage limits instead of API credits.
 
 name: Namara daily
 
@@ -31,7 +33,10 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  CLAUDE_MODEL: claude-opus-5
+  # Sonnet is the Claude Code default on Pro. Opus also works on Pro, but
+  # writing and verifying 12 drills spends the subscription's usage limit
+  # much faster, and a run cut off by the limit publishes nothing.
+  CLAUDE_MODEL: claude-sonnet-5
 
 jobs:
   write:
@@ -127,11 +132,21 @@ jobs:
           rustup default stable
           rustc --version && clippy-driver --version
 
-      - name: Install GHC
+      # The ubuntu-24.04 image already ships GHCup and a recent GHC. Pinning a
+      # different version made haskell-actions/setup unpack and install GHC on
+      # every run (~2 minutes, plus an unused cabal). The drills are compiled
+      # with -XHaskell2010, so whichever recent GHC the image has will do; a
+      # fresh install is only the fallback if an image ever drops it.
+      - name: Use the runner's preinstalled GHC
         if: steps.plan.outputs.combos != ''
-        uses: haskell-actions/setup@v2
-        with:
-          ghc-version: "9.10"
+        run: |
+          echo "/usr/local/.ghcup/bin" >> "$GITHUB_PATH"
+          export PATH="/usr/local/.ghcup/bin:$PATH"
+          if ! command -v ghc > /dev/null; then
+            echo "::warning::no preinstalled GHC on this runner; installing the recommended one with ghcup"
+            ghcup install ghc recommended --set
+          fi
+          ghc --version
 
       - name: Install HLint
         if: steps.plan.outputs.combos != ''
@@ -141,9 +156,10 @@ jobs:
         if: steps.plan.outputs.combos != ''
         uses: anthropics/claude-code-action@v1
         with:
-          # To use a Claude subscription instead of an API key, replace this
-          # line with: claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Subscription token from `claude setup-token`. To bill API credits
+          # instead, replace this line with:
+          #   anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           # Claude needs no GitHub API access here; the read-only job token
           # avoids depending on the Claude GitHub App.
           github_token: ${{ github.token }}
