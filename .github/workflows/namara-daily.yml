@@ -1,0 +1,247 @@
+# Publishes one day's Namara drills (4 languages x READ/WRITE/DEBUG) without
+# a human in the loop. See doc/basic-design.md §9.2 for why it is shaped
+# like this.
+#
+#   write    (read-only token) picks topics with script/odai.sh, lets Claude
+#            Code write the pages with the namara-daily skill, then gates on
+#            script/verify.sh and hands the diff on as a patch.
+#   publish  (write token) applies that exact patch, commits and pushes;
+#            Cloudflare Pages deploys the push as usual. Claude never holds a
+#            token that can push.
+#
+# Setup: add an ANTHROPIC_API_KEY repository secret (or see the comment on
+# the claude-code-action step to use a Claude subscription token instead).
+
+name: Namara daily
+
+on:
+  schedule:
+    # 00:10 in Asia/Tokyo (15:10 UTC the day before). GitHub may start
+    # scheduled runs late; the date is computed when the run starts.
+    - cron: "10 15 * * *"
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Drill date, YYYY-MM-DD (empty: today in Asia/Tokyo)"
+        required: false
+        default: ""
+
+concurrency:
+  group: namara-daily
+  cancel-in-progress: false
+
+env:
+  CLAUDE_MODEL: claude-opus-5
+
+jobs:
+  write:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    permissions:
+      contents: read
+    outputs:
+      date: ${{ steps.plan.outputs.date }}
+      combos: ${{ steps.plan.outputs.combos }}
+      topics: ${{ steps.plan.outputs.topics }}
+      patch: ${{ steps.collect.outputs.patch }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Decide date, combos and topics
+        id: plan
+        env:
+          INPUT_DATE: ${{ inputs.date }}
+        run: |
+          set -euo pipefail
+          date="${INPUT_DATE:-$(TZ=Asia/Tokyo date +%Y-%m-%d)}"
+          [[ "$date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || { echo "::error::not a YYYY-MM-DD date: $date"; exit 1; }
+
+          # Published pages are never edited (doc/basic-design.md §7.1), so
+          # only combos without a page for this date are written.
+          combos=""
+          for lang in c cpp rust haskell; do
+            for type in read write debug; do
+              [ -e "$lang/$type/$date.html" ] || combos+="$lang/$type "
+            done
+          done
+          combos="${combos% }"
+
+          topics="$(./script/odai.sh)"
+          topic_of() { printf '%s\n' "$topics" | awk -F'\t' -v l="$1" '$1 == l { print $2 }'; }
+          verify_dir="$RUNNER_TEMP/namara-verify"
+          mkdir -p "$verify_dir"
+
+          {
+            echo "date=$date"
+            echo "combos=$combos"
+            echo "verify_dir=$verify_dir"
+            echo "topics<<NAMARA_EOF"
+            printf '%s\n' "$topics"
+            echo "NAMARA_EOF"
+            echo "prompt<<NAMARA_EOF"
+            cat <<PROMPT
+          /namara-daily 日付 $date で、次の組を作成する: $combos
+
+          お題は script/odai.sh が言語ごとに抽選済み。同じ言語の READ/WRITE/DEBUG は、このお題をそれぞれ別の切り口で扱う:
+          - C: $(topic_of c)
+          - C++: $(topic_of cpp)
+          - Rust: $(topic_of rust)
+          - Haskell: $(topic_of haskell)
+
+          これは GitHub Actions 上の非対話実行である(SKILL.md「非対話実行」を参照)。
+          - 検証用ソースは $verify_dir/{lang}/{type}/ に置き、次のコマンドが全件通るまで直す:
+            ./script/verify.sh $date $verify_dir $combos
+          - git 操作はしない。コミットと push は後続のジョブが行う。
+          - 上の組の日付ページと archive.html 以外のファイルは変更しない。
+          PROMPT
+            echo "NAMARA_EOF"
+          } >> "$GITHUB_OUTPUT"
+
+          {
+            echo "### Namara $date"
+            echo
+            if [ -z "$combos" ]; then
+              echo "All 12 pages for $date already exist; nothing to write."
+            else
+              echo "Combos: \`$combos\`"
+              echo
+              printf '%s\n' "$topics" | awk -F'\t' '{ printf "- **%s**: %s\n", $1, $2 }'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Install GCC 14 (C23 / C++26)
+        if: steps.plan.outputs.combos != ''
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends gcc-14 g++-14
+          # AddressSanitizer fails to start under the high mmap randomization
+          # of recent Ubuntu kernels.
+          sudo sysctl -w vm.mmap_rnd_bits=28
+
+      - name: Install Rust (stable, clippy)
+        if: steps.plan.outputs.combos != ''
+        run: |
+          rustup toolchain install stable --profile minimal --component clippy
+          rustup default stable
+          rustc --version && clippy-driver --version
+
+      - name: Install GHC
+        if: steps.plan.outputs.combos != ''
+        uses: haskell-actions/setup@v2
+        with:
+          ghc-version: "9.10"
+
+      - name: Install HLint
+        if: steps.plan.outputs.combos != ''
+        uses: haskell-actions/hlint-setup@v2
+
+      - name: Write drills with Claude Code (namara-daily skill)
+        if: steps.plan.outputs.combos != ''
+        uses: anthropics/claude-code-action@v1
+        with:
+          # To use a Claude subscription instead of an API key, replace this
+          # line with: claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Claude needs no GitHub API access here; the read-only job token
+          # avoids depending on the Claude GitHub App.
+          github_token: ${{ github.token }}
+          prompt: ${{ steps.plan.outputs.prompt }}
+          claude_args: >-
+            --model ${{ env.CLAUDE_MODEL }}
+            --max-turns 400
+            --add-dir ${{ steps.plan.outputs.verify_dir }}
+            --allowedTools "Read,Edit,Write,Glob,Grep,Bash(./script/content.sh:*),Bash(./script/verify.sh:*),Bash(ls:*),Bash(mkdir:*),Bash(cat:*),Bash(head:*),Bash(tail:*),Bash(sort:*),Bash(grep:*),Bash(gcc-14:*),Bash(g++-14:*),Bash(rustc:*),Bash(clippy-driver:*),Bash(ghc:*),Bash(hlint:*)"
+
+      # The gate. Claude is told to run this itself, but the result that
+      # counts is this step's, not the model's report.
+      - name: Verify
+        if: steps.plan.outputs.combos != ''
+        env:
+          DATE: ${{ steps.plan.outputs.date }}
+          COMBOS: ${{ steps.plan.outputs.combos }}
+          VERIFY_DIR: ${{ steps.plan.outputs.verify_dir }}
+        run: |
+          # shellcheck disable=SC2086 # COMBOS is a space-separated list
+          ./script/verify.sh "$DATE" "$VERIFY_DIR" $COMBOS
+
+      - name: Collect the patch
+        id: collect
+        if: steps.plan.outputs.combos != ''
+        env:
+          DATE: ${{ steps.plan.outputs.date }}
+          COMBOS: ${{ steps.plan.outputs.combos }}
+        run: |
+          set -euo pipefail
+          allowed=()
+          for pair in $COMBOS; do
+            allowed+=("$pair/$DATE.html" "$pair/archive.html")
+          done
+
+          # Anything else changed means the run went off-script: publish nothing.
+          unexpected="$(git status --porcelain --untracked-files=all | cut -c4- |
+            grep -vxF -f <(printf '%s\n' "${allowed[@]}") || true)"
+          if [ -n "$unexpected" ]; then
+            echo "::error::files outside this day's pages were changed:"
+            printf '%s\n' "$unexpected"
+            exit 1
+          fi
+
+          git add -- "${allowed[@]}"
+          if git diff --cached --quiet; then
+            echo "::error::verification passed but there is nothing to publish"
+            exit 1
+          fi
+          git diff --cached --stat
+          echo "patch=$(git diff --cached --binary | gzip -9 | base64 -w0)" >> "$GITHUB_OUTPUT"
+
+  publish:
+    needs: write
+    if: needs.write.outputs.patch != ''
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+
+      # main may have moved on while the drills were being written (e.g. a
+      # drill published by hand). The dated pages are new files and apply
+      # cleanly on any main; archive.html lines are not taken from the patch
+      # but re-inserted by script/content.sh into the current archive.html,
+      # which keeps the list newest-first instead of producing a merge
+      # conflict. If a dated page already exists on main, applying fails and
+      # nothing is published: published pages are never overwritten.
+      - name: Commit and push
+        env:
+          DATE: ${{ needs.write.outputs.date }}
+          COMBOS: ${{ needs.write.outputs.combos }}
+          TOPICS: ${{ needs.write.outputs.topics }}
+          PATCH: ${{ needs.write.outputs.patch }}
+        run: |
+          set -euo pipefail
+          patch_file="$RUNNER_TEMP/drills.patch"
+          printf '%s' "$PATCH" | base64 -d | gunzip > "$patch_file"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          for attempt in 1 2 3; do
+            git fetch --quiet origin main
+            git reset --quiet --hard origin/main
+            git apply --index --exclude='*/archive.html' "$patch_file"
+            # shellcheck disable=SC2086 # COMBOS is a space-separated list
+            ./script/content.sh new "$DATE" $COMBOS
+            git add -- */*/archive.html
+            git commit --quiet -F - <<MSG
+          ${DATE//-/}
+
+          Written by the namara-daily workflow (Claude Code, namara-daily skill)
+          and checked by script/verify.sh. Topics:
+          $(printf '%s\n' "$TOPICS" | sed 's/^/  /')
+          MSG
+            git push origin HEAD:main && exit 0
+            echo "push rejected (attempt $attempt); retrying on the new origin/main"
+          done
+          exit 1

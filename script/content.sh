@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 # Namara content-management script.
 #
-# This is a *local authoring aid*, not part of the deployed site. It never
-# runs on Cloudflare Pages and the site never depends on it — it only saves
-# the operator from hand-copying the same boilerplate (nav, JSON-LD, footer)
-# into a new file and a new archive.html line every day. The one thing it
-# deliberately does NOT do is invent the actual problem: code, question, and
-# answer stay a human editorial judgment (doc/basic-design.md §24), so `new`
-# always leaves those as clearly marked TODOs for you to fill in by hand.
+# This is an *authoring aid* (run locally or by the namara-daily workflow),
+# not part of the deployed site. It never runs on Cloudflare Pages and the
+# site never depends on it — it only replaces hand-copying the same
+# boilerplate (nav, JSON-LD, footer) into a new file and a new archive.html
+# line every day. The one thing it deliberately does NOT do is invent the
+# actual problem: code, question, and answer are written by the namara-daily
+# skill against the criteria in doc/requirements.md §11/§24, so `new` always
+# leaves those as clearly marked TODOs for the skill to fill in.
 #
 # Usage:
 #   script/content.sh new  [DATE] [LANG/TYPE ...]
