@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Haskell WRITE drill from 2026-09-12: write a running-maximum function by threading an immutable value through recursion, with no mutable variable at all.">
+<title>Namara — Haskell / WRITE — 2026-09-12</title>
+<link rel="canonical" href="https://namara.jocarium.productions/haskell/write/2026-09-12">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Haskell / WRITE", "item": "https://namara.jocarium.productions/haskell/write" },
+        { "@type": "ListItem", "position": 3, "name": "2026-09-12" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Haskell / WRITE — 2026-09-12",
+      "url": "https://namara.jocarium.productions/haskell/write/2026-09-12",
+      "datePublished": "2026-09-12",
+      "dateModified": "2026-09-12",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Haskell — threading an immutable value instead of mutating one" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Haskell WRITE drill from 2026-09-12: write a running-maximum function by threading an immutable value through recursion, with no mutable variable at all."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/write/2026-09-12">C23</a>
+  <a href="/cpp/write/2026-09-12">C++26</a>
+  <a href="/rust/write/2026-09-12">Rust 2024</a>
+  <a href="/haskell/write/2026-09-12" class="active" aria-current="page">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/haskell/read/2026-09-12">READ</a>
+  <a href="/haskell/write/2026-09-12" class="active" aria-current="page">WRITE</a>
+  <a href="/haskell/debug/2026-09-12">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-09-12</h2>
+  <div class="code-frame">
+    <p class="code-filename">RunningMax.hs</p>
+    <pre class="code"><code>runningMax :: [Int] -&gt; [Int]
+-- write this: return, for each position, the largest value seen
+-- up to and including it
+</code></pre>
+  </div>
+
+  <p class="question">
+    <code>[3, 1, 4, 1, 5]</code>から<code>[3, 3, 4, 4, 5]</code>を作るように、各位置までの最大値を並べた新しいリストを返す<code>runningMax</code>を実装してください。ミュータブルな変数を1つも使わずに書けます。
+  </p>
+
+  <details class="answer">
+    <summary>Reference</summary>
+    <div class="answer-body">
+      <pre class="code"><code>runningMax :: [Int] -&gt; [Int]
+runningMax [] = []
+runningMax (x : xs) = go x xs
+  where
+    go current [] = [current]
+    go current (y : ys) = current : go (max current y) ys
+</code></pre>
+      <p>
+        命令型の発想なら「これまでの最大値」を持つ変数を1つ用意して更新していくところですが、Haskellでは<code>go</code>の引数<code>current</code>そのものが「これまでの最大値」であり、次に進むたびに<code>max current y</code>という新しい値を次の呼び出しへ渡すだけです。同じ名前の入れ物を書き換えるのではなく、そのつど新しい不変な値を作って引き継いでいく——それが可変変数のいらない書き方です。これは参考実装であり、唯一の正解ではありません。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/haskell/write">Today</a></li>
+    <li><a href="/haskell/write/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

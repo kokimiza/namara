@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara C WRITE drill from 2026-09-12: write an inclusive sum-of-range function with a correctly bounded for loop.">
+<title>Namara — C / WRITE — 2026-09-12</title>
+<link rel="canonical" href="https://namara.jocarium.productions/c/write/2026-09-12">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "C / WRITE", "item": "https://namara.jocarium.productions/c/write" },
+        { "@type": "ListItem", "position": 3, "name": "2026-09-12" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "C / WRITE — 2026-09-12",
+      "url": "https://namara.jocarium.productions/c/write/2026-09-12",
+      "datePublished": "2026-09-12",
+      "dateModified": "2026-09-12",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "C — writing an inclusive range sum with a correct loop bound" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara C WRITE drill from 2026-09-12: write an inclusive sum-of-range function with a correctly bounded for loop."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/write/2026-09-12" class="active" aria-current="page">C23</a>
+  <a href="/cpp/write/2026-09-12">C++26</a>
+  <a href="/rust/write/2026-09-12">Rust 2024</a>
+  <a href="/haskell/write/2026-09-12">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/c/read/2026-09-12">READ</a>
+  <a href="/c/write/2026-09-12" class="active" aria-current="page">WRITE</a>
+  <a href="/c/debug/2026-09-12">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-09-12</h2>
+  <div class="code-frame">
+    <p class="code-filename">sum_range.c</p>
+    <pre class="code"><code>int sum_range(int lo, int hi) {
+    // write this: return the sum of every integer from lo through hi,
+    // inclusive (the caller guarantees lo &lt;= hi)
+}
+</code></pre>
+  </div>
+
+  <p class="question">
+    <code>lo</code>から<code>hi</code>まで(両端を含む)の整数の総和を返す<code>sum_range</code>を実装してください。ループの境界を1つずらすだけで、両端のどちらかが抜け落ちることに注意してください。
+  </p>
+
+  <details class="answer">
+    <summary>Reference</summary>
+    <div class="answer-body">
+      <pre class="code"><code>int sum_range(int lo, int hi) {
+    int total = 0;
+    for (int i = lo; i &lt;= hi; i++) {
+        total += i;
+    }
+    return total;
+}
+</code></pre>
+      <p>
+        「両端を含む」を素直に書くなら、終了条件は<code>i &lt; hi</code>ではなく<code>i &lt;= hi</code>です。<code>hi</code>自身をループの内側で足すか外側で別途足すかは実装者の自由なので、これは参考実装であり、唯一の正解ではありません。
+      </p>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/c/write">Today</a></li>
+    <li><a href="/c/write/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>

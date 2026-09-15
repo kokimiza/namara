@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="An archived Namara Haskell DEBUG drill from 2026-09-12: fix an attempt to reassign a let-bound value like a mutable variable, by reaching for an IORef instead.">
+<title>Namara — Haskell / DEBUG — 2026-09-12</title>
+<link rel="canonical" href="https://namara.jocarium.productions/haskell/debug/2026-09-12">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Namara", "item": "https://namara.jocarium.productions/" },
+        { "@type": "ListItem", "position": 2, "name": "Haskell / DEBUG", "item": "https://namara.jocarium.productions/haskell/debug" },
+        { "@type": "ListItem", "position": 3, "name": "2026-09-12" }
+      ]
+    },
+    {
+      "@type": ["TechArticle", "LearningResource"],
+      "headline": "Haskell / DEBUG — 2026-09-12",
+      "url": "https://namara.jocarium.productions/haskell/debug/2026-09-12",
+      "datePublished": "2026-09-12",
+      "dateModified": "2026-09-12",
+      "inLanguage": "ja",
+      "learningResourceType": "Practice problem",
+      "about": { "@type": "Thing", "name": "Haskell — reassigning a let binding instead of using an IORef" },
+      "author": { "@type": "Organization", "name": "Namara" },
+      "publisher": { "@type": "Organization", "name": "Namara" },
+      "isPartOf": { "@type": "WebSite", "name": "Namara", "url": "https://namara.jocarium.productions/" },
+      "description": "An archived Namara Haskell DEBUG drill from 2026-09-12: fix an attempt to reassign a let-bound value like a mutable variable, by reaching for an IORef instead."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <h1><a href="/">Namara</a></h1>
+  <p class="tagline">Code daily. Without assist.</p>
+</header>
+
+<nav class="lang-nav" aria-label="Language">
+  <a href="/c/debug/2026-09-12">C23</a>
+  <a href="/cpp/debug/2026-09-12">C++26</a>
+  <a href="/rust/debug/2026-09-12">Rust 2024</a>
+  <a href="/haskell/debug/2026-09-12" class="active" aria-current="page">Haskell 2010</a>
+</nav>
+
+<nav class="type-nav" aria-label="Exercise type">
+  <a href="/haskell/read/2026-09-12">READ</a>
+  <a href="/haskell/write/2026-09-12">WRITE</a>
+  <a href="/haskell/debug/2026-09-12" class="active" aria-current="page">DEBUG</a>
+</nav>
+
+<main>
+  <h2>2026-09-12</h2>
+  <div class="code-frame">
+    <p class="code-filename">Total.hs</p>
+    <pre class="code"><code>main :: IO ()
+main = do
+  let total = 0 :: Int
+  total = total + 10
+  total = total + 20
+  print total
+</code></pre>
+  </div>
+
+  <p class="question">
+    <code>10</code>と<code>20</code>を足し合わせて<code>30</code>を出力するつもりですが、これはコンパイルできません。原因を特定し、直してください。
+  </p>
+
+  <details class="answer">
+    <summary>Answer</summary>
+    <div class="answer-body">
+      <p>
+        原因は<code>total = total + 10</code>を、他の言語のような「変数への再代入」のつもりで書いていることです。Haskellの<code>let total = 0</code>は不変な束縛であり、<code>do</code>ブロックの中で<code>let</code>を伴わずに<code>=</code>だけを書いても代入文にはならず、構文エラーになります。ここで本当にやりたいのは「同じ入れ物を後から書き換える」ことなので、<code>Data.IORef</code>で明示的に可変な参照を作るのが直し方です。
+      </p>
+      <pre class="code"><code>import Data.IORef
+
+main :: IO ()
+main = do
+  totalRef &lt;- newIORef (0 :: Int)
+  modifyIORef' totalRef (+ 10)
+  modifyIORef' totalRef (+ 20)
+  total &lt;- readIORef totalRef
+  print total
+</code></pre>
+    </div>
+  </details>
+</main>
+
+<aside class="past">
+  <h2>Past</h2>
+  <ul class="past-list">
+    <li><a href="/haskell/debug">Today</a></li>
+    <li><a href="/haskell/debug/archive">Archive</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>A daily maintenance routine for programmers.</p>
+  <p><a href="https://github.com/kokimiza/namara/issues">Spot a mistake? Fix it on GitHub.</a></p>
+</footer>
+
+</div>
+</body>
+</html>
