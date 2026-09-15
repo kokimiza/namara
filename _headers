@@ -14,3 +14,11 @@
 
 /script/*
   X-Robots-Tag: noindex, nofollow
+
+# README.md and CLAUDE.md are repository documentation that also lands in the
+# build root.
+/README.md
+  X-Robots-Tag: noindex, nofollow
+
+/CLAUDE.md
+  X-Robots-Tag: noindex, nofollow
