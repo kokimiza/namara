@@ -148,6 +148,12 @@ jobs:
             --max-turns 400
             --add-dir ${{ steps.plan.outputs.verify_dir }}
             --allowedTools "Read,Edit,Write,Glob,Grep,Bash"
+            --disallowedTools "Agent"
+          # No subagents: in a non-interactive run the session ends as soon as
+          # the main turn does, and subagents still running in the background
+          # are killed with it. A run on 2026-09-17 handed all 12 drills to
+          # background agents, ended its turn "waiting for them", and left
+          # nothing but templates behind.
           # Bash is not narrowed to a command list. Writing a drill means
           # compiling and running code Claude just wrote, so a list never
           # limited what could run; it only made Claude give up when a needed
@@ -215,13 +221,25 @@ jobs:
           VERIFY_DIR: ${{ steps.plan.outputs.verify_dir }}
         run: |
           set -euo pipefail
-          allowed=()
+          allowed=() missing=()
           for pair in $COMBOS; do
             allowed+=("$pair/$DATE.html" "$pair/archive.html")
+            # One page at a time: `git add -N` with any missing path adds
+            # nothing at all, which silently dropped the pages that did exist.
+            if [ -f "$pair/$DATE.html" ]; then
+              git add -N -- "$pair/$DATE.html"
+            else
+              missing+=("$pair/$DATE.html")
+            fi
           done
+          # Fail here with the real reason instead of handing on a patch that
+          # check-patch.sh can only reject as "pages missing".
+          if [ "${#missing[@]}" -gt 0 ]; then
+            echo "::error::Claude Code did not write: ${missing[*]}"
+            exit 1
+          fi
           drop="$RUNNER_TEMP/namara-drop"
           mkdir -p "$drop"
-          git add -N -- "${allowed[@]}" 2> /dev/null || true
           git diff --no-ext-diff --no-color --no-renames -- "${allowed[@]}" > "$drop/drills.patch"
           [ -s "$drop/drills.patch" ] || { echo "::error::Claude Code produced no pages"; exit 1; }
           cp -R "$VERIFY_DIR" "$drop/verify"
