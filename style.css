@@ -40,11 +40,31 @@
 
   /* the slab: cool dark — code frames and the footer */
   --slab: #141a23;
+  --slab-bar: #1e2531;
   --slab-ink: #c9d4e2;
-  --slab-decl: #e8b86d;
   --slab-muted: #9aa7b8;
   --slab-rule: #29323f;
   --slab-accent: #7fb2e8;
+
+  /* syntax: token classes written by script/highlight.sh. Warm keywords
+     against the cool slab echo the page; every colour is >= 5:1 on --slab. */
+  --syn-kw: #f29e5c;
+  --syn-ty: #6fcfc0;
+  --syn-fn: #82aaff;
+  --syn-st: #a5d47f;
+  --syn-nu: #f2c46d;
+  --syn-cm: #7d8ba0;
+  --syn-pp: #e889b5;
+
+  /* the window title bar: its height, and the three lights drawn into it.
+     Each light is a 0.75rem-wide tile as tall as the bar with a circle
+     centred in it, so one layer list serves any element whose bar starts at
+     its top edge. */
+  --bar: 2.25rem;
+  --window-lights:
+    radial-gradient(circle 0.36rem, #ed6a5e calc(100% - 1px), transparent) 1rem 0 / 0.75rem var(--bar) no-repeat,
+    radial-gradient(circle 0.36rem, #f5bf4f calc(100% - 1px), transparent) 2.25rem 0 / 0.75rem var(--bar) no-repeat,
+    radial-gradient(circle 0.36rem, #61c554 calc(100% - 1px), transparent) 3.5rem 0 / 0.75rem var(--bar) no-repeat;
 
   /* the space scale — see the plan above */
   --s-unit: 0.5rem;
@@ -380,44 +400,70 @@ nav a.active {
   border-bottom-color: var(--accent);
 }
 
-/* ---------- code ----------
-   The slab carries its own edge, so it gets no border — a box inside a box is
-   one line too many. The file name is a caption inside the frame, divided by a
-   hairline rather than sat on a second background. */
+/* ---------- code: windows ----------
+   Every listing is a small window lying on the paper: a title bar with the
+   three lights, the file name centred in it, the code below. Listings with no
+   file name (the ones inside answers) get the same bar, empty, so both kinds
+   read as one object. The bar is painted with backgrounds rather than extra
+   elements — the markup belongs to published pages and stays as it is. */
+
+.code-frame,
+pre.code {
+  border-radius: 10px;
+  background-color: var(--slab);
+  color: var(--slab-ink);
+  color-scheme: dark;
+  /* rgb(20 26 35) is --slab: a tight edge, then a soft shadow on the paper */
+  box-shadow:
+    0 0 0 1px rgb(20 26 35 / 0.9),
+    0 1px 2px rgb(20 26 35 / 0.16),
+    0 14px 30px -16px rgb(20 26 35 / 0.55);
+}
 
 .code-frame {
   margin: 0 0 var(--s-block);
-  border-radius: 4px;
   overflow: hidden;
-  background: var(--slab);
-  color: var(--slab-ink);
-  color-scheme: dark;
 }
 
+/* The title bar. Symmetric side padding keeps the name centred on the window,
+   not on the space right of the lights. */
 .code-filename {
   margin: 0;
-  padding: 0.6rem 1.5rem;
+  padding: 0 4.75rem;
+  line-height: var(--bar);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--slab-muted);
+  background: var(--window-lights), var(--slab-bar);
   border-bottom: 1px solid var(--slab-rule);
+}
+
+/* A bare listing draws its own bar and hairline. Backgrounds of a scroll
+   container stay put while its content scrolls, so the bar does not slide
+   away with long lines. */
+pre.code {
+  margin: 0 0 var(--s-block);
+  padding: calc(var(--bar) + 1px + 1.2rem) 1.5rem 1.35rem;
+  background:
+    var(--window-lights),
+    linear-gradient(var(--slab-rule), var(--slab-rule)) 0 var(--bar) / 100% 1px no-repeat,
+    linear-gradient(var(--slab-bar), var(--slab-bar)) 0 0 / 100% var(--bar) no-repeat,
+    var(--slab);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-color: var(--slab-rule) transparent;
 }
 
 .code-frame pre.code {
   margin: 0;
+  padding: 1.2rem 1.5rem 1.35rem;
   border-radius: 0;
-}
-
-pre.code {
-  margin: 0 0 var(--s-block);
-  padding: 1.35rem 1.5rem;
-  background: var(--slab);
-  color: var(--slab-ink);
-  border-radius: 4px;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scrollbar-color: var(--slab-rule) transparent;
-  color-scheme: dark;
+  background: none;
+  box-shadow: none;
 }
 
 pre.code code {
@@ -428,19 +474,23 @@ pre.code code {
   tab-size: 4;
 }
 
-/* Pseudo highlighting. Real token colours need markup, and published pages are
-   never edited, so the stylesheet works with the one thing every listing has in
-   common: its first line is the header — #include, import, use, or the
-   signature of the function below it (fn …, void …, myMax :: …). Colour that
-   line, and the listing reads as declaration-then-body without a single span. */
-pre.code::first-line {
-  color: var(--slab-decl);
-}
-
 pre.code ::selection {
   background: var(--slab-accent);
   color: var(--slab);
 }
+
+/* ---------- syntax ---------- */
+
+pre.code .kw,
+pre.code .op { color: var(--syn-kw); }
+pre.code .ty { color: var(--syn-ty); }
+pre.code .lt { color: var(--syn-ty); font-style: italic; }
+pre.code .fn { color: var(--syn-fn); }
+pre.code .st { color: var(--syn-st); }
+pre.code .nu { color: var(--syn-nu); }
+pre.code .cm { color: var(--syn-cm); font-style: italic; }
+pre.code .pp,
+pre.code .mc { color: var(--syn-pp); }
 
 /* ---------- the question ----------
    The one thing on the page the reader has to sit with, so it gets the widest
@@ -486,7 +536,6 @@ details.answer summary::before {
   flex: none;
   font-size: 0.7em;
   color: var(--accent);
-  transition: transform 0.15s ease;
 }
 
 details.answer[open] summary::before {
@@ -600,8 +649,8 @@ footer a:hover {
 }
 
 /* ---------- narrow screens ----------
-   Tighter gutters, and code runs edge to edge: on a phone the 1.25rem the
-   frame would give back is worth more as columns of code than as margin. */
+   Tighter gutters. Code stays a window — running it edge to edge would cut
+   off the frame that makes it one — and wins its columns back from padding. */
 
 @media (max-width: 39.99rem) {
   .wrap,
@@ -612,9 +661,9 @@ footer a:hover {
     padding-top: 3rem;
   }
 
-  .code-frame {
-    margin-inline: calc(-1 * var(--gutter));
-    border-radius: 0;
+  pre.code,
+  .code-frame pre.code {
+    padding-inline: 1rem;
   }
 
   .masthead {
@@ -632,12 +681,4 @@ summary:focus-visible {
 
 footer a:focus-visible {
   outline-color: var(--slab-accent);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    transition-duration: 0.01ms !important;
-  }
 }
