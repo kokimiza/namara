@@ -1,30 +1,64 @@
 /* Namara — one stylesheet, shared by every page. No build step touches this file. */
 
-/* One fixed theme, not a light/dark pair. The page you read is warm and bright;
-   the things the machine says — code slabs and the footer — are cool and dark.
-   There is no switch and no client JS to run one (`script-src 'none'`), so what
-   the reader sees is exactly what is written below. */
+/* ---------- the plan ----------
+
+   Three typefaces, three jobs, and nothing crosses over:
+     serif   prose you read slowly — lede, question, answer
+     sans    labels that name a thing — exercise types, footer
+     mono    data — dates, file names, language versions, code
+
+   One fixed palette, not a light/dark pair. The page is warm paper; the
+   machine's voice — code frames and the footer — is a cool dark slab. There is
+   no switch and no client JS to run one (`script-src 'none'`).
+
+   Vertical space comes from one scale, and each step means one thing:
+     0.5rem   inside a unit      label to the thing it labels
+     1rem     between siblings   paragraph to paragraph
+     2rem     between blocks     code frame to question
+     3.5rem   between sections   nav row to the drill, question to answer
+     6rem     between movements  masthead to content, content to footer
+   A gap that is not on this list is a mistake, not a nuance.
+
+   The gap is always owned by the element below it. Flex and grid containers do
+   not collapse margins, so two elements that both claim the space between them
+   would silently add up; only one of them is allowed to claim it.
+
+   Horizontal structure is two rules and one column. A 2px rule closes the
+   masthead; hairlines mark every section head and run to the right edge of the
+   measure. Everything else hangs off the left edge of that column.
+*/
 
 :root {
   /* the page: warm paper */
   --bg: #fdfaf4;
-  --panel: #f2ebdd;
-  --ink: #1e1b16;
+  --panel: #f3ecde;
+  --ink: #1d1a15;
   --ink-muted: #6b6455;
-  --rule: #e2d9c8;
+  --rule: #e3dac9;
   --accent: #c2611a;
   --accent-strong: #9a4a12;
 
-  /* the slabs: cool dark, for code frames and the footer */
+  /* the slab: cool dark — code frames and the footer */
   --slab: #141a23;
-  --slab-head: #1c232e;
   --slab-ink: #dce4ef;
   --slab-muted: #9aa7b8;
   --slab-rule: #29323f;
   --slab-accent: #7fb2e8;
 
-  --font-body: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
-  --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* the space scale — see the plan above */
+  --s-unit: 0.5rem;
+  --s-sibling: 1rem;
+  --s-block: 2rem;
+  --s-section: 3.5rem;
+  --s-major: 6rem;
+
+  /* Latin first, then the Japanese face that matches it. Without the second
+     half the browser picks its own default for kana and the paragraph ends up
+     half serif, half gothic. */
+  --font-body: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+    "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
+  --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Hiragino Sans", "Noto Sans JP", sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 
   color-scheme: light;
@@ -46,11 +80,12 @@ h1, h2 {
 }
 
 p {
-  margin: 0 0 1rem;
+  margin: 0 0 var(--s-sibling);
   padding: 0;
 }
 
 html {
+  background: var(--bg);
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
@@ -62,35 +97,71 @@ a {
 
 /* ---------- base ---------- */
 
-html {
-  background: var(--bg);
-}
-
 body {
-  min-height: 100vh;
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-body);
   font-size: 1.0625rem;
-  line-height: 1.6;
+  line-height: 1.85;
+  line-break: strict;
   -webkit-font-smoothing: antialiased;
 }
 
-.wrap {
-  max-width: 40rem;
-  margin: 0 auto;
-  padding: 3.5rem 2rem 4.5rem;
+::selection {
+  background: var(--accent);
+  color: var(--bg);
 }
 
-/* ---------- page: exercise/archive layout (main + past pane) ---------- */
+/* ---------- containers ----------
+   Both containers reserve the full viewport height so the footer band always
+   lands at the bottom of short pages (404) instead of floating mid-screen. */
+
+.wrap,
+.page {
+  --gutter: 2rem;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: var(--s-major) var(--gutter) 0;
+}
+
+.wrap {
+  max-width: 36rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* One direction, one owner: nothing at page level carries a bottom margin. */
+.wrap > p {
+  margin-bottom: 0;
+}
+
+.wrap > p + p {
+  margin-top: var(--s-sibling);
+}
+
+.lede + p {
+  margin-top: var(--s-block);
+}
+
+.guide + p {
+  margin-top: var(--s-section);
+}
+
+main > :last-child {
+  margin-bottom: 0;
+}
+
+.wrap > footer {
+  margin-top: auto;
+}
+
+/* ---------- page: the drill layout (main + margin column) ---------- */
 
 .page {
-  max-width: 54rem;
-  margin: 0 auto;
-  padding: 3.5rem 2rem 4.5rem;
+  max-width: 58rem;
   display: grid;
-  gap: 0 2.5rem;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto auto 1fr auto auto;
   grid-template-areas:
     "header"
     "langnav"
@@ -100,159 +171,222 @@ body {
     "footer";
 }
 
-.page > header {
-  grid-area: header;
-}
+.page > header { grid-area: header; }
+.page > .lang-nav { grid-area: langnav; }
+.page > .type-nav { grid-area: typenav; }
+.page > main { grid-area: main; min-width: 0; }
+.page > .past { grid-area: past; margin-top: var(--s-section); }
+.page > footer { grid-area: footer; }
 
-.page > .lang-nav {
-  grid-area: langnav;
-}
+.page > .lang-nav { margin-bottom: var(--s-unit); }
+.page > .type-nav { margin-bottom: var(--s-section); }
 
-.page > .type-nav {
-  grid-area: typenav;
-}
-
-.page > main {
-  grid-area: main;
-  min-width: 0;
-}
-
-.page > .past {
-  grid-area: past;
-  margin-top: 2rem;
-}
-
-.page > footer {
-  grid-area: footer;
-}
-
-@media (min-width: 40rem) {
+@media (min-width: 52rem) {
   .page {
+    grid-template-columns: minmax(0, 1fr) 9rem;
+    grid-template-rows: auto auto 1fr auto;
+    column-gap: 3.5rem;
     align-items: start;
-    grid-template-columns: minmax(0, 1fr) 11rem;
     grid-template-areas:
       "header header"
-      "langnav langnav"
-      "typenav typenav"
-      "main    past"
-      "footer  footer";
+      "nav    nav"
+      "main   past"
+      "footer footer";
   }
 
+  /* Both navs share one row: languages left, exercise types right, sitting on
+     a common baseline despite being different sizes and different faces. */
+  .page > .lang-nav,
+  .page > .type-nav {
+    grid-area: nav;
+    align-self: baseline;
+    margin-bottom: var(--s-section);
+  }
+
+  .page > .lang-nav { justify-self: start; }
+  .page > .type-nav { justify-self: end; margin-right: -0.14em; } /* see .tagline */
+
   .page > .past {
+    position: sticky;
+    top: var(--s-block);
     margin-top: 0;
+    padding-left: 1.25rem;
+    border-left: 1px solid var(--rule);
   }
 
   .page:not(:has(.past)) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
       "header"
-      "langnav"
-      "typenav"
+      "nav"
       "main"
       "footer";
   }
 }
 
-/* ---------- masthead ---------- */
+/* ---------- masthead ----------
+   Name and tagline share a baseline, pushed to opposite ends of one line, and
+   a 2px rule closes the block — the only heavy rule on the page. */
 
 .masthead {
-  margin-bottom: 2.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-unit) 1.5rem;
+  padding-bottom: 0.7rem;
+  margin-bottom: var(--s-block);
+  border-bottom: 2px solid var(--ink);
 }
 
 .masthead h1 {
-  font-size: 1.75rem;
+  font-size: clamp(2rem, 1.3rem + 2.4vw, 2.75rem);
   font-weight: 400;
-  letter-spacing: 0.02em;
+  line-height: 1;
+  letter-spacing: -0.015em;
 }
 
 .masthead h1 a:hover {
   text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.12em;
   text-decoration-color: var(--accent);
 }
 
 .tagline {
-  margin: 0.35rem 0 0;
+  margin: 0;
   font-family: var(--font-ui);
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--accent-strong);
+  color: var(--ink-muted);
+  /* Tracked capitals carry a trailing space after the last letter. When the
+     line is set flush right, pull it back or the edge reads as ragged. */
+  margin-right: -0.18em;
+}
+
+/* ---------- section heads ----------
+   A label, then a hairline that runs out to the edge of the column. Used for
+   the date on a drill, "Archive", "Past", "Choose a drill" — every one of them
+   is a stamp on the page rather than a title above it. */
+
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 0 0 var(--s-sibling);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+h2::after {
+  content: "";
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--rule);
 }
 
 /* ---------- home (index.html) ---------- */
 
 .lede {
-  font-size: 1.1875rem;
-  line-height: 1.65;
+  max-width: 30rem;
+  font-size: 1.3125rem;
+  line-height: 1.6;
+  text-wrap: pretty;
 }
 
+/* The drill index reads as a table of contents: the language version holds a
+   fixed column on the left, the three types hang off it. */
 .guide {
-  margin: 2rem 0 2.5rem;
+  margin-top: var(--s-section);
 }
 
-/* ---------- navigation ---------- */
+.guide h2 {
+  margin-bottom: var(--s-unit);
+}
+
+.guide p {
+  margin: 0;
+  /* Uneven because the links inside carry an underline slot below the
+     baseline; this is what makes the rows optically evenly split. */
+  padding: 0.75rem 0 0.45rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.8125rem;
+  color: var(--ink-muted);
+}
+
+.guide p:last-of-type {
+  border-bottom: 1px solid var(--rule);
+}
+
+.guide strong {
+  display: inline-block;
+  min-width: 8rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+
+/* ---------- navigation ----------
+   Two rows of identical links read as one undifferentiated list, so the two
+   navs are told apart by face, not by position alone: language versions are
+   data (mono), exercise types are labels (tracked sans). */
 
 nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem 0.75rem;
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
+  align-items: baseline;
+  gap: 0.3rem 1.25rem;
 }
 
 .lang-nav {
-  margin-bottom: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
 }
 
-.type-nav {
-  margin-bottom: 2rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid var(--rule);
+.type-nav,
+.guide a {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
-nav a {
-  padding: 0.2rem 0.3rem;
+nav a,
+.guide a {
+  display: inline-block;
+  padding-bottom: 0.25rem;
   color: var(--ink-muted);
+  border-bottom: 2px solid transparent;
 }
 
-nav a::before {
-  content: "[";
-  margin-right: 0.15em;
-  color: var(--rule);
-}
-
-nav a::after {
-  content: "]";
-  margin-left: 0.15em;
-  color: var(--rule);
-}
-
-nav a:hover {
+nav a:hover,
+.guide a:hover {
   color: var(--ink);
+  border-bottom-color: var(--rule);
 }
 
 nav a.active {
-  color: var(--accent-strong);
-  font-weight: 700;
+  color: var(--ink);
+  border-bottom-color: var(--accent);
 }
 
-/* ---------- exercise ---------- */
-
-h2 {
-  font-family: var(--font-ui);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-muted);
-  margin: 0 0 0.5rem;
-}
+/* ---------- code ----------
+   The slab carries its own edge, so it gets no border — a box inside a box is
+   one line too many. The file name is a caption inside the frame, divided by a
+   hairline rather than sat on a second background. */
 
 .code-frame {
-  margin: 0 0 2rem;
-  border: 1px solid var(--slab-rule);
-  border-radius: 5px;
+  margin: 0 0 var(--s-block);
+  border-radius: 4px;
   overflow: hidden;
   background: var(--slab);
   color: var(--slab-ink);
@@ -261,59 +395,72 @@ h2 {
 
 .code-filename {
   margin: 0;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.5rem;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--slab-muted);
-  background: var(--slab-head);
   border-bottom: 1px solid var(--slab-rule);
 }
 
 .code-frame pre.code {
   margin: 0;
-  border: none;
   border-radius: 0;
 }
 
 pre.code {
-  margin: 0 0 2rem;
-  padding: 1.25rem 1.5rem;
+  margin: 0 0 var(--s-block);
+  padding: 1.35rem 1.5rem;
   background: var(--slab);
   color: var(--slab-ink);
-  border: 1px solid var(--slab-rule);
-  border-radius: 3px;
+  border-radius: 4px;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-color: var(--slab-rule) transparent;
   color-scheme: dark;
 }
 
 pre.code code {
   font-family: var(--font-mono);
-  font-size: 0.9rem;
-  line-height: 1.65;
+  font-size: 0.875rem;
+  line-height: 1.7;
   white-space: pre;
+  tab-size: 4;
 }
 
+pre.code ::selection {
+  background: var(--slab-accent);
+  color: var(--slab);
+}
+
+/* ---------- the question ----------
+   The one thing on the page the reader has to sit with, so it gets the widest
+   leading and the most air under it. */
+
 .question {
-  margin: 0 0 2.25rem;
-  font-size: 1.125rem;
-  line-height: 1.65;
-  max-width: 34rem;
+  margin: 0 0 var(--s-section);
+  max-width: 32rem;
+  font-size: 1.1875rem;
+  line-height: 1.95;
+  text-wrap: pretty;
 }
 
 /* ---------- answer ---------- */
 
 details.answer {
   border-top: 1px solid var(--rule);
-  padding-top: 1.5rem;
+  padding-top: var(--s-block);
 }
 
 details.answer summary {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
   cursor: pointer;
   list-style: none;
   font-family: var(--font-ui);
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent-strong);
 }
@@ -322,56 +469,65 @@ details.answer summary::-webkit-details-marker {
   display: none;
 }
 
+/* One glyph that turns, not two that swap: swapping ▸ for ▾ shifts every
+   letter after it by the difference in the two glyphs' widths. */
 details.answer summary::before {
   content: "\25b8";
-  display: inline-block;
-  margin-right: 0.5em;
+  flex: none;
+  font-size: 0.7em;
   color: var(--accent);
+  transition: transform 0.15s ease;
 }
 
 details.answer[open] summary::before {
-  content: "\25be";
+  transform: rotate(90deg);
 }
 
-details.answer summary:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
+details.answer summary::after {
+  content: "";
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--rule);
 }
 
+/* Indented to start where the word ANSWER starts, so the answer reads as
+   something said underneath the label rather than a new section. */
 .answer-body {
-  margin-top: 1rem;
-  font-size: 1.0625rem;
-  line-height: 1.65;
-  max-width: 34rem;
+  margin-top: var(--s-block);
+  padding-left: 1.55rem;
+  border-left: 1px solid var(--rule);
+  max-width: 32rem;
+  line-height: 1.95;
 }
 
 .answer-body pre.code {
-  margin-top: 0.75rem;
+  margin-top: var(--s-sibling);
 }
 
 .answer-body code {
   font-family: var(--font-mono);
-  font-size: 0.9em;
+  font-size: 0.85em;
   background: var(--panel);
-  padding: 0.1em 0.3em;
-  border-radius: 2px;
+  padding: 0.12em 0.34em;
+  border-radius: 3px;
 }
 
-/* ---------- past: the date pane, styled like a quiet changelog ---------- */
+/* ---------- past: the date column ---------- */
+
+.past {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 2;
+}
 
 .past h2 {
-  margin-bottom: 0.75rem;
+  margin-bottom: var(--s-unit);
 }
 
 .past-list {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
 }
 
 .past-list a {
@@ -380,25 +536,46 @@ details.answer summary:focus-visible {
 
 .past-list a:hover {
   color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
 }
 
-.past-list .current {
-  color: var(--accent-strong);
-  font-weight: 700;
+/* The same list is the whole body of an archive page, where one thin column of
+   dates would run off the bottom of the screen. Let it fill the measure. */
+main > .past-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+  gap: 0.4rem 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 2;
 }
 
-/* ---------- footer ---------- */
+/* ---------- footer ----------
+   A band, not a card: it bleeds out to the container edge and pins to the
+   bottom. The transparent top border is the 6rem gap above it — an outer
+   margin would be eaten by `margin-top: auto` on short pages. */
 
 footer {
-  margin-top: 4rem;
-  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-unit) var(--s-block);
+  margin-inline: calc(-1 * var(--gutter));
+  padding: var(--s-block) var(--gutter) var(--s-section);
+  border-top: var(--s-major) solid transparent;
   background: var(--slab);
-  border: 1px solid var(--slab-rule);
-  border-radius: 5px;
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
+  background-clip: padding-box;
   color: var(--slab-muted);
   color-scheme: dark;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  line-height: 1.7;
+}
+
+footer p {
+  margin: 0;
 }
 
 footer a {
@@ -407,28 +584,48 @@ footer a {
 
 footer a:hover {
   text-decoration: underline;
+  text-underline-offset: 0.22em;
 }
 
-footer p:last-child,
-.answer-body p:last-child {
-  margin-bottom: 0;
-}
+/* ---------- narrow screens ----------
+   Tighter gutters, and code runs edge to edge: on a phone the 1.25rem the
+   frame would give back is worth more as columns of code than as margin. */
 
 @media (max-width: 39.99rem) {
   .wrap,
   .page {
-    padding: 2.5rem 1.25rem 3.5rem;
+    --gutter: 1.25rem;
+    --s-major: 3.5rem;
+    --s-section: 2.5rem;
+    padding-top: 3rem;
+  }
+
+  .code-frame {
+    margin-inline: calc(-1 * var(--gutter));
+    border-radius: 0;
+  }
+
+  .masthead {
+    gap: 0.35rem;
   }
 }
 
 /* ---------- focus ---------- */
 
 a:focus-visible,
-nav a:focus-visible {
+summary:focus-visible {
   outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
 footer a:focus-visible {
   outline-color: var(--slab-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
 }
