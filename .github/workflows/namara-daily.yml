@@ -2,17 +2,24 @@
 # a human in the loop. See doc/basic-design.md §9.2 for why it is shaped
 # like this.
 #
-#   write    (read-only token) picks topics with script/odai.sh, lets Claude
-#            Code write the pages with the namara-daily skill, then gates on
-#            script/verify.sh and hands the diff on as a patch.
-#   publish  (write token) applies that exact patch, commits and pushes;
-#            Cloudflare Pages deploys the push as usual. Claude never holds a
-#            token that can push.
+#   write    Claude Code writes the pages with the namara-daily skill. It can
+#            run any command here, so nothing this job produces is trusted:
+#            it only hands on a patch and the verification sources.
+#   verify   A fresh runner that Claude never touched. Checks the patch with
+#            script/check-patch.sh (from main, not from the patch), applies
+#            it, and runs script/verify.sh. Read-only, no secrets.
+#   publish  Checks the patch again, applies it on the latest main, re-adds
+#            the archive.html lines, regenerates sitemap.xml, commits and
+#            pushes. The only job with a write token; runs no Claude and no
+#            drill code.
 #
 # Setup: run `claude setup-token` locally (needs a Claude Pro/Max/Team/
 # Enterprise subscription) and add the printed token as the
 # CLAUDE_CODE_OAUTH_TOKEN repository secret. Runs count against that
 # subscription's usage limits instead of API credits.
+#
+# Third-party actions are pinned to commit SHAs; .github/dependabot.yml
+# proposes updates.
 
 name: Namara daily
 
@@ -27,6 +34,8 @@ on:
         description: "Drill date, YYYY-MM-DD (empty: today in Asia/Tokyo)"
         required: false
         default: ""
+
+permissions: {}
 
 concurrency:
   group: namara-daily
@@ -48,12 +57,12 @@ jobs:
       date: ${{ steps.plan.outputs.date }}
       combos: ${{ steps.plan.outputs.combos }}
       topics: ${{ steps.plan.outputs.topics }}
-      patch: ${{ steps.collect.outputs.patch }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
 
+      # Runs before Claude, so these outputs can't be influenced by it.
       - name: Decide date, combos and topics
         id: plan
         env:
@@ -61,7 +70,8 @@ jobs:
         run: |
           set -euo pipefail
           date="${INPUT_DATE:-$(TZ=Asia/Tokyo date +%Y-%m-%d)}"
-          [[ "$date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || { echo "::error::not a YYYY-MM-DD date: $date"; exit 1; }
+          [[ "$date" =~ ^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$ ]] ||
+            { echo "::error::not a YYYY-MM-DD date: $date"; exit 1; }
 
           # Published pages are never edited (doc/basic-design.md §7.1), so
           # only combos without a page for this date are written.
@@ -116,46 +126,14 @@ jobs:
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Install GCC 14 (C23 / C++26)
+      - name: Install toolchains
         if: steps.plan.outputs.combos != ''
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends gcc-14 g++-14
-          # AddressSanitizer fails to start under the high mmap randomization
-          # of recent Ubuntu kernels.
-          sudo sysctl -w vm.mmap_rnd_bits=28
-
-      - name: Install Rust (stable, clippy)
-        if: steps.plan.outputs.combos != ''
-        run: |
-          rustup toolchain install stable --profile minimal --component clippy
-          rustup default stable
-          rustc --version && clippy-driver --version
-
-      # The ubuntu-24.04 image already ships GHCup and a recent GHC. Pinning a
-      # different version made haskell-actions/setup unpack and install GHC on
-      # every run (~2 minutes, plus an unused cabal). The drills are compiled
-      # with -XHaskell2010, so whichever recent GHC the image has will do; a
-      # fresh install is only the fallback if an image ever drops it.
-      - name: Use the runner's preinstalled GHC
-        if: steps.plan.outputs.combos != ''
-        run: |
-          echo "/usr/local/.ghcup/bin" >> "$GITHUB_PATH"
-          export PATH="/usr/local/.ghcup/bin:$PATH"
-          if ! command -v ghc > /dev/null; then
-            echo "::warning::no preinstalled GHC on this runner; installing the recommended one with ghcup"
-            ghcup install ghc recommended --set
-          fi
-          ghc --version
-
-      - name: Install HLint
-        if: steps.plan.outputs.combos != ''
-        uses: haskell-actions/hlint-setup@v2
+        uses: ./.github/actions/toolchains
 
       - name: Write drills with Claude Code (namara-daily skill)
         id: claude
         if: steps.plan.outputs.combos != ''
-        uses: anthropics/claude-code-action@v1
+        uses: anthropics/claude-code-action@bf38e86e58df9ebf3420326d019f955bb3be64dd # v1
         with:
           # Subscription token from `claude setup-token`. To bill API credits
           # instead, replace this line with:
@@ -171,25 +149,26 @@ jobs:
             --add-dir ${{ steps.plan.outputs.verify_dir }}
             --allowedTools "Read,Edit,Write,Glob,Grep,Bash"
           # Bash is not narrowed to a command list. Writing a drill means
-          # compiling and running code Claude just wrote (and verify.sh runs
-          # it anyway), so a list never contained what that code can do; it
-          # only made Claude give up when a needed command (running a built
-          # program, diff, cd ...) was denied. What keeps a run from doing
-          # harm is outside Claude's reach: this job's token is read-only,
-          # its input is only this repository's own files, and publishing is
-          # a separate job that takes nothing but the verified patch.
+          # compiling and running code Claude just wrote, so a list never
+          # limited what could run; it only made Claude give up when a needed
+          # command was denied. Instead, this whole job is treated as
+          # untrusted: its token is read-only, and the verify and publish
+          # jobs check everything it hands on with code it cannot change.
 
       # Claude's own messages stay hidden (show_full_output would print every
       # tool result into this public log). Print just enough to see why a run
-      # stopped: turns, denied tool calls, and Claude's final report.
+      # stopped. Workflow commands are switched off around the printed text,
+      # since it is written by Claude.
       - name: Summarize the Claude Code run
         if: always() && steps.claude.outcome != 'skipped'
         env:
           EXECUTION_FILE: ${{ steps.claude.outputs.execution_file }}
         run: |
           file="${EXECUTION_FILE:-$RUNNER_TEMP/claude-execution-output.json}"
-          [ -f "$file" ] || { echo "no execution file at $file"; exit 0; }
-          python3 - "$file" <<'PY'
+          stop="$(openssl rand -hex 16)"
+          echo "::stop-commands::$stop"
+          if [ -f "$file" ]; then
+            python3 - "$file" <<'PY'
           import json, sys
 
           text = open(sys.argv[1], encoding="utf-8").read()
@@ -214,64 +193,107 @@ jobs:
           print("\nfinal report:")
           print(str(r.get("result") or "(none)")[:4000])
           PY
+          else
+            echo "no execution file at $file"
+          fi
           echo
           echo "changed files:"
           git status --porcelain --untracked-files=all | head -50
           echo
           echo "verification sources:"
           find "$RUNNER_TEMP/namara-verify" -type f 2> /dev/null | sed "s|^$RUNNER_TEMP/namara-verify/||" | sort | head -80
+          echo "::$stop::"
 
-      # The gate. Claude is told to run this itself, but the result that
-      # counts is this step's, not the model's report.
-      - name: Verify
+      # Packages the result for the next job. Nothing here is a check — this
+      # job's environment may have been altered by what ran before — it only
+      # has to be convenient when the run went well.
+      - name: Package the patch and verification sources
         if: steps.plan.outputs.combos != ''
         env:
           DATE: ${{ steps.plan.outputs.date }}
           COMBOS: ${{ steps.plan.outputs.combos }}
           VERIFY_DIR: ${{ steps.plan.outputs.verify_dir }}
         run: |
-          # shellcheck disable=SC2086 # COMBOS is a space-separated list
-          ./script/verify.sh "$DATE" "$VERIFY_DIR" $COMBOS
-
-      - name: Collect the patch
-        id: collect
-        if: steps.plan.outputs.combos != ''
-        env:
-          DATE: ${{ steps.plan.outputs.date }}
-          COMBOS: ${{ steps.plan.outputs.combos }}
-        run: |
           set -euo pipefail
           allowed=()
           for pair in $COMBOS; do
             allowed+=("$pair/$DATE.html" "$pair/archive.html")
           done
+          drop="$RUNNER_TEMP/namara-drop"
+          mkdir -p "$drop"
+          git add -N -- "${allowed[@]}" 2> /dev/null || true
+          git diff --no-ext-diff --no-color --no-renames -- "${allowed[@]}" > "$drop/drills.patch"
+          [ -s "$drop/drills.patch" ] || { echo "::error::Claude Code produced no pages"; exit 1; }
+          cp -R "$VERIFY_DIR" "$drop/verify"
+          git diff --stat -- "${allowed[@]}"
 
-          # Anything else changed means the run went off-script: publish nothing.
-          unexpected="$(git status --porcelain --untracked-files=all | cut -c4- |
-            grep -vxF -f <(printf '%s\n' "${allowed[@]}") || true)"
-          if [ -n "$unexpected" ]; then
-            echo "::error::files outside this day's pages were changed:"
-            printf '%s\n' "$unexpected"
-            exit 1
-          fi
+      - name: Upload the patch and verification sources
+        if: steps.plan.outputs.combos != ''
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: namara-drop
+          path: ${{ runner.temp }}/namara-drop
+          if-no-files-found: error
+          retention-days: 3
 
-          git add -- "${allowed[@]}"
-          if git diff --cached --quiet; then
-            echo "::error::verification passed but there is nothing to publish"
-            exit 1
-          fi
-          git diff --cached --stat
-          echo "patch=$(git diff --cached --binary | gzip -9 | base64 -w0)" >> "$GITHUB_OUTPUT"
+  verify:
+    needs: write
+    if: needs.write.outputs.combos != ''
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - name: Download the patch and verification sources
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: namara-drop
+          path: ${{ runner.temp }}/namara-drop
+
+      - name: Check the patch
+        env:
+          DATE: ${{ needs.write.outputs.date }}
+          COMBOS: ${{ needs.write.outputs.combos }}
+        run: |
+          # shellcheck disable=SC2086 # COMBOS is a space-separated list
+          ./script/check-patch.sh "$DATE" "$RUNNER_TEMP/namara-drop/drills.patch" $COMBOS
+
+      - name: Apply the patch
+        run: git apply --index "$RUNNER_TEMP/namara-drop/drills.patch"
+
+      - name: Install toolchains
+        uses: ./.github/actions/toolchains
+
+      # The gate. Claude is told to run this in the write job too, but the
+      # result that counts is this one, on a runner Claude never touched.
+      - name: Verify
+        env:
+          DATE: ${{ needs.write.outputs.date }}
+          COMBOS: ${{ needs.write.outputs.combos }}
+        run: |
+          # shellcheck disable=SC2086 # COMBOS is a space-separated list
+          ./script/verify.sh "$DATE" "$RUNNER_TEMP/namara-drop/verify" $COMBOS
 
   publish:
-    needs: write
-    if: needs.write.outputs.patch != ''
+    needs: [write, verify]
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: main
+
+      - name: Download the patch
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: namara-drop
+          path: ${{ runner.temp }}/namara-drop
 
       # main may have moved on while the drills were being written (e.g. a
       # drill published by hand). The dated pages are new files and apply
@@ -280,16 +302,16 @@ jobs:
       # which keeps the list newest-first instead of producing a merge
       # conflict. If a dated page already exists on main, applying fails and
       # nothing is published: published pages are never overwritten.
+      # check-patch.sh and content.sh run from this checkout of main each
+      # time, never from the patch.
       - name: Commit and push
         env:
           DATE: ${{ needs.write.outputs.date }}
           COMBOS: ${{ needs.write.outputs.combos }}
           TOPICS: ${{ needs.write.outputs.topics }}
-          PATCH: ${{ needs.write.outputs.patch }}
         run: |
           set -euo pipefail
-          patch_file="$RUNNER_TEMP/drills.patch"
-          printf '%s' "$PATCH" | base64 -d | gunzip > "$patch_file"
+          patch_file="$RUNNER_TEMP/namara-drop/drills.patch"
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -297,15 +319,18 @@ jobs:
           for attempt in 1 2 3; do
             git fetch --quiet origin main
             git reset --quiet --hard origin/main
-            git apply --index --exclude='*/archive.html' "$patch_file"
             # shellcheck disable=SC2086 # COMBOS is a space-separated list
+            ./script/check-patch.sh "$DATE" "$patch_file" $COMBOS
+            git apply --index --exclude='*/archive.html' "$patch_file"
+            # shellcheck disable=SC2086
             ./script/content.sh new "$DATE" $COMBOS
-            git add -- */*/archive.html
+            ./script/sitemap.sh
+            git add -- */*/archive.html sitemap.xml
             git commit --quiet -F - <<MSG
           ${DATE//-/}
 
           Written by the namara-daily workflow (Claude Code, namara-daily skill)
-          and checked by script/verify.sh. Topics:
+          and checked by script/check-patch.sh and script/verify.sh. Topics:
           $(printf '%s\n' "$TOPICS" | sed 's/^/  /')
           MSG
             git push origin HEAD:main && exit 0

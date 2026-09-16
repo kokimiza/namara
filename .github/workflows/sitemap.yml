@@ -1,0 +1,61 @@
+# Keeps sitemap.xml in step with what is published.
+#
+# The daily workflow regenerates it in its own publish job, so this one is
+# for the other cases: a drill pushed by hand, and a page whose date was in
+# the future when it was published (script/sitemap.sh leaves those out until
+# the day arrives, because the middleware 404s them).
+#
+# Everything here is deterministic and reads only this repository: no Claude,
+# no artifacts from other jobs, no untrusted input. That is why this one may
+# commit directly.
+
+name: Sitemap
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "*/*/archive.html"
+      - "*/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].html"
+  schedule:
+    # 00:05 in Asia/Tokyo, before the daily drill run.
+    - cron: "5 15 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: namara-sitemap
+  cancel-in-progress: false
+
+jobs:
+  sitemap:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: main
+
+      - name: Regenerate sitemap.xml and push if it changed
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          for attempt in 1 2 3; do
+            git fetch --quiet origin main
+            git reset --quiet --hard origin/main
+            ./script/sitemap.sh
+            if git diff --quiet -- sitemap.xml; then
+              echo "sitemap.xml is already up to date"
+              exit 0
+            fi
+            git add -- sitemap.xml
+            git commit --quiet -m "sitemap: $(grep -c '<url>' sitemap.xml) URLs"
+            git push origin HEAD:main && exit 0
+            echo "push rejected (attempt $attempt); retrying on the new origin/main"
+          done
+          exit 1

@@ -1,0 +1,42 @@
+name: Namara toolchains
+description: >-
+  Installs the compilers and linters script/verify.sh uses: GCC 14 (C23 and
+  C++26), stable Rust with clippy, the runner's preinstalled GHC, and HLint.
+
+runs:
+  using: composite
+  steps:
+    - name: Install GCC 14 (C23 / C++26)
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y --no-install-recommends gcc-14 g++-14
+        # AddressSanitizer fails to start under the high mmap randomization
+        # of recent Ubuntu kernels.
+        sudo sysctl -w vm.mmap_rnd_bits=28
+
+    - name: Install Rust (stable, clippy)
+      shell: bash
+      run: |
+        rustup toolchain install stable --profile minimal --component clippy
+        rustup default stable
+        rustc --version && clippy-driver --version
+
+    # The ubuntu-24.04 image already ships GHCup and a recent GHC. Pinning a
+    # different version made haskell-actions/setup unpack and install GHC on
+    # every run (~2 minutes, plus an unused cabal). The drills are compiled
+    # with -XHaskell2010, so whichever recent GHC the image has will do; a
+    # fresh install is only the fallback if an image ever drops it.
+    - name: Use the runner's preinstalled GHC
+      shell: bash
+      run: |
+        echo "/usr/local/.ghcup/bin" >> "$GITHUB_PATH"
+        export PATH="/usr/local/.ghcup/bin:$PATH"
+        if ! command -v ghc > /dev/null; then
+          echo "::warning::no preinstalled GHC on this runner; installing the recommended one with ghcup"
+          ghcup install ghc recommended --set
+        fi
+        ghc --version
+
+    - name: Install HLint
+      uses: haskell-actions/hlint-setup@fe9cd1cd1af94a23900c06738e73f6ddb092966a # v2

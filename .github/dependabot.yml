@@ -1,0 +1,9 @@
+# Actions are pinned to commit SHAs in the workflows; this proposes the
+# updates so pinning doesn't mean never updating.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5

@@ -37,11 +37,14 @@ AIコーディングツールで仕事の生産性は上がった一方、自分
 
 ```text
 GitHub Actions(毎日 00:10 JST)
-  ├ script/odai.sh     お題の候補集から言語ごとにテーマを抽選
-  ├ Claude Code        namara-daily Skill で12問を書く
-  ├ script/verify.sh   コンパイル・実行・静的解析で答えを裏付ける(通らなければ公開しない)
-  └ commit & push   →  Cloudflare Pages が自動デプロイ
+  write   お題を抽選(script/odai.sh)し、Claude Code が namara-daily Skill で12問を書く
+  verify  Claudeが触っていない別のランナーで、パッチを検査(script/check-patch.sh)し、
+          コンパイル・実行・静的解析で答えを裏付ける(script/verify.sh)
+  publish 検査を通ったパッチだけを main に当て、sitemap.xml を作り直して push
+        →  Cloudflare Pages が自動デプロイ
 ```
+
+Claudeが動くジョブは読み取り権限しか持ちません。公開するのは、その出力を検査し直す別のジョブです。
 
 「問題を作る」側はAIを遠慮なく使い、「問題を解く」側だけが補助を外す、という分担です。問題の質は、毎日の人間の判断ではなく、文章として書き出した基準(要件定義・Skill・お題の候補集)と機械的な検証で保ちます。
 
@@ -67,8 +70,11 @@ functions/_middleware.js                     日付なしURLの解決・未来�
 script/content.sh                            問題ページの雛形生成とアーカイブへの追記
 script/verify.sh                             問題ページと検証用ソースの検証
 script/odai.sh                               お題の抽選
+script/check-patch.sh                        公開前のパッチ検査
+script/sitemap.sh                            sitemap.xml の生成
+sitemap.xml, robots.txt                      生成物と、その場所を示す1行
 .claude/skills/namara-daily/                 問題作成の手順(SKILL.md)とお題の候補集(odai.txt)
-.github/workflows/namara-daily.yml           定期実行ワークフロー
+.github/workflows/                           定期実行ワークフローと sitemap 追随
 doc/                                         要件定義・基本設計
 ```
 
@@ -88,6 +94,8 @@ Skillを使わずに手で書く場合は、次の順です。
 ```
 
 検証用ソースの置き方(`NAME.ok.rs` / `NAME.ng.rs` / `NAME.bug.rs` / `NAME.stdout`)は [script/verify.sh](script/verify.sh) の冒頭にあります。検証には上の表のツールが必要です。
+
+`sitemap.xml` は公開と同じ手順の中で作られます。手元で作り直すときは `./script/sitemap.sh`、最新かどうかだけ見るときは `./script/sitemap.sh --check` です。
 
 ## 定期実行のセットアップ
 
