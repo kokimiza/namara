@@ -64,11 +64,12 @@ READの答えの出力は実際の実行結果と照合し、「コンパイル�
 ```text
 index.html, style.css, 404.html, _headers   サイト本体
 {c,cpp,rust,haskell}/{read,write,debug}/
-  YYYY-MM-DD.html                            日付ごとの問題ページ(公開後は編集しない)
+  YYYY-MM-DD.html                            日付ごとの問題ページ(公開後は編集しない。ハイライトの付け直しだけは例外)
   archive.html                               その言語・種別の過去問一覧
 functions/_middleware.js                     日付なしURLの解決・未来日の404
 script/content.sh                            問題ページの雛形生成とアーカイブへの追記
 script/verify.sh                             問題ページと検証用ソースの検証
+script/highlight.sh                          コードのシンタックスハイライト
 script/odai.sh                               お題の抽選
 script/check-patch.sh                        公開前のパッチ検査
 script/sitemap.sh                            sitemap.xml の生成
@@ -90,6 +91,7 @@ Skillを使わずに手で書く場合は、次の順です。
 ```bash
 ./script/content.sh new 2026-09-20 rust/debug   # 雛形を作り、archive.html に1行追加
 # rust/debug/2026-09-20.html の TODO を埋め、検証用ソースを用意する
+./script/highlight.sh rust/debug/2026-09-20.html   # コードを直したら再実行
 ./script/verify.sh 2026-09-20 /path/to/verify-dir rust/debug
 ```
 
