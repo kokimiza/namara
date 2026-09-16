@@ -1,31 +1,33 @@
 /* Namara — one stylesheet, shared by every page. No build step touches this file. */
 
+/* One fixed theme, not a light/dark pair. The page you read is warm and bright;
+   the things the machine says — code slabs and the footer — are cool and dark.
+   There is no switch and no client JS to run one (`script-src 'none'`), so what
+   the reader sees is exactly what is written below. */
+
 :root {
-  --bg: #eeefea;
-  --panel: #e3e2d9;
-  --ink: #1b1a17;
-  --ink-muted: #5b5a54;
-  --rule: #d2d1c6;
-  --accent: #9c5e20;
-  --accent-strong: #7c4a19;
+  /* the page: warm paper */
+  --bg: #fdfaf4;
+  --panel: #f2ebdd;
+  --ink: #1e1b16;
+  --ink-muted: #6b6455;
+  --rule: #e2d9c8;
+  --accent: #c2611a;
+  --accent-strong: #9a4a12;
+
+  /* the slabs: cool dark, for code frames and the footer */
+  --slab: #141a23;
+  --slab-head: #1c232e;
+  --slab-ink: #dce4ef;
+  --slab-muted: #9aa7b8;
+  --slab-rule: #29323f;
+  --slab-accent: #7fb2e8;
 
   --font-body: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
   --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 
-  color-scheme: light dark;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #15130f;
-    --panel: #201c15;
-    --ink: #ece7da;
-    --ink-muted: #938d7b;
-    --rule: #332e25;
-    --accent: #d79a4b;
-    --accent-strong: #e8af63;
-  }
+  color-scheme: light;
 }
 
 /* ---------- reset ---------- */
@@ -175,7 +177,7 @@ body {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--ink-muted);
+  color: var(--accent-strong);
 }
 
 /* ---------- home (index.html) ---------- */
@@ -249,10 +251,12 @@ h2 {
 
 .code-frame {
   margin: 0 0 2rem;
-  border: 1px solid var(--rule);
+  border: 1px solid var(--slab-rule);
   border-radius: 5px;
   overflow: hidden;
-  background: var(--panel);
+  background: var(--slab);
+  color: var(--slab-ink);
+  color-scheme: dark;
 }
 
 .code-filename {
@@ -260,9 +264,9 @@ h2 {
   padding: 0.5rem 1rem;
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  color: var(--ink-muted);
-  background: var(--bg);
-  border-bottom: 1px solid var(--rule);
+  color: var(--slab-muted);
+  background: var(--slab-head);
+  border-bottom: 1px solid var(--slab-rule);
 }
 
 .code-frame pre.code {
@@ -274,10 +278,12 @@ h2 {
 pre.code {
   margin: 0 0 2rem;
   padding: 1.25rem 1.5rem;
-  background: var(--panel);
-  border: 1px solid var(--rule);
+  background: var(--slab);
+  color: var(--slab-ink);
+  border: 1px solid var(--slab-rule);
   border-radius: 3px;
   overflow-x: auto;
+  color-scheme: dark;
 }
 
 pre.code code {
@@ -385,9 +391,22 @@ details.answer summary:focus-visible {
 
 footer {
   margin-top: 4rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--slab);
+  border: 1px solid var(--slab-rule);
+  border-radius: 5px;
   font-family: var(--font-ui);
   font-size: 0.75rem;
-  color: var(--ink-muted);
+  color: var(--slab-muted);
+  color-scheme: dark;
+}
+
+footer a {
+  color: var(--slab-accent);
+}
+
+footer a:hover {
+  text-decoration: underline;
 }
 
 footer p:last-child,
@@ -408,4 +427,8 @@ a:focus-visible,
 nav a:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+footer a:focus-visible {
+  outline-color: var(--slab-accent);
 }
