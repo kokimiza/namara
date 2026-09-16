@@ -63,16 +63,16 @@
   <h2>2026-08-25</h2>
   <div class="code-frame">
     <p class="code-filename">is_prime_cached.c</p>
-    <pre class="code"><code>#include &lt;stdbool.h&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;stdbool.h&gt;</span>
 
-bool is_prime_slow(int n);
+<span class="ty">bool</span> <span class="fn">is_prime_slow</span>(<span class="ty">int</span> n);
 
-static bool computed[1000];
-static bool cache[1000];
+<span class="kw">static</span> <span class="ty">bool</span> computed[<span class="nu">1000</span>];
+<span class="kw">static</span> <span class="ty">bool</span> cache[<span class="nu">1000</span>];
 
-bool is_prime_cached(int n) {
-    // write this: return is_prime_slow(n), but compute it only once per n;
-    // a later call with the same n must reuse the cached result
+<span class="ty">bool</span> <span class="fn">is_prime_cached</span>(<span class="ty">int</span> n) {
+    <span class="cm">// write this: return is_prime_slow(n), but compute it only once per n;</span>
+    <span class="cm">// a later call with the same n must reuse the cached result</span>
 }
 </code></pre>
   </div>
@@ -84,12 +84,12 @@ bool is_prime_cached(int n) {
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>bool is_prime_cached(int n) {
-    if (!computed[n]) {
-        cache[n] = is_prime_slow(n);
-        computed[n] = true;
+      <pre class="code"><code><span class="ty">bool</span> <span class="fn">is_prime_cached</span>(<span class="ty">int</span> n) {
+    <span class="kw">if</span> (!computed[n]) {
+        cache[n] = <span class="fn">is_prime_slow</span>(n);
+        computed[n] = <span class="nu">true</span>;
     }
-    return cache[n];
+    <span class="kw">return</span> cache[n];
 }
 </code></pre>
       <p>

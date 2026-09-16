@@ -63,19 +63,19 @@
   <h2>2026-09-14</h2>
   <div class="code-frame">
     <p class="code-filename">temp_range.cpp</p>
-    <pre class="code"><code>#include &lt;iostream&gt;
-#include &lt;vector&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="st">&lt;vector&gt;</span>
 
-struct Box {
-    std::vector&lt;int&gt; v{1, 2, 3};
-    ~Box() { std::cout &lt;&lt; "~Box "; }
-    const std::vector&lt;int&gt;&amp; items() const { return v; }
+<span class="kw">struct</span> <span class="ty">Box</span> {
+    std::<span class="ty">vector</span>&lt;<span class="ty">int</span>&gt; v{<span class="nu">1</span>, <span class="nu">2</span>, <span class="nu">3</span>};
+    ~<span class="fn">Box</span>() { std::cout &lt;&lt; <span class="st">"~Box "</span>; }
+    <span class="kw">const</span> std::<span class="ty">vector</span>&lt;<span class="ty">int</span>&gt;&amp; <span class="fn">items</span>() <span class="kw">const</span> { <span class="kw">return</span> v; }
 };
 
-int main() {
-    for (int x : Box{}.items())
-        std::cout &lt;&lt; x &lt;&lt; ' ';
-    std::cout &lt;&lt; '\n';
+<span class="ty">int</span> <span class="fn">main</span>() {
+    <span class="kw">for</span> (<span class="ty">int</span> x : <span class="ty">Box</span>{}.<span class="fn">items</span>())
+        std::cout &lt;&lt; x &lt;&lt; <span class="st">' '</span>;
+    std::cout &lt;&lt; <span class="st">'\n'</span>;
 }
 </code></pre>
   </div>

@@ -63,11 +63,11 @@
   <h2>2026-09-13</h2>
   <div class="code-frame">
     <p class="code-filename">TreeInsert.hs</p>
-    <pre class="code"><code>data Tree a = Leaf | Node (Tree a) a (Tree a)
+    <pre class="code"><code><span class="kw">data</span> <span class="ty">Tree</span> a = <span class="ty">Leaf</span> | <span class="ty">Node</span> (<span class="ty">Tree</span> a) a (<span class="ty">Tree</span> a)
 
-insert :: Ord a =&gt; a -&gt; Tree a -&gt; Tree a
--- write this: insert x into the binary search tree;
--- if x is already there, return the tree unchanged
+<span class="fn">insert</span> <span class="op">::</span> <span class="ty">Ord</span> a <span class="op">=&gt;</span> a <span class="op">-&gt;</span> <span class="ty">Tree</span> a <span class="op">-&gt;</span> <span class="ty">Tree</span> a
+<span class="cm">-- write this: insert x into the binary search tree;</span>
+<span class="cm">-- if x is already there, return the tree unchanged</span>
 </code></pre>
   </div>
 
@@ -78,11 +78,11 @@ insert :: Ord a =&gt; a -&gt; Tree a -&gt; Tree a
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>insert :: Ord a =&gt; a -&gt; Tree a -&gt; Tree a
-insert x Leaf = Node Leaf x Leaf
-insert x t@(Node l y r)
-  | x &lt; y     = Node (insert x l) y r
-  | x &gt; y     = Node l y (insert x r)
+      <pre class="code"><code><span class="fn">insert</span> <span class="op">::</span> <span class="ty">Ord</span> a <span class="op">=&gt;</span> a <span class="op">-&gt;</span> <span class="ty">Tree</span> a <span class="op">-&gt;</span> <span class="ty">Tree</span> a
+<span class="fn">insert</span> x <span class="ty">Leaf</span> = <span class="ty">Node</span> <span class="ty">Leaf</span> x <span class="ty">Leaf</span>
+<span class="fn">insert</span> x t@(<span class="ty">Node</span> l y r)
+  | x &lt; y     = <span class="ty">Node</span> (insert x l) y r
+  | x &gt; y     = <span class="ty">Node</span> l y (insert x r)
   | otherwise = t
 </code></pre>
       <p>

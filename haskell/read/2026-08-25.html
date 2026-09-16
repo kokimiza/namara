@@ -63,12 +63,12 @@
   <h2>2026-08-25</h2>
   <div class="code-frame">
     <p class="code-filename">SizeOrder.hs</p>
-    <pre class="code"><code>import Data.List (sort)
+    <pre class="code"><code><span class="kw">import</span> <span class="ty">Data.List</span> (sort)
 
-data Size = Large | Medium | Small deriving (Eq, Ord, Show)
+<span class="kw">data</span> <span class="ty">Size</span> = <span class="ty">Large</span> | <span class="ty">Medium</span> | <span class="ty">Small</span> <span class="kw">deriving</span> (<span class="ty">Eq</span>, <span class="ty">Ord</span>, <span class="ty">Show</span>)
 
-main :: IO ()
-main = print (sort [Small, Large, Medium])
+<span class="fn">main</span> <span class="op">::</span> <span class="ty">IO</span> ()
+<span class="fn">main</span> = print (sort [<span class="ty">Small</span>, <span class="ty">Large</span>, <span class="ty">Medium</span>])
 </code></pre>
   </div>
 

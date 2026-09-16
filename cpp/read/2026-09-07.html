@@ -63,13 +63,13 @@
   <h2>2026-09-07</h2>
   <div class="code-frame">
     <p class="code-filename">rebind.cpp</p>
-    <pre class="code"><code>#include &lt;iostream&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;iostream&gt;</span>
 
-int main() {
-    int a = 1, b = 2;
-    int &amp;r = a;
+<span class="ty">int</span> <span class="fn">main</span>() {
+    <span class="ty">int</span> a = <span class="nu">1</span>, b = <span class="nu">2</span>;
+    <span class="ty">int</span> &amp;r = a;
     r = b;
-    std::cout &lt;&lt; a &lt;&lt; " " &lt;&lt; b &lt;&lt; " " &lt;&lt; (&amp;r == &amp;a) &lt;&lt; "\n";
+    std::cout &lt;&lt; a &lt;&lt; <span class="st">" "</span> &lt;&lt; b &lt;&lt; <span class="st">" "</span> &lt;&lt; (&amp;r == &amp;a) &lt;&lt; <span class="st">"\n"</span>;
 }
 </code></pre>
   </div>

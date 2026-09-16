@@ -63,20 +63,20 @@
   <h2>2026-09-13</h2>
   <div class="code-frame">
     <p class="code-filename">print_pairs.cpp</p>
-    <pre class="code"><code>#include &lt;iostream&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;iostream&gt;</span>
 
-void print_pairs() {
-    std::cout &lt;&lt; '\n';
+<span class="ty">void</span> <span class="fn">print_pairs</span>() {
+    std::cout &lt;&lt; <span class="st">'\n'</span>;
 }
 
-template &lt;class K, class V, class... Rest&gt;
-void print_pairs(const K&amp; key, const V&amp; value, const Rest&amp;... rest) {
-    std::cout &lt;&lt; key &lt;&lt; '=' &lt;&lt; value &lt;&lt; ';';
-    print_pairs(rest...);
+<span class="kw">template</span> &lt;<span class="kw">class</span> <span class="ty">K</span>, <span class="kw">class</span> <span class="ty">V</span>, <span class="kw">class</span>... <span class="ty">Rest</span>&gt;
+<span class="ty">void</span> <span class="fn">print_pairs</span>(<span class="kw">const</span> <span class="ty">K</span>&amp; key, <span class="kw">const</span> <span class="ty">V</span>&amp; value, <span class="kw">const</span> <span class="ty">Rest</span>&amp;... rest) {
+    std::cout &lt;&lt; key &lt;&lt; <span class="st">'='</span> &lt;&lt; value &lt;&lt; <span class="st">';'</span>;
+    <span class="fn">print_pairs</span>(rest...);
 }
 
-int main() {
-    print_pairs("x", 1, "y", 2.5);
+<span class="ty">int</span> <span class="fn">main</span>() {
+    <span class="fn">print_pairs</span>(<span class="st">"x"</span>, <span class="nu">1</span>, <span class="st">"y"</span>, <span class="nu">2.5</span>);
 }
 </code></pre>
   </div>

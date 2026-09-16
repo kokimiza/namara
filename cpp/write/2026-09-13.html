@@ -63,17 +63,17 @@
   <h2>2026-09-13</h2>
   <div class="code-frame">
     <p class="code-filename">is_palindrome.cpp</p>
-    <pre class="code"><code>#include &lt;string_view&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;string_view&gt;</span>
 
-constexpr bool is_palindrome(std::string_view s) {
-    // write this: true if s reads the same forwards and backwards
+<span class="kw">constexpr</span> <span class="ty">bool</span> <span class="fn">is_palindrome</span>(std::<span class="ty">string_view</span> s) {
+    <span class="cm">// write this: true if s reads the same forwards and backwards</span>
 }
 
-static_assert(is_palindrome(""));
-static_assert(is_palindrome("a"));
-static_assert(is_palindrome("level"));
-static_assert(is_palindrome("noon"));
-static_assert(!is_palindrome("namara"));
+<span class="kw">static_assert</span>(<span class="fn">is_palindrome</span>(<span class="st">""</span>));
+<span class="kw">static_assert</span>(<span class="fn">is_palindrome</span>(<span class="st">"a"</span>));
+<span class="kw">static_assert</span>(<span class="fn">is_palindrome</span>(<span class="st">"level"</span>));
+<span class="kw">static_assert</span>(<span class="fn">is_palindrome</span>(<span class="st">"noon"</span>));
+<span class="kw">static_assert</span>(!<span class="fn">is_palindrome</span>(<span class="st">"namara"</span>));
 </code></pre>
   </div>
 
@@ -84,9 +84,9 @@ static_assert(!is_palindrome("namara"));
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>constexpr bool is_palindrome(std::string_view s) {
-    return s.size() &lt; 2
-        || (s.front() == s.back() &amp;&amp; is_palindrome(s.substr(1, s.size() - 2)));
+      <pre class="code"><code><span class="kw">constexpr</span> <span class="ty">bool</span> <span class="fn">is_palindrome</span>(std::<span class="ty">string_view</span> s) {
+    <span class="kw">return</span> s.<span class="fn">size</span>() &lt; <span class="nu">2</span>
+        || (s.<span class="fn">front</span>() == s.<span class="fn">back</span>() &amp;&amp; <span class="fn">is_palindrome</span>(s.<span class="fn">substr</span>(<span class="nu">1</span>, s.<span class="fn">size</span>() - <span class="nu">2</span>)));
 }
 </code></pre>
       <p>

@@ -63,8 +63,8 @@
   <h2>2026-08-22</h2>
   <div class="code-frame">
     <p class="code-filename">MyElem.hs</p>
-    <pre class="code"><code>myElem :: Eq a =&gt; a -&gt; [a] -&gt; Bool
-myElem = undefined  -- write this
+    <pre class="code"><code><span class="fn">myElem</span> <span class="op">::</span> <span class="ty">Eq</span> a <span class="op">=&gt;</span> a <span class="op">-&gt;</span> [a] <span class="op">-&gt;</span> <span class="ty">Bool</span>
+<span class="fn">myElem</span> = undefined  <span class="cm">-- write this</span>
 </code></pre>
   </div>
 
@@ -75,9 +75,9 @@ myElem = undefined  -- write this
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>myElem :: Eq a =&gt; a -&gt; [a] -&gt; Bool
-myElem _ []     = False
-myElem x (y:ys) = x == y || myElem x ys
+      <pre class="code"><code><span class="fn">myElem</span> <span class="op">::</span> <span class="ty">Eq</span> a <span class="op">=&gt;</span> a <span class="op">-&gt;</span> [a] <span class="op">-&gt;</span> <span class="ty">Bool</span>
+<span class="fn">myElem</span> _ []     = <span class="ty">False</span>
+<span class="fn">myElem</span> x (y:ys) = x == y || myElem x ys
 </code></pre>
       <p>
         空リストには何も含まれないので<code>False</code>。それ以外の場合は、先頭要素と一致するか、または残りの部分に含まれるかを調べます。<code>||</code>は短絡評価なので、一致が見つかった時点でそれ以上リストを辿りません。これは参考実装であり、唯一の正解ではありません &mdash; 自分の実装と比較してみてください。

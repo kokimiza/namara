@@ -63,22 +63,22 @@
   <h2>2026-09-16</h2>
   <div class="code-frame">
     <p class="code-filename">ratio_add.cpp</p>
-    <pre class="code"><code>#include &lt;iostream&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;iostream&gt;</span>
 
-class Ratio {
-public:
-    Ratio(int n) : num(n), den(1) {}
-    Ratio(int n, int d) : num(n), den(d) {}
-    int num, den;
+<span class="kw">class</span> <span class="ty">Ratio</span> {
+<span class="kw">public</span>:
+    <span class="fn">Ratio</span>(<span class="ty">int</span> n) : <span class="fn">num</span>(n), <span class="fn">den</span>(<span class="nu">1</span>) {}
+    <span class="fn">Ratio</span>(<span class="ty">int</span> n, <span class="ty">int</span> d) : <span class="fn">num</span>(n), <span class="fn">den</span>(d) {}
+    <span class="ty">int</span> num, den;
 };
 
-Ratio add(Ratio a, Ratio b) {
-    return Ratio(a.num * b.den + b.num * a.den, a.den * b.den);
+<span class="ty">Ratio</span> <span class="fn">add</span>(<span class="ty">Ratio</span> a, <span class="ty">Ratio</span> b) {
+    <span class="kw">return</span> <span class="fn">Ratio</span>(a.num * b.den + b.num * a.den, a.den * b.den);
 }
 
-int main() {
-    Ratio r = add(3, Ratio(1, 2));
-    std::cout &lt;&lt; r.num &lt;&lt; '/' &lt;&lt; r.den &lt;&lt; '\n';
+<span class="ty">int</span> <span class="fn">main</span>() {
+    <span class="ty">Ratio</span> r = <span class="fn">add</span>(<span class="nu">3</span>, <span class="fn">Ratio</span>(<span class="nu">1</span>, <span class="nu">2</span>));
+    std::cout &lt;&lt; r.num &lt;&lt; <span class="st">'/'</span> &lt;&lt; r.den &lt;&lt; <span class="st">'\n'</span>;
 }
 </code></pre>
   </div>

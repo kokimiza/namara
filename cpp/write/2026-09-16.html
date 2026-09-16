@@ -63,12 +63,12 @@
   <h2>2026-09-16</h2>
   <div class="code-frame">
     <p class="code-filename">fahrenheit.cpp</p>
-    <pre class="code"><code>class Fahrenheit {
-public:
-    // write this: a constructor from a double (the degree value) that
-    // forbids `Fahrenheit t = 98.6;` (implicit conversion) while still
-    // allowing `Fahrenheit t(98.6);` and `Fahrenheit t{98.6};`
-    double degrees;
+    <pre class="code"><code><span class="kw">class</span> <span class="ty">Fahrenheit</span> {
+<span class="kw">public</span>:
+    <span class="cm">// write this: a constructor from a double (the degree value) that</span>
+    <span class="cm">// forbids `Fahrenheit t = 98.6;` (implicit conversion) while still</span>
+    <span class="cm">// allowing `Fahrenheit t(98.6);` and `Fahrenheit t{98.6};`</span>
+    <span class="ty">double</span> degrees;
 };
 </code></pre>
   </div>
@@ -80,10 +80,10 @@ public:
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>class Fahrenheit {
-public:
-    explicit Fahrenheit(double degrees) : degrees(degrees) {}
-    double degrees;
+      <pre class="code"><code><span class="kw">class</span> <span class="ty">Fahrenheit</span> {
+<span class="kw">public</span>:
+    <span class="kw">explicit</span> <span class="fn">Fahrenheit</span>(<span class="ty">double</span> degrees) : <span class="fn">degrees</span>(degrees) {}
+    <span class="ty">double</span> degrees;
 };
 </code></pre>
       <p>

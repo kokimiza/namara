@@ -63,10 +63,10 @@
   <h2>2026-09-07</h2>
   <div class="code-frame">
     <p class="code-filename">SwapRefs.hs</p>
-    <pre class="code"><code>import Data.IORef
+    <pre class="code"><code><span class="kw">import</span> <span class="ty">Data.IORef</span>
 
-swapRefs :: IORef a -&gt; IORef a -&gt; IO ()
-swapRefs r1 r2 = undefined -- write this: swap the values held by r1 and r2
+<span class="fn">swapRefs</span> <span class="op">::</span> <span class="ty">IORef</span> a <span class="op">-&gt;</span> <span class="ty">IORef</span> a <span class="op">-&gt;</span> <span class="ty">IO</span> ()
+<span class="fn">swapRefs</span> r1 r2 = undefined <span class="cm">-- write this: swap the values held by r1 and r2</span>
 </code></pre>
   </div>
 
@@ -77,10 +77,10 @@ swapRefs r1 r2 = undefined -- write this: swap the values held by r1 and r2
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>swapRefs :: IORef a -&gt; IORef a -&gt; IO ()
-swapRefs r1 r2 = do
-  v1 &lt;- readIORef r1
-  v2 &lt;- readIORef r2
+      <pre class="code"><code><span class="fn">swapRefs</span> <span class="op">::</span> <span class="ty">IORef</span> a <span class="op">-&gt;</span> <span class="ty">IORef</span> a <span class="op">-&gt;</span> <span class="ty">IO</span> ()
+<span class="fn">swapRefs</span> r1 r2 = <span class="kw">do</span>
+  v1 <span class="op">&lt;-</span> readIORef r1
+  v2 <span class="op">&lt;-</span> readIORef r2
   writeIORef r1 v2
   writeIORef r2 v1
 </code></pre>

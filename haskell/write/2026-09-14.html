@@ -63,10 +63,10 @@
   <h2>2026-09-14</h2>
   <div class="code-frame">
     <p class="code-filename">While.hs</p>
-    <pre class="code"><code>import Control.Monad (when)
+    <pre class="code"><code><span class="kw">import</span> <span class="ty">Control.Monad</span> (when)
 
-while :: IO Bool -&gt; IO () -&gt; IO ()
-while cond body = undefined -- write this: run body repeatedly while cond yields True
+<span class="fn">while</span> <span class="op">::</span> <span class="ty">IO</span> <span class="ty">Bool</span> <span class="op">-&gt;</span> <span class="ty">IO</span> () <span class="op">-&gt;</span> <span class="ty">IO</span> ()
+<span class="fn">while</span> cond body = undefined <span class="cm">-- write this: run body repeatedly while cond yields True</span>
 </code></pre>
   </div>
 
@@ -77,10 +77,10 @@ while cond body = undefined -- write this: run body repeatedly while cond yields
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>while :: IO Bool -&gt; IO () -&gt; IO ()
-while cond body = do
-  ok &lt;- cond
-  when ok $ do
+      <pre class="code"><code><span class="fn">while</span> <span class="op">::</span> <span class="ty">IO</span> <span class="ty">Bool</span> <span class="op">-&gt;</span> <span class="ty">IO</span> () <span class="op">-&gt;</span> <span class="ty">IO</span> ()
+<span class="fn">while</span> cond body = <span class="kw">do</span>
+  ok <span class="op">&lt;-</span> cond
+  when ok $ <span class="kw">do</span>
     body
     while cond body
 </code></pre>

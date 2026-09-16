@@ -63,8 +63,8 @@
   <h2>2026-09-15</h2>
   <div class="code-frame">
     <p class="code-filename">Describe.hs</p>
-    <pre class="code"><code>describe :: String -&gt; [(String, Int)] -&gt; String
-describe name ages = undefined -- write this: "adult" if found with age &gt;= 20, "minor" if found otherwise, "unknown" if not found
+    <pre class="code"><code><span class="fn">describe</span> <span class="op">::</span> <span class="ty">String</span> <span class="op">-&gt;</span> [(<span class="ty">String</span>, <span class="ty">Int</span>)] <span class="op">-&gt;</span> <span class="ty">String</span>
+<span class="fn">describe</span> name ages = undefined <span class="cm">-- write this: "adult" if found with age &gt;= 20, "minor" if found otherwise, "unknown" if not found</span>
 </code></pre>
   </div>
 
@@ -75,12 +75,12 @@ describe name ages = undefined -- write this: "adult" if found with age &gt;= 20
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>describe :: String -&gt; [(String, Int)] -&gt; String
-describe name ages
-  | Just age &lt;- found, age &gt;= 20 = "adult"
-  | Just _ &lt;- found = "minor"
-  | otherwise = "unknown"
-  where
+      <pre class="code"><code><span class="fn">describe</span> <span class="op">::</span> <span class="ty">String</span> <span class="op">-&gt;</span> [(<span class="ty">String</span>, <span class="ty">Int</span>)] <span class="op">-&gt;</span> <span class="ty">String</span>
+<span class="fn">describe</span> name ages
+  | <span class="ty">Just</span> age <span class="op">&lt;-</span> found, age &gt;= <span class="nu">20</span> = <span class="st">"adult"</span>
+  | <span class="ty">Just</span> _ <span class="op">&lt;-</span> found = <span class="st">"minor"</span>
+  | otherwise = <span class="st">"unknown"</span>
+  <span class="kw">where</span>
     found = lookup name ages
 </code></pre>
       <p>

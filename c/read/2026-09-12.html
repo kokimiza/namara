@@ -63,16 +63,16 @@
   <h2>2026-09-12</h2>
   <div class="code-frame">
     <p class="code-filename">subtotal.c</p>
-    <pre class="code"><code>#include &lt;stdio.h&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;stdio.h&gt;</span>
 
-int main(void) {
-    int prices[6] = {3, 6, 9, 12, 15, 18};
-    int subtotal = 0;
-    for (int i = 0; i &lt;= 4; i++) {
+<span class="ty">int</span> <span class="fn">main</span>(<span class="ty">void</span>) {
+    <span class="ty">int</span> prices[<span class="nu">6</span>] = {<span class="nu">3</span>, <span class="nu">6</span>, <span class="nu">9</span>, <span class="nu">12</span>, <span class="nu">15</span>, <span class="nu">18</span>};
+    <span class="ty">int</span> subtotal = <span class="nu">0</span>;
+    <span class="kw">for</span> (<span class="ty">int</span> i = <span class="nu">0</span>; i &lt;= <span class="nu">4</span>; i++) {
         subtotal += prices[i];
     }
-    printf("%d\n", subtotal);
-    return 0;
+    <span class="fn">printf</span>(<span class="st">"%d\n"</span>, subtotal);
+    <span class="kw">return</span> <span class="nu">0</span>;
 }
 </code></pre>
   </div>

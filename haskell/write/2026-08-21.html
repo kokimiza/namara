@@ -63,8 +63,8 @@
   <h2>2026-08-21</h2>
   <div class="code-frame">
     <p class="code-filename">MyLength.hs</p>
-    <pre class="code"><code>myLength :: [a] -&gt; Int
-myLength = undefined  -- write this
+    <pre class="code"><code><span class="fn">myLength</span> <span class="op">::</span> [a] <span class="op">-&gt;</span> <span class="ty">Int</span>
+<span class="fn">myLength</span> = undefined  <span class="cm">-- write this</span>
 </code></pre>
   </div>
 
@@ -75,9 +75,9 @@ myLength = undefined  -- write this
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>myLength :: [a] -&gt; Int
-myLength []     = 0
-myLength (_:xs) = 1 + myLength xs
+      <pre class="code"><code><span class="fn">myLength</span> <span class="op">::</span> [a] <span class="op">-&gt;</span> <span class="ty">Int</span>
+<span class="fn">myLength</span> []     = <span class="nu">0</span>
+<span class="fn">myLength</span> (_:xs) = <span class="nu">1</span> + myLength xs
 </code></pre>
       <p>
         ケースごとに1つの等式を書きます。空リストの長さは0、空でないリストの長さはその先頭を除いた残り(tail)の長さに1を足したものです。

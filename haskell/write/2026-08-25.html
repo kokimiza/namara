@@ -63,9 +63,9 @@
   <h2>2026-08-25</h2>
   <div class="code-frame">
     <p class="code-filename">Version.hs</p>
-    <pre class="code"><code>-- write this: a record type named Version with fields major, minor, patch
--- (all Int, in that order), deriving Eq, Ord, and Show, so that comparing
--- two Versions compares major first, then minor, then patch
+    <pre class="code"><code><span class="cm">-- write this: a record type named Version with fields major, minor, patch</span>
+<span class="cm">-- (all Int, in that order), deriving Eq, Ord, and Show, so that comparing</span>
+<span class="cm">-- two Versions compares major first, then minor, then patch</span>
 </code></pre>
   </div>
 
@@ -76,8 +76,8 @@
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>data Version = Version { major :: Int, minor :: Int, patch :: Int }
-  deriving (Eq, Ord, Show)
+      <pre class="code"><code><span class="kw">data</span> <span class="ty">Version</span> = <span class="ty">Version</span> { major <span class="op">::</span> <span class="ty">Int</span>, minor <span class="op">::</span> <span class="ty">Int</span>, patch <span class="op">::</span> <span class="ty">Int</span> }
+  <span class="kw">deriving</span> (<span class="ty">Eq</span>, <span class="ty">Ord</span>, <span class="ty">Show</span>)
 </code></pre>
       <p>
         レコードに対してderiveされた<code>Ord</code>は、フィールドを宣言した順に左から辞書式に比較します。<code>major</code>、<code>minor</code>、<code>patch</code>の順でフィールドを書けば、それがそのままセマンティックバージョニングの比較順序になり、<code>compare</code>を自分で書く必要がありません。これは参考実装であり、唯一の正解ではありません。

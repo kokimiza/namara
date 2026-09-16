@@ -63,17 +63,17 @@
   <h2>2026-09-13</h2>
   <div class="code-frame">
     <p class="code-filename">free_tree.c</p>
-    <pre class="code"><code>#include &lt;stdlib.h&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;stdlib.h&gt;</span>
 
-struct node {
-    int value;
-    struct node *left;
-    struct node *right;
+<span class="kw">struct</span> <span class="ty">node</span> {
+    <span class="ty">int</span> value;
+    <span class="kw">struct</span> <span class="ty">node</span> *left;
+    <span class="kw">struct</span> <span class="ty">node</span> *right;
 };
 
-void free_tree(struct node *t) {
-    // write this: free every node of the tree rooted at t
-    // (t may be NULL, meaning an empty tree)
+<span class="ty">void</span> <span class="fn">free_tree</span>(<span class="kw">struct</span> <span class="ty">node</span> *t) {
+    <span class="cm">// write this: free every node of the tree rooted at t</span>
+    <span class="cm">// (t may be NULL, meaning an empty tree)</span>
 }
 </code></pre>
   </div>
@@ -85,12 +85,12 @@ void free_tree(struct node *t) {
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>void free_tree(struct node *t) {
-    if (t == NULL)
-        return;
-    free_tree(t-&gt;left);
-    free_tree(t-&gt;right);
-    free(t);
+      <pre class="code"><code><span class="ty">void</span> <span class="fn">free_tree</span>(<span class="kw">struct</span> <span class="ty">node</span> *t) {
+    <span class="kw">if</span> (t == <span class="nu">NULL</span>)
+        <span class="kw">return</span>;
+    <span class="fn">free_tree</span>(t-&gt;left);
+    <span class="fn">free_tree</span>(t-&gt;right);
+    <span class="fn">free</span>(t);
 }
 </code></pre>
       <p>

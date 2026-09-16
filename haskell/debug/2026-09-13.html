@@ -63,9 +63,9 @@
   <h2>2026-09-13</h2>
   <div class="code-frame">
     <p class="code-filename">Evens.hs</p>
-    <pre class="code"><code>evens :: [Int] -&gt; [Int]
-evens = go []
-  where
+    <pre class="code"><code><span class="fn">evens</span> <span class="op">::</span> [<span class="ty">Int</span>] <span class="op">-&gt;</span> [<span class="ty">Int</span>]
+<span class="fn">evens</span> = go []
+  <span class="kw">where</span>
     go acc [] = reverse acc
     go acc (x:xs)
       | even x    = go (x : acc) xs
@@ -83,9 +83,9 @@ evens = go []
       <p>
         アキュムレータ付きの末尾再帰は、入力の<code>[]</code>に到達して<code>reverse acc</code>を返すまで、結果のリストを1要素も渡せません。<code>take 3</code>が最初の要素を要求しても、<code>go</code>は無限リストを最後まで読もうとして<code>acc</code>を伸ばし続けるだけです。正格評価の言語ではアキュムレータ付きの末尾再帰が定番の形ですが、遅延評価のHaskellでリストを作るなら、見つけた要素を<code>:</code>で先に返し、残りの再帰はその後ろに置く形(ガード付き再帰)にします:
       </p>
-      <pre class="code"><code>evens :: [Int] -&gt; [Int]
-evens [] = []
-evens (x:xs)
+      <pre class="code"><code><span class="fn">evens</span> <span class="op">::</span> [<span class="ty">Int</span>] <span class="op">-&gt;</span> [<span class="ty">Int</span>]
+<span class="fn">evens</span> [] = []
+<span class="fn">evens</span> (x:xs)
   | even x    = x : evens xs
   | otherwise = evens xs
 </code></pre>

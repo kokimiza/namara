@@ -63,16 +63,16 @@
   <h2>2026-09-15</h2>
   <div class="code-frame">
     <p class="code-filename">guard_or.rs</p>
-    <pre class="code"><code>fn label(n: u32, verbose: bool) -&gt; &amp;'static str {
-    match n {
-        0 | 1 if verbose =&gt; "tiny",
-        0 =&gt; "zero",
-        _ =&gt; "many",
+    <pre class="code"><code><span class="kw">fn</span> <span class="fn">label</span>(n: <span class="ty">u32</span>, verbose: <span class="ty">bool</span>) -&gt; &amp;<span class="lt">'static</span> <span class="ty">str</span> {
+    <span class="kw">match</span> n {
+        <span class="nu">0</span> | <span class="nu">1</span> <span class="kw">if</span> verbose =&gt; <span class="st">"tiny"</span>,
+        <span class="nu">0</span> =&gt; <span class="st">"zero"</span>,
+        _ =&gt; <span class="st">"many"</span>,
     }
 }
 
-fn main() {
-    println!("{} {} {}", label(0, false), label(1, false), label(1, true));
+<span class="kw">fn</span> <span class="fn">main</span>() {
+    <span class="mc">println!</span>(<span class="st">"{} {} {}"</span>, <span class="fn">label</span>(<span class="nu">0</span>, <span class="nu">false</span>), <span class="fn">label</span>(<span class="nu">1</span>, <span class="nu">false</span>), <span class="fn">label</span>(<span class="nu">1</span>, <span class="nu">true</span>));
 }
 </code></pre>
   </div>

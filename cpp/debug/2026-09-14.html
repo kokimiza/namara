@@ -63,15 +63,15 @@
   <h2>2026-09-14</h2>
   <div class="code-frame">
     <p class="code-filename">key_ptrs.cpp</p>
-    <pre class="code"><code>#include &lt;map&gt;
-#include &lt;string&gt;
-#include &lt;vector&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;map&gt;</span>
+<span class="pp">#include</span> <span class="st">&lt;string&gt;</span>
+<span class="pp">#include</span> <span class="st">&lt;vector&gt;</span>
 
-std::vector&lt;const std::string*&gt; key_ptrs(const std::map&lt;std::string, int&gt;&amp; m) {
-    std::vector&lt;const std::string*&gt; out;
-    for (const std::pair&lt;std::string, int&gt;&amp; kv : m)
-        out.push_back(&amp;kv.first);
-    return out;
+std::<span class="ty">vector</span>&lt;<span class="kw">const</span> std::<span class="ty">string</span>*&gt; <span class="fn">key_ptrs</span>(<span class="kw">const</span> std::<span class="ty">map</span>&lt;std::<span class="ty">string</span>, <span class="ty">int</span>&gt;&amp; m) {
+    std::<span class="ty">vector</span>&lt;<span class="kw">const</span> std::<span class="ty">string</span>*&gt; out;
+    <span class="kw">for</span> (<span class="kw">const</span> std::<span class="ty">pair</span>&lt;std::<span class="ty">string</span>, <span class="ty">int</span>&gt;&amp; kv : m)
+        out.<span class="fn">push_back</span>(&amp;kv.first);
+    <span class="kw">return</span> out;
 }
 </code></pre>
   </div>
@@ -86,8 +86,8 @@ std::vector&lt;const std::string*&gt; key_ptrs(const std::map&lt;std::string, in
       <p>
         <code>std::map&lt;std::string, int&gt;</code>の要素型は<code>std::pair&lt;const std::string, int&gt;</code>で、ループ変数の<code>std::pair&lt;std::string, int&gt;</code>とはキーの<code>const</code>の有無だけ違う、別の型です。<code>const</code>参照は変換で作られた一時オブジェクトにも束縛できるため、反復のたびに要素のコピーが作られ、<code>kv</code>はそのコピーを指します。コピーはその反復の終わりで破棄されるので、集めたポインタはすべてダングリングです。要素型をそのまま受ければ直ります:
       </p>
-      <pre class="code"><code>for (const auto&amp; kv : m)
-    out.push_back(&amp;kv.first);
+      <pre class="code"><code><span class="kw">for</span> (<span class="kw">const</span> <span class="kw">auto</span>&amp; kv : m)
+    out.<span class="fn">push_back</span>(&amp;kv.first);
 </code></pre>
     </div>
   </details>

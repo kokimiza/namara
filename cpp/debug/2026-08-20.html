@@ -63,12 +63,12 @@
   <h2>2026-08-20</h2>
   <div class="code-frame">
     <p class="code-filename">remove_negatives.cpp</p>
-    <pre class="code"><code>#include &lt;vector&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;vector&gt;</span>
 
-void remove_negatives(std::vector&lt;int&gt;&amp; v) {
-    for (auto it = v.begin(); it != v.end(); ++it) {
-        if (*it &lt; 0) {
-            v.erase(it);
+<span class="ty">void</span> <span class="fn">remove_negatives</span>(std::<span class="ty">vector</span>&lt;<span class="ty">int</span>&gt;&amp; v) {
+    <span class="kw">for</span> (<span class="kw">auto</span> it = v.<span class="fn">begin</span>(); it != v.<span class="fn">end</span>(); ++it) {
+        <span class="kw">if</span> (*it &lt; <span class="nu">0</span>) {
+            v.<span class="fn">erase</span>(it);
         }
     }
 }
@@ -85,9 +85,9 @@ void remove_negatives(std::vector&lt;int&gt;&amp; v) {
       <p>
         <code>v.erase(it)</code>は<code>it</code>を無効化します。その後ループの<code>++it</code>は無効化されたイテレータをインクリメントしてしまい &mdash; 未定義動作です。<code>erase</code>はすでに次の要素を指す有効なイテレータを返すので、無条件にインクリメントする代わりにそれを使いましょう:
       </p>
-      <pre class="code"><code>for (auto it = v.begin(); it != v.end(); ) {
-    if (*it &lt; 0) it = v.erase(it);
-    else ++it;
+      <pre class="code"><code><span class="kw">for</span> (<span class="kw">auto</span> it = v.<span class="fn">begin</span>(); it != v.<span class="fn">end</span>(); ) {
+    <span class="kw">if</span> (*it &lt; <span class="nu">0</span>) it = v.<span class="fn">erase</span>(it);
+    <span class="kw">else</span> ++it;
 }
 </code></pre>
     </div>

@@ -63,18 +63,18 @@
   <h2>2026-09-12</h2>
   <div class="code-frame">
     <p class="code-filename">point_eq.rs</p>
-    <pre class="code"><code>struct Point {
-    x: i32,
-    y: i32,
+    <pre class="code"><code><span class="kw">struct</span> <span class="ty">Point</span> {
+    x: <span class="ty">i32</span>,
+    y: <span class="ty">i32</span>,
 }
 
-fn main() {
-    let a = Point { x: 1, y: 2 };
-    let b = Point { x: 1, y: 2 };
-    if a == b {
-        println!("equal");
-    } else {
-        println!("different");
+<span class="kw">fn</span> <span class="fn">main</span>() {
+    <span class="kw">let</span> a = <span class="ty">Point</span> { x: <span class="nu">1</span>, y: <span class="nu">2</span> };
+    <span class="kw">let</span> b = <span class="ty">Point</span> { x: <span class="nu">1</span>, y: <span class="nu">2</span> };
+    <span class="kw">if</span> a == b {
+        <span class="mc">println!</span>(<span class="st">"equal"</span>);
+    } <span class="kw">else</span> {
+        <span class="mc">println!</span>(<span class="st">"different"</span>);
     }
 }
 </code></pre>

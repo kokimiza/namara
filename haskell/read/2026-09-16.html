@@ -63,11 +63,11 @@
   <h2>2026-09-16</h2>
   <div class="code-frame">
     <p class="code-filename">Triangulars.hs</p>
-    <pre class="code"><code>triangulars :: [Int]
-triangulars = 0 : zipWith (+) triangulars [1 ..]
+    <pre class="code"><code><span class="fn">triangulars</span> <span class="op">::</span> [<span class="ty">Int</span>]
+<span class="fn">triangulars</span> = <span class="nu">0</span> : zipWith (+) triangulars [<span class="nu">1</span> ..]
 
-main :: IO ()
-main = print (take 6 triangulars)
+<span class="fn">main</span> <span class="op">::</span> <span class="ty">IO</span> ()
+<span class="fn">main</span> = print (take <span class="nu">6</span> triangulars)
 </code></pre>
   </div>
 

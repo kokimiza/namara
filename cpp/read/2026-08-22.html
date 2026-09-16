@@ -63,15 +63,15 @@
   <h2>2026-08-22</h2>
   <div class="code-frame">
     <p class="code-filename">counter.cpp</p>
-    <pre class="code"><code>#include &lt;iostream&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;iostream&gt;</span>
 
-int&amp; counter() {
-    static int n = 0;
-    return ++n;
+<span class="ty">int</span>&amp; <span class="fn">counter</span>() {
+    <span class="kw">static</span> <span class="ty">int</span> n = <span class="nu">0</span>;
+    <span class="kw">return</span> ++n;
 }
 
-int main() {
-    std::cout &lt;&lt; counter() &lt;&lt; counter() &lt;&lt; counter();
+<span class="ty">int</span> <span class="fn">main</span>() {
+    std::cout &lt;&lt; <span class="fn">counter</span>() &lt;&lt; <span class="fn">counter</span>() &lt;&lt; <span class="fn">counter</span>();
 }
 </code></pre>
   </div>

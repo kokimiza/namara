@@ -63,13 +63,13 @@
   <h2>2026-09-15</h2>
   <div class="code-frame">
     <p class="code-filename">ternary_lvalue.cpp</p>
-    <pre class="code"><code>#include &lt;iostream&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;iostream&gt;</span>
 
-int main() {
-    int a = 3, b = 5;
-    (a &lt; b ? a : b) = 0;
+<span class="ty">int</span> <span class="fn">main</span>() {
+    <span class="ty">int</span> a = <span class="nu">3</span>, b = <span class="nu">5</span>;
+    (a &lt; b ? a : b) = <span class="nu">0</span>;
     ++(a &gt; b ? a : b);
-    std::cout &lt;&lt; a &lt;&lt; ' ' &lt;&lt; b &lt;&lt; '\n';
+    std::cout &lt;&lt; a &lt;&lt; <span class="st">' '</span> &lt;&lt; b &lt;&lt; <span class="st">'\n'</span>;
 }
 </code></pre>
   </div>

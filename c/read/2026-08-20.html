@@ -63,16 +63,16 @@
   <h2>2026-08-20</h2>
   <div class="code-frame">
     <p class="code-filename">decay.c</p>
-    <pre class="code"><code>#include &lt;stdio.h&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;stdio.h&gt;</span>
 
-void describe(int arr[10]) {
-    printf("%zu\n", sizeof(arr));
+<span class="ty">void</span> <span class="fn">describe</span>(<span class="ty">int</span> arr[<span class="nu">10</span>]) {
+    <span class="fn">printf</span>(<span class="st">"%zu\n"</span>, <span class="kw">sizeof</span>(arr));
 }
 
-int main(void) {
-    int nums[10] = {0};
-    printf("%zu\n", sizeof(nums));
-    describe(nums);
+<span class="ty">int</span> <span class="fn">main</span>(<span class="ty">void</span>) {
+    <span class="ty">int</span> nums[<span class="nu">10</span>] = {<span class="nu">0</span>};
+    <span class="fn">printf</span>(<span class="st">"%zu\n"</span>, <span class="kw">sizeof</span>(nums));
+    <span class="fn">describe</span>(nums);
 }
 </code></pre>
   </div>

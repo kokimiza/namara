@@ -63,14 +63,14 @@
   <h2>2026-09-12</h2>
   <div class="code-frame">
     <p class="code-filename">MutableCounter.hs</p>
-    <pre class="code"><code>import Data.IORef
+    <pre class="code"><code><span class="kw">import</span> <span class="ty">Data.IORef</span>
 
-main :: IO ()
-main = do
-  ref &lt;- newIORef (0 :: Int)
-  modifyIORef' ref (+ 5)
-  modifyIORef' ref (* 3)
-  final &lt;- readIORef ref
+<span class="fn">main</span> <span class="op">::</span> <span class="ty">IO</span> ()
+<span class="fn">main</span> = <span class="kw">do</span>
+  ref <span class="op">&lt;-</span> newIORef (<span class="nu">0</span> <span class="op">::</span> <span class="ty">Int</span>)
+  modifyIORef' ref (+ <span class="nu">5</span>)
+  modifyIORef' ref (* <span class="nu">3</span>)
+  final <span class="op">&lt;-</span> readIORef ref
   print final
 </code></pre>
   </div>

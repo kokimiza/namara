@@ -63,17 +63,17 @@
   <h2>2026-09-14</h2>
   <div class="code-frame">
     <p class="code-filename">loop_types.rs</p>
-    <pre class="code"><code>fn a() -&gt; i32 {
-    loop {}
+    <pre class="code"><code><span class="kw">fn</span> <span class="fn">a</span>() -&gt; <span class="ty">i32</span> {
+    <span class="kw">loop</span> {}
 }
 
-fn b() -&gt; i32 {
-    while true {}
+<span class="kw">fn</span> <span class="fn">b</span>() -&gt; <span class="ty">i32</span> {
+    <span class="kw">while</span> <span class="nu">true</span> {}
 }
 
-fn c() -&gt; i32 {
-    for i in 0.. {
-        return i;
+<span class="kw">fn</span> <span class="fn">c</span>() -&gt; <span class="ty">i32</span> {
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="nu">0</span>.. {
+        <span class="kw">return</span> i;
     }
 }
 </code></pre>

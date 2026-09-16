@@ -63,11 +63,11 @@
   <h2>2026-08-20</h2>
   <div class="code-frame">
     <p class="code-filename">point.cpp</p>
-    <pre class="code"><code>struct Point {
-    int x;
-    int y;
+    <pre class="code"><code><span class="kw">struct</span> <span class="ty">Point</span> {
+    <span class="ty">int</span> x;
+    <span class="ty">int</span> y;
 
-    // write operator== here
+    <span class="cm">// write operator== here</span>
 };
 </code></pre>
   </div>
@@ -79,8 +79,8 @@
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>bool operator==(const Point&amp; a, const Point&amp; b) {
-    return a.x == b.x &amp;&amp; a.y == b.y;
+      <pre class="code"><code><span class="ty">bool</span> <span class="kw">operator</span>==(<span class="kw">const</span> <span class="ty">Point</span>&amp; a, <span class="kw">const</span> <span class="ty">Point</span>&amp; b) {
+    <span class="kw">return</span> a.x == b.x &amp;&amp; a.y == b.y;
 }
 </code></pre>
       <p>

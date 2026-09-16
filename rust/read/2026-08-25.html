@@ -63,37 +63,37 @@
   <h2>2026-08-25</h2>
   <div class="code-frame">
     <p class="code-filename">shape_dyn.rs</p>
-    <pre class="code"><code>trait Shape {
-    fn area(&amp;self) -&gt; f64;
+    <pre class="code"><code><span class="kw">trait</span> <span class="ty">Shape</span> {
+    <span class="kw">fn</span> <span class="fn">area</span>(&amp;<span class="kw">self</span>) -&gt; <span class="ty">f64</span>;
 
-    fn describe(&amp;self) -&gt; String {
-        format!("area = {:.1}", self.area())
+    <span class="kw">fn</span> <span class="fn">describe</span>(&amp;<span class="kw">self</span>) -&gt; <span class="ty">String</span> {
+        <span class="mc">format!</span>(<span class="st">"area = {:.1}"</span>, <span class="kw">self</span>.<span class="fn">area</span>())
     }
 
-    fn scaled(&amp;self, factor: f64) -&gt; Self
-    where
-        Self: Sized;
+    <span class="kw">fn</span> <span class="fn">scaled</span>(&amp;<span class="kw">self</span>, factor: <span class="ty">f64</span>) -&gt; <span class="ty">Self</span>
+    <span class="kw">where</span>
+        <span class="ty">Self</span>: <span class="ty">Sized</span>;
 }
 
-struct Square {
-    side: f64,
+<span class="kw">struct</span> <span class="ty">Square</span> {
+    side: <span class="ty">f64</span>,
 }
 
-impl Shape for Square {
-    fn area(&amp;self) -&gt; f64 {
-        self.side * self.side
+<span class="kw">impl</span> <span class="ty">Shape</span> <span class="kw">for</span> <span class="ty">Square</span> {
+    <span class="kw">fn</span> <span class="fn">area</span>(&amp;<span class="kw">self</span>) -&gt; <span class="ty">f64</span> {
+        <span class="kw">self</span>.side * <span class="kw">self</span>.side
     }
 
-    fn scaled(&amp;self, factor: f64) -&gt; Self {
-        Square { side: self.side * factor }
+    <span class="kw">fn</span> <span class="fn">scaled</span>(&amp;<span class="kw">self</span>, factor: <span class="ty">f64</span>) -&gt; <span class="ty">Self</span> {
+        <span class="ty">Square</span> { side: <span class="kw">self</span>.side * factor }
     }
 }
 
-fn main() {
-    let big = Square { side: 3.0 }.scaled(2.0);
-    let shapes: Vec&lt;Box&lt;dyn Shape&gt;&gt; = vec![Box::new(big)];
-    for s in &amp;shapes {
-        println!("{}", s.describe());
+<span class="kw">fn</span> <span class="fn">main</span>() {
+    <span class="kw">let</span> big = <span class="ty">Square</span> { side: <span class="nu">3.0</span> }.<span class="fn">scaled</span>(<span class="nu">2.0</span>);
+    <span class="kw">let</span> shapes: <span class="ty">Vec</span>&lt;<span class="ty">Box</span>&lt;<span class="kw">dyn</span> <span class="ty">Shape</span>&gt;&gt; = <span class="mc">vec!</span>[<span class="ty">Box</span>::<span class="fn">new</span>(big)];
+    <span class="kw">for</span> s <span class="kw">in</span> &amp;shapes {
+        <span class="mc">println!</span>(<span class="st">"{}"</span>, s.<span class="fn">describe</span>());
     }
 }
 </code></pre>

@@ -63,11 +63,11 @@
   <h2>2026-09-13</h2>
   <div class="code-frame">
     <p class="code-filename">Bits.hs</p>
-    <pre class="code"><code>bins :: [String]
-bins = "" : [b ++ [c] | b &lt;- bins, c &lt;- "01"]
+    <pre class="code"><code><span class="fn">bins</span> <span class="op">::</span> [<span class="ty">String</span>]
+<span class="fn">bins</span> = <span class="st">""</span> : [b ++ [c] | b <span class="op">&lt;-</span> bins, c <span class="op">&lt;-</span> <span class="st">"01"</span>]
 
-main :: IO ()
-main = print (take 7 bins)
+<span class="fn">main</span> <span class="op">::</span> <span class="ty">IO</span> ()
+<span class="fn">main</span> = print (take <span class="nu">7</span> bins)
 </code></pre>
   </div>
 

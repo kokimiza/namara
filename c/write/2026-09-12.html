@@ -63,9 +63,9 @@
   <h2>2026-09-12</h2>
   <div class="code-frame">
     <p class="code-filename">sum_range.c</p>
-    <pre class="code"><code>int sum_range(int lo, int hi) {
-    // write this: return the sum of every integer from lo through hi,
-    // inclusive (the caller guarantees lo &lt;= hi)
+    <pre class="code"><code><span class="ty">int</span> <span class="fn">sum_range</span>(<span class="ty">int</span> lo, <span class="ty">int</span> hi) {
+    <span class="cm">// write this: return the sum of every integer from lo through hi,</span>
+    <span class="cm">// inclusive (the caller guarantees lo &lt;= hi)</span>
 }
 </code></pre>
   </div>
@@ -77,12 +77,12 @@
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>int sum_range(int lo, int hi) {
-    int total = 0;
-    for (int i = lo; i &lt;= hi; i++) {
+      <pre class="code"><code><span class="ty">int</span> <span class="fn">sum_range</span>(<span class="ty">int</span> lo, <span class="ty">int</span> hi) {
+    <span class="ty">int</span> total = <span class="nu">0</span>;
+    <span class="kw">for</span> (<span class="ty">int</span> i = lo; i &lt;= hi; i++) {
         total += i;
     }
-    return total;
+    <span class="kw">return</span> total;
 }
 </code></pre>
       <p>

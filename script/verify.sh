@@ -35,10 +35,11 @@
 #
 # Page checks, for {lang}/{type}/DATE.html: JSON-LD parses, no TODO left,
 # lang-nav/type-nav point at the same date, the archive.html line exists,
-# <code> contents are HTML-escaped, and every non-comment line of every
-# <pre class="code"> block appears (ignoring indentation) in one of that
-# combo's ok/ng/bug files — so the code readers see is the code that was
-# checked.
+# <code> contents are HTML-escaped (the highlighter's <span>s aside), every
+# non-comment line of every <pre class="code"> block appears (ignoring
+# indentation) in one of that combo's ok/ng/bug files — so the code readers
+# see is the code that was checked — and the listings are highlighted exactly
+# as script/highlight.sh would write them.
 #
 # Toolchains (override the command names with environment variables):
 #   C        NAMARA_CC     (gcc-14)   -std=c23   -Wall -Wextra -Wpedantic -Werror -fanalyzer
@@ -64,7 +65,7 @@ GHC="${NAMARA_GHC:-ghc}"
 HLINT="${NAMARA_HLINT:-hlint}"
 
 usage() {
-  sed -n '2,50p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
+  sed -n '2,51p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
 }
 
 code_ext() {
@@ -235,6 +236,8 @@ root, lang, typ, date, src_dir = sys.argv[1:]
 page = pathlib.Path(root, lang, typ, f"{date}.html")
 archive = pathlib.Path(root, lang, typ, "archive.html")
 exts = {"c": "c", "cpp": "cpp", "rust": "rs", "haskell": "hs"}
+# The only markup allowed inside <code>: script/highlight.sh's token spans.
+spans = re.compile(r'<span class="(?:kw|ty|fn|st|nu|cm|pp|mc|lt|op)">|</span>')
 problems = []
 
 s = page.read_text(encoding="utf-8")
@@ -266,7 +269,7 @@ if f'href="/{lang}/{typ}/{date}"' not in archive.read_text(encoding="utf-8"):
     problems.append(f"{archive.relative_to(root)} has no line for {date}")
 
 for code in re.findall(r"<code>(.*?)</code>", s, re.S):
-    if re.search(r"<|&(?!lt;|gt;|amp;|quot;|#39;)", code):
+    if re.search(r"<|&(?!lt;|gt;|amp;|quot;|#39;)", spans.sub("", code)):
         problems.append(f"unescaped < or & inside <code>: {code[:60]!r}")
 
 ext = exts[lang]
@@ -277,7 +280,7 @@ for f in pathlib.Path(src_dir).glob(f"*.{ext}"):
         verified.update(line.strip() for line in f.read_text(encoding="utf-8").splitlines())
 comment = re.compile(r"^(--( |$)|\{-)" if lang == "haskell" else r"^(//|/\*|\*/|\*( |$))")
 for block in re.findall(r'<pre class="code"><code>(.*?)</code></pre>', s, re.S):
-    for line in html.unescape(block).splitlines():
+    for line in html.unescape(spans.sub("", block)).splitlines():
         t = line.strip()
         if t and not comment.match(t) and t not in verified:
             problems.append(f"published code line is in no ok/ng/bug file: {t!r}")
@@ -289,6 +292,13 @@ PY
     pass "$lang/$type/$date.html (page checks)"
   else
     fail "$lang/$type/$date.html page checks:"
+    printf '%s\n' "$result" | sed 's/^/        /'
+  fi
+
+  if result="$("$SCRIPT_DIR/highlight.sh" --check "$ROOT_DIR/$lang/$type/$date.html" 2>&1)"; then
+    pass "$lang/$type/$date.html (highlighting)"
+  else
+    fail "$lang/$type/$date.html is not highlighted as script/highlight.sh writes it:"
     printf '%s\n' "$result" | sed 's/^/        /'
   fi
 }

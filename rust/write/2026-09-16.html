@@ -63,9 +63,9 @@
   <h2>2026-09-16</h2>
   <div class="code-frame">
     <p class="code-filename">midpoint.rs</p>
-    <pre class="code"><code>// write this: a function `midpoint` that takes two points, each an
-// (f64, f64) tuple, destructured directly as parameter patterns (no
-// `let` inside the body), and returns their midpoint as a tuple
+    <pre class="code"><code><span class="cm">// write this: a function `midpoint` that takes two points, each an</span>
+<span class="cm">// (f64, f64) tuple, destructured directly as parameter patterns (no</span>
+<span class="cm">// `let` inside the body), and returns their midpoint as a tuple</span>
 </code></pre>
   </div>
 
@@ -76,8 +76,8 @@
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>fn midpoint((x1, y1): (f64, f64), (x2, y2): (f64, f64)) -&gt; (f64, f64) {
-    ((x1 + x2) / 2.0, (y1 + y2) / 2.0)
+      <pre class="code"><code><span class="kw">fn</span> <span class="fn">midpoint</span>((x1, y1): (<span class="ty">f64</span>, <span class="ty">f64</span>), (x2, y2): (<span class="ty">f64</span>, <span class="ty">f64</span>)) -&gt; (<span class="ty">f64</span>, <span class="ty">f64</span>) {
+    ((x1 + x2) / <span class="nu">2.0</span>, (y1 + y2) / <span class="nu">2.0</span>)
 }
 </code></pre>
       <p>

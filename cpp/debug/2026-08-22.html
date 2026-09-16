@@ -63,11 +63,11 @@
   <h2>2026-08-22</h2>
   <div class="code-frame">
     <p class="code-filename">first_word.cpp</p>
-    <pre class="code"><code>#include &lt;string&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;string&gt;</span>
 
-const std::string&amp; first_word(const std::string&amp; s) {
-    std::string trimmed = s.substr(0, s.find(' '));
-    return trimmed;
+<span class="kw">const</span> std::<span class="ty">string</span>&amp; <span class="fn">first_word</span>(<span class="kw">const</span> std::<span class="ty">string</span>&amp; s) {
+    std::<span class="ty">string</span> trimmed = s.<span class="fn">substr</span>(<span class="nu">0</span>, s.<span class="fn">find</span>(<span class="st">' '</span>));
+    <span class="kw">return</span> trimmed;
 }
 </code></pre>
   </div>

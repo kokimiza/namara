@@ -63,15 +63,15 @@
   <h2>2026-09-13</h2>
   <div class="code-frame">
     <p class="code-filename">alt_sum.rs</p>
-    <pre class="code"><code>fn alt(xs: &amp;[i32]) -&gt; i32 {
-    match xs {
-        [] =&gt; 0,
-        [x, rest @ ..] =&gt; x - alt(rest),
+    <pre class="code"><code><span class="kw">fn</span> <span class="fn">alt</span>(xs: &amp;[<span class="ty">i32</span>]) -&gt; <span class="ty">i32</span> {
+    <span class="kw">match</span> xs {
+        [] =&gt; <span class="nu">0</span>,
+        [x, rest @ ..] =&gt; x - <span class="fn">alt</span>(rest),
     }
 }
 
-fn main() {
-    println!("{}", alt(&amp;[5, 3, 2, 1]));
+<span class="kw">fn</span> <span class="fn">main</span>() {
+    <span class="mc">println!</span>(<span class="st">"{}"</span>, <span class="fn">alt</span>(&amp;[<span class="nu">5</span>, <span class="nu">3</span>, <span class="nu">2</span>, <span class="nu">1</span>]));
 }
 </code></pre>
   </div>

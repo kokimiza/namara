@@ -63,21 +63,21 @@
   <h2>2026-09-07</h2>
   <div class="code-frame">
     <p class="code-filename">holder.cpp</p>
-    <pre class="code"><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="st">&lt;string&gt;</span>
 
-struct Holder {
-    const std::string &amp;ref;
-    Holder(const std::string &amp;s) : ref(s) {}
+<span class="kw">struct</span> <span class="ty">Holder</span> {
+    <span class="kw">const</span> std::<span class="ty">string</span> &amp;ref;
+    <span class="fn">Holder</span>(<span class="kw">const</span> std::<span class="ty">string</span> &amp;s) : <span class="fn">ref</span>(s) {}
 };
 
-std::string make_greeting() {
-    return "hello";
+std::<span class="ty">string</span> <span class="fn">make_greeting</span>() {
+    <span class="kw">return</span> <span class="st">"hello"</span>;
 }
 
-int main() {
-    Holder h(make_greeting());
-    std::cout &lt;&lt; h.ref &lt;&lt; "\n"; // undefined behavior
+<span class="ty">int</span> <span class="fn">main</span>() {
+    <span class="ty">Holder</span> <span class="fn">h</span>(<span class="fn">make_greeting</span>());
+    std::cout &lt;&lt; h.ref &lt;&lt; <span class="st">"\n"</span>; <span class="cm">// undefined behavior</span>
 }
 </code></pre>
   </div>
@@ -92,9 +92,9 @@ int main() {
       <p>
         一時オブジェクトの寿命延長は、参照変数がその一時オブジェクトに<em>直接</em>束縛されたときにだけ働きます。<code>make_greeting()</code>が返す一時オブジェクトが直接束縛されるのはコンストラクタの引数<code>s</code>であり、<code>s</code>の寿命は<code>Holder</code>のコンストラクタ呼び出しが終わるまでです。メンバ初期化子<code>ref(s)</code>は<code>s</code>と同じものを指すようにするだけで、一時オブジェクトの寿命をさらに<code>h</code>の寿命まで延ばしてはくれません。結果、コンストラクタが戻った時点で一時オブジェクトは破棄され、<code>h.ref</code>はダングリング参照として残ります。最小限の修正は、参照ではなく値としてメンバを持つことです:
       </p>
-      <pre class="code"><code>struct Holder {
-    std::string ref;
-    Holder(const std::string &amp;s) : ref(s) {}
+      <pre class="code"><code><span class="kw">struct</span> <span class="ty">Holder</span> {
+    std::<span class="ty">string</span> ref;
+    <span class="fn">Holder</span>(<span class="kw">const</span> std::<span class="ty">string</span> &amp;s) : <span class="fn">ref</span>(s) {}
 };
 </code></pre>
     </div>

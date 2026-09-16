@@ -63,14 +63,14 @@
   <h2>2026-09-07</h2>
   <div class="code-frame">
     <p class="code-filename">read_after_free.c</p>
-    <pre class="code"><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;stdio.h&gt;</span>
+<span class="pp">#include</span> <span class="st">&lt;stdlib.h&gt;</span>
 
-int main(void) {
-    int *p = malloc(sizeof(int));
-    *p = 42;
-    free(p);
-    printf("%d\n", *p);
+<span class="ty">int</span> <span class="fn">main</span>(<span class="ty">void</span>) {
+    <span class="ty">int</span> *p = <span class="fn">malloc</span>(<span class="kw">sizeof</span>(<span class="ty">int</span>));
+    *p = <span class="nu">42</span>;
+    <span class="fn">free</span>(p);
+    <span class="fn">printf</span>(<span class="st">"%d\n"</span>, *p);
 }
 </code></pre>
   </div>
@@ -85,10 +85,10 @@ int main(void) {
       <p>
         <code>free(p)</code>を呼んだ時点で<code>p</code>が指していたメモリ領域は解放され、<code>p</code>自身はダングリングポインタになります。その後の<code>*p</code>はすでに手放した領域を読むことになり、未定義動作です &mdash; たまたま中身が書き換えられずに残っていれば<code>42</code>が出ますが、他の確保がその領域を再利用していればゴミが出ますし、クラッシュすることもあります。最小限の修正は、値を使い終えてから<code>free</code>することです:
       </p>
-      <pre class="code"><code>int *p = malloc(sizeof(int));
-*p = 42;
-printf("%d\n", *p);
-free(p);
+      <pre class="code"><code><span class="ty">int</span> *p = <span class="fn">malloc</span>(<span class="kw">sizeof</span>(<span class="ty">int</span>));
+*p = <span class="nu">42</span>;
+<span class="fn">printf</span>(<span class="st">"%d\n"</span>, *p);
+<span class="fn">free</span>(p);
 </code></pre>
     </div>
   </details>

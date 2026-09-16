@@ -63,10 +63,10 @@
   <h2>2026-09-15</h2>
   <div class="code-frame">
     <p class="code-filename">status.rs</p>
-    <pre class="code"><code>fn status(code: u16, expected: u16) -&gt; &amp;'static str {
-    match code {
-        expected =&gt; "ok",
-        _ =&gt; "unexpected",
+    <pre class="code"><code><span class="kw">fn</span> <span class="fn">status</span>(code: <span class="ty">u16</span>, expected: <span class="ty">u16</span>) -&gt; &amp;<span class="lt">'static</span> <span class="ty">str</span> {
+    <span class="kw">match</span> code {
+        expected =&gt; <span class="st">"ok"</span>,
+        _ =&gt; <span class="st">"unexpected"</span>,
     }
 }
 </code></pre>
@@ -82,9 +82,9 @@
       <p>
         パターンの位置に書いた識別子は、定数・列挙子・ユニット構造体を指していない限り「その場で新しい変数を束縛する」パターンになり、何にでもマッチします。1つ目のアームは<code>expected</code>という新しい変数に<code>code</code>を束縛するだけで、引数の<code>expected</code>とは比較していません。値との比較はガードで書きます:
       </p>
-      <pre class="code"><code>match code {
-    c if c == expected =&gt; "ok",
-    _ =&gt; "unexpected",
+      <pre class="code"><code><span class="kw">match</span> code {
+    c <span class="kw">if</span> c == expected =&gt; <span class="st">"ok"</span>,
+    _ =&gt; <span class="st">"unexpected"</span>,
 }
 </code></pre>
     </div>

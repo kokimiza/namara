@@ -63,8 +63,8 @@
   <h2>2026-09-15</h2>
   <div class="code-frame">
     <p class="code-filename">is_digit_value.c</p>
-    <pre class="code"><code>bool is_digit_value(int x) {
-    return 0 &lt;= x &lt;= 9;
+    <pre class="code"><code><span class="ty">bool</span> <span class="fn">is_digit_value</span>(<span class="ty">int</span> x) {
+    <span class="kw">return</span> <span class="nu">0</span> &lt;= x &lt;= <span class="nu">9</span>;
 }
 </code></pre>
   </div>
@@ -79,7 +79,7 @@
       <p>
         Cの関係演算子は左結合の普通の二項演算子で、数学のような範囲の連鎖にはなりません。<code>0 &lt;= x &lt;= 9</code>は<code>(0 &lt;= x) &lt;= 9</code>と解釈され、<code>0 &lt;= x</code>の結果(<code>int</code>型の<code>0</code>か<code>1</code>)を<code>9</code>と比べるので、<code>x</code>が何でも常に真です。2つの比較を<code>&amp;&amp;</code>でつなげば直ります:
       </p>
-      <pre class="code"><code>return 0 &lt;= x &amp;&amp; x &lt;= 9;
+      <pre class="code"><code><span class="kw">return</span> <span class="nu">0</span> &lt;= x &amp;&amp; x &lt;= <span class="nu">9</span>;
 </code></pre>
     </div>
   </details>

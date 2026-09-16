@@ -63,11 +63,11 @@
   <h2>2026-08-25</h2>
   <div class="code-frame">
     <p class="code-filename">Action.hs</p>
-    <pre class="code"><code>data Action = Action { label :: String, run :: Int -> Int }
-  deriving (Eq, Ord, Show)
+    <pre class="code"><code><span class="kw">data</span> <span class="ty">Action</span> = <span class="ty">Action</span> { label <span class="op">::</span> <span class="ty">String</span>, run <span class="op">::</span> <span class="ty">Int</span> <span class="op">-&gt;</span> <span class="ty">Int</span> }
+  <span class="kw">deriving</span> (<span class="ty">Eq</span>, <span class="ty">Ord</span>, <span class="ty">Show</span>)
 
-main :: IO ()
-main = print (Action "inc" (+ 1) == Action "inc" (+ 1))
+<span class="fn">main</span> <span class="op">::</span> <span class="ty">IO</span> ()
+<span class="fn">main</span> = print (<span class="ty">Action</span> <span class="st">"inc"</span> (+ <span class="nu">1</span>) == <span class="ty">Action</span> <span class="st">"inc"</span> (+ <span class="nu">1</span>))
 </code></pre>
   </div>
 
@@ -81,16 +81,16 @@ main = print (Action "inc" (+ 1) == Action "inc" (+ 1))
       <p>
         <code>run</code>フィールドの型<code>Int -&gt; Int</code>(関数)には<code>Eq</code>・<code>Ord</code>・<code>Show</code>のどのインスタンスもありません。関数同士が等しいかを判定したり表示したりする一般的な方法がないためです。<code>deriving</code>は全フィールドの比較・表示が可能であることを前提にするので、この3つとも導出に失敗します。<code>run</code>を比較や表示の対象から外し、<code>label</code>だけを見る手書きのインスタンスにすれば直ります:
       </p>
-      <pre class="code"><code>data Action = Action { label :: String, run :: Int -> Int }
+      <pre class="code"><code><span class="kw">data</span> <span class="ty">Action</span> = <span class="ty">Action</span> { label <span class="op">::</span> <span class="ty">String</span>, run <span class="op">::</span> <span class="ty">Int</span> <span class="op">-&gt;</span> <span class="ty">Int</span> }
 
-instance Eq Action where
+<span class="kw">instance</span> <span class="ty">Eq</span> <span class="ty">Action</span> <span class="kw">where</span>
   a == b = label a == label b
 
-instance Ord Action where
+<span class="kw">instance</span> <span class="ty">Ord</span> <span class="ty">Action</span> <span class="kw">where</span>
   compare a b = compare (label a) (label b)
 
-instance Show Action where
-  show a = "Action " ++ show (label a)
+<span class="kw">instance</span> <span class="ty">Show</span> <span class="ty">Action</span> <span class="kw">where</span>
+  show a = <span class="st">"Action "</span> ++ show (label a)
 </code></pre>
     </div>
   </details>

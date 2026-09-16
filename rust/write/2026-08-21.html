@@ -63,8 +63,8 @@
   <h2>2026-08-21</h2>
   <div class="code-frame">
     <p class="code-filename">first_word.rs</p>
-    <pre class="code"><code>fn first_word(s: &amp;str) -&gt; &amp;str {
-    // write this
+    <pre class="code"><code><span class="kw">fn</span> <span class="fn">first_word</span>(s: &amp;<span class="ty">str</span>) -&gt; &amp;<span class="ty">str</span> {
+    <span class="cm">// write this</span>
 }
 </code></pre>
   </div>
@@ -76,8 +76,8 @@
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>fn first_word(s: &amp;str) -&gt; &amp;str {
-    s.split_whitespace().next().unwrap_or("")
+      <pre class="code"><code><span class="kw">fn</span> <span class="fn">first_word</span>(s: &amp;<span class="ty">str</span>) -&gt; &amp;<span class="ty">str</span> {
+    s.<span class="fn">split_whitespace</span>().<span class="fn">next</span>().<span class="fn">unwrap_or</span>(<span class="st">""</span>)
 }
 </code></pre>
       <p>

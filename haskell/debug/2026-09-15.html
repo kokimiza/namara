@@ -63,11 +63,11 @@
   <h2>2026-09-15</h2>
   <div class="code-frame">
     <p class="code-filename">Warn.hs</p>
-    <pre class="code"><code>warn :: Int -&gt; IO ()
-warn n = do
-  if n &lt; 0
-    then putStrLn "negative!"
-  putStrLn ("value: " ++ show n)
+    <pre class="code"><code><span class="fn">warn</span> <span class="op">::</span> <span class="ty">Int</span> <span class="op">-&gt;</span> <span class="ty">IO</span> ()
+<span class="fn">warn</span> n = <span class="kw">do</span>
+  <span class="kw">if</span> n &lt; <span class="nu">0</span>
+    <span class="kw">then</span> putStrLn <span class="st">"negative!"</span>
+  putStrLn (<span class="st">"value: "</span> ++ show n)
 </code></pre>
   </div>
 
@@ -81,13 +81,13 @@ warn n = do
       <p>
         Haskellの<code>if</code>は文ではなく、常に値を持つ式なので、<code>else</code>は省略できません(<code>do</code>の中でも同じで、構文エラーになります)。「条件が成り立つときだけアクションを実行する」には、<code>Control.Monad</code>の<code>when</code>を使うのが定番です:
       </p>
-      <pre class="code"><code>import Control.Monad (when)
+      <pre class="code"><code><span class="kw">import</span> <span class="ty">Control.Monad</span> (when)
 
-warn :: Int -&gt; IO ()
-warn n = do
-  when (n &lt; 0) $
-    putStrLn "negative!"
-  putStrLn ("value: " ++ show n)
+<span class="fn">warn</span> <span class="op">::</span> <span class="ty">Int</span> <span class="op">-&gt;</span> <span class="ty">IO</span> ()
+<span class="fn">warn</span> n = <span class="kw">do</span>
+  when (n &lt; <span class="nu">0</span>) $
+    putStrLn <span class="st">"negative!"</span>
+  putStrLn (<span class="st">"value: "</span> ++ show n)
 </code></pre>
       <p>
         <code>when</code>自体も、条件が偽なら何もしないアクション<code>return ()</code>を返すだけの普通の関数です。<code>else return ()</code>を書き足しても直ります。

@@ -63,21 +63,21 @@
   <h2>2026-09-13</h2>
   <div class="code-frame">
     <p class="code-filename">binary_search.c</p>
-    <pre class="code"><code>#include &lt;stddef.h&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;stddef.h&gt;</span>
 
-// Returns the index of key in the sorted range a[lo, hi), or -1.
-int search(const int a[], size_t lo, size_t hi, int key) {
-    if (lo &gt;= hi)
-        return -1;
+<span class="cm">// Returns the index of key in the sorted range a[lo, hi), or -1.</span>
+<span class="ty">int</span> <span class="fn">search</span>(<span class="kw">const</span> <span class="ty">int</span> a[], <span class="ty">size_t</span> lo, <span class="ty">size_t</span> hi, <span class="ty">int</span> key) {
+    <span class="kw">if</span> (lo &gt;= hi)
+        <span class="kw">return</span> -<span class="nu">1</span>;
 
-    size_t mid = lo + (hi - lo) / 2;
-    if (a[mid] == key)
-        return (int)mid;
+    <span class="ty">size_t</span> mid = lo + (hi - lo) / <span class="nu">2</span>;
+    <span class="kw">if</span> (a[mid] == key)
+        <span class="kw">return</span> (<span class="ty">int</span>)mid;
 
-    if (a[mid] &lt; key)
-        search(a, mid + 1, hi, key);
-    else
-        search(a, lo, mid, key);
+    <span class="kw">if</span> (a[mid] &lt; key)
+        <span class="fn">search</span>(a, mid + <span class="nu">1</span>, hi, key);
+    <span class="kw">else</span>
+        <span class="fn">search</span>(a, lo, mid, key);
 }
 </code></pre>
   </div>
@@ -92,10 +92,10 @@ int search(const int a[], size_t lo, size_t hi, int key) {
       <p>
         再帰呼び出しの結果を<code>return</code>していません。最初の比較で見つからなかった場合、内側の<code>search</code>が値を返しても外側はそれを捨て、<code>return</code>文のないまま関数の終わりの<code>}</code>に到達します。値を返す関数がそうやって終わり、呼び出し側がその値を使うのは未定義動作です。「たまたま動いていた」のは、内側の呼び出しが戻り値を置いたレジスタがそのまま残っていただけで、最適化の仕方次第でゴミ値にも暴走にもなります(<code>-Wall</code>なら警告が出ます)。再帰の結果をそのまま返せば直ります:
       </p>
-      <pre class="code"><code>if (a[mid] &lt; key)
-    return search(a, mid + 1, hi, key);
-else
-    return search(a, lo, mid, key);
+      <pre class="code"><code><span class="kw">if</span> (a[mid] &lt; key)
+    <span class="kw">return</span> <span class="fn">search</span>(a, mid + <span class="nu">1</span>, hi, key);
+<span class="kw">else</span>
+    <span class="kw">return</span> <span class="fn">search</span>(a, lo, mid, key);
 </code></pre>
       <p>
         「区間が空なら<code>-1</code>、真ん中が当たりならその位置、そうでなければ半分の区間の答えがそのまま全体の答え」という定義を、各分岐がそれぞれ<code>return</code>で言い切る形になります。

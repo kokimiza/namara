@@ -63,15 +63,15 @@
   <h2>2026-09-16</h2>
   <div class="code-frame">
     <p class="code-filename">print_all.c</p>
-    <pre class="code"><code>void print_all(int arr[]) {
-    size_t n = sizeof(arr) / sizeof(arr[0]);
-    for (size_t i = 0; i &lt; n; i++)
-        printf("%d\n", arr[i]);
+    <pre class="code"><code><span class="ty">void</span> <span class="fn">print_all</span>(<span class="ty">int</span> arr[]) {
+    <span class="ty">size_t</span> n = <span class="kw">sizeof</span>(arr) / <span class="kw">sizeof</span>(arr[<span class="nu">0</span>]);
+    <span class="kw">for</span> (<span class="ty">size_t</span> i = <span class="nu">0</span>; i &lt; n; i++)
+        <span class="fn">printf</span>(<span class="st">"%d\n"</span>, arr[i]);
 }
 
-int main(void) {
-    int data[5] = {10, 20, 30, 40, 50};
-    print_all(data);
+<span class="ty">int</span> <span class="fn">main</span>(<span class="ty">void</span>) {
+    <span class="ty">int</span> data[<span class="nu">5</span>] = {<span class="nu">10</span>, <span class="nu">20</span>, <span class="nu">30</span>, <span class="nu">40</span>, <span class="nu">50</span>};
+    <span class="fn">print_all</span>(data);
 }
 </code></pre>
   </div>
@@ -86,14 +86,14 @@ int main(void) {
       <p>
         仮引数<code>int arr[]</code>は実際には<code>int *</code>として扱われるので、関数の中の<code>sizeof(arr)</code>はポインタのバイト数(このターゲット環境では8)を返します。<code>sizeof(arr[0])</code>は要素の型<code>int</code>のバイト数(4)なので、<code>n</code>は本来の要素数5ではなく<code>8 / 4 = 2</code>になってしまいます。要素数は配列が本物の配列型のままである呼び出し側(<code>main</code>)でしか正しく求められないので、それを引数として明示的に渡します:
       </p>
-      <pre class="code"><code>void print_all(int arr[], size_t n) {
-    for (size_t i = 0; i &lt; n; i++)
-        printf("%d\n", arr[i]);
+      <pre class="code"><code><span class="ty">void</span> <span class="fn">print_all</span>(<span class="ty">int</span> arr[], <span class="ty">size_t</span> n) {
+    <span class="kw">for</span> (<span class="ty">size_t</span> i = <span class="nu">0</span>; i &lt; n; i++)
+        <span class="fn">printf</span>(<span class="st">"%d\n"</span>, arr[i]);
 }
 
-int main(void) {
-    int data[5] = {10, 20, 30, 40, 50};
-    print_all(data, sizeof(data) / sizeof(data[0]));
+<span class="ty">int</span> <span class="fn">main</span>(<span class="ty">void</span>) {
+    <span class="ty">int</span> data[<span class="nu">5</span>] = {<span class="nu">10</span>, <span class="nu">20</span>, <span class="nu">30</span>, <span class="nu">40</span>, <span class="nu">50</span>};
+    <span class="fn">print_all</span>(data, <span class="kw">sizeof</span>(data) / <span class="kw">sizeof</span>(data[<span class="nu">0</span>]));
 }
 </code></pre>
     </div>

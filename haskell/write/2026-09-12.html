@@ -63,9 +63,9 @@
   <h2>2026-09-12</h2>
   <div class="code-frame">
     <p class="code-filename">RunningMax.hs</p>
-    <pre class="code"><code>runningMax :: [Int] -&gt; [Int]
--- write this: return, for each position, the largest value seen
--- up to and including it
+    <pre class="code"><code><span class="fn">runningMax</span> <span class="op">::</span> [<span class="ty">Int</span>] <span class="op">-&gt;</span> [<span class="ty">Int</span>]
+<span class="cm">-- write this: return, for each position, the largest value seen</span>
+<span class="cm">-- up to and including it</span>
 </code></pre>
   </div>
 
@@ -76,10 +76,10 @@
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>runningMax :: [Int] -&gt; [Int]
-runningMax [] = []
-runningMax (x : xs) = go x xs
-  where
+      <pre class="code"><code><span class="fn">runningMax</span> <span class="op">::</span> [<span class="ty">Int</span>] <span class="op">-&gt;</span> [<span class="ty">Int</span>]
+<span class="fn">runningMax</span> [] = []
+<span class="fn">runningMax</span> (x : xs) = go x xs
+  <span class="kw">where</span>
     go current [] = [current]
     go current (y : ys) = current : go (max current y) ys
 </code></pre>

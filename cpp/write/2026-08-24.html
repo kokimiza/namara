@@ -63,10 +63,10 @@
   <h2>2026-08-24</h2>
   <div class="code-frame">
     <p class="code-filename">sum_even.cpp</p>
-    <pre class="code"><code>#include &lt;vector&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;vector&gt;</span>
 
-int sum_even(const std::vector&lt;int&gt;&amp; nums) {
-    // write this: return the sum of the even values in nums
+<span class="ty">int</span> <span class="fn">sum_even</span>(<span class="kw">const</span> std::<span class="ty">vector</span>&lt;<span class="ty">int</span>&gt;&amp; nums) {
+    <span class="cm">// write this: return the sum of the even values in nums</span>
 }
 </code></pre>
   </div>
@@ -78,14 +78,14 @@ int sum_even(const std::vector&lt;int&gt;&amp; nums) {
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>int sum_even(const std::vector&lt;int&gt;&amp; nums) {
-    int total = 0;
-    for (int n : nums) {
-        if (n % 2 == 0) {
+      <pre class="code"><code><span class="ty">int</span> <span class="fn">sum_even</span>(<span class="kw">const</span> std::<span class="ty">vector</span>&lt;<span class="ty">int</span>&gt;&amp; nums) {
+    <span class="ty">int</span> total = <span class="nu">0</span>;
+    <span class="kw">for</span> (<span class="ty">int</span> n : nums) {
+        <span class="kw">if</span> (n % <span class="nu">2</span> == <span class="nu">0</span>) {
             total += n;
         }
     }
-    return total;
+    <span class="kw">return</span> total;
 }
 </code></pre>
       <p>

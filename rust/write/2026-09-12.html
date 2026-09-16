@@ -63,10 +63,10 @@
   <h2>2026-09-12</h2>
   <div class="code-frame">
     <p class="code-filename">reaches_target.rs</p>
-    <pre class="code"><code>fn reaches_target(start: i32, step: i32, target: i32) -> bool {
-    // write this: repeatedly add `step` to `start`, and return true
-    // if the running value ever equals `target` exactly, without
-    // looping forever when it never will
+    <pre class="code"><code><span class="kw">fn</span> <span class="fn">reaches_target</span>(start: <span class="ty">i32</span>, step: <span class="ty">i32</span>, target: <span class="ty">i32</span>) -&gt; <span class="ty">bool</span> {
+    <span class="cm">// write this: repeatedly add `step` to `start`, and return true</span>
+    <span class="cm">// if the running value ever equals `target` exactly, without</span>
+    <span class="cm">// looping forever when it never will</span>
 }
 </code></pre>
   </div>
@@ -78,19 +78,19 @@
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>fn reaches_target(start: i32, step: i32, target: i32) -> bool {
-    let mut current = start;
-    while current != target {
-        if step == 0 {
-            return false;
+      <pre class="code"><code><span class="kw">fn</span> <span class="fn">reaches_target</span>(start: <span class="ty">i32</span>, step: <span class="ty">i32</span>, target: <span class="ty">i32</span>) -&gt; <span class="ty">bool</span> {
+    <span class="kw">let</span> <span class="kw">mut</span> current = start;
+    <span class="kw">while</span> current != target {
+        <span class="kw">if</span> step == <span class="nu">0</span> {
+            <span class="kw">return</span> <span class="nu">false</span>;
         }
-        let next = current + step;
-        if (step &gt; 0 &amp;&amp; next &gt; target) || (step &lt; 0 &amp;&amp; next &lt; target) {
-            return false;
+        <span class="kw">let</span> next = current + step;
+        <span class="kw">if</span> (step &gt; <span class="nu">0</span> &amp;&amp; next &gt; target) || (step &lt; <span class="nu">0</span> &amp;&amp; next &lt; target) {
+            <span class="kw">return</span> <span class="nu">false</span>;
         }
         current = next;
     }
-    true
+    <span class="nu">true</span>
 }
 </code></pre>
       <p>

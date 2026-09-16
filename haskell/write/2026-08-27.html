@@ -63,10 +63,10 @@
   <h2>2026-08-27</h2>
   <div class="code-frame">
     <p class="code-filename">Bump.hs</p>
-    <pre class="code"><code>import Data.IORef
+    <pre class="code"><code><span class="kw">import</span> <span class="ty">Data.IORef</span>
 
-bump :: IORef Int -&gt; IO ()
-bump ref = undefined -- write this: add 1 to the value stored in ref
+<span class="fn">bump</span> <span class="op">::</span> <span class="ty">IORef</span> <span class="ty">Int</span> <span class="op">-&gt;</span> <span class="ty">IO</span> ()
+<span class="fn">bump</span> ref = undefined <span class="cm">-- write this: add 1 to the value stored in ref</span>
 </code></pre>
   </div>
 
@@ -77,8 +77,8 @@ bump ref = undefined -- write this: add 1 to the value stored in ref
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>bump :: IORef Int -&gt; IO ()
-bump ref = modifyIORef' ref (+1)
+      <pre class="code"><code><span class="fn">bump</span> <span class="op">::</span> <span class="ty">IORef</span> <span class="ty">Int</span> <span class="op">-&gt;</span> <span class="ty">IO</span> ()
+<span class="fn">bump</span> ref = modifyIORef' ref (+<span class="nu">1</span>)
 </code></pre>
       <p>
         <code>modifyIORef'</code>は、参照の中身に関数を適用して書き換える、Haskellで数少ない「本当の意味でのインクリメント」に近い操作です。ここで<code>'</code>付きの正格版を使うことが重要です &mdash; 無印の<code>modifyIORef</code>は新しい値をサンク(遅延評価される計算)のまま溜め込んでしまい、同じ<code>IORef</code>を繰り返しインクリメントするコードでメモリ膨張やスタックオーバーフローを招くことがあります。これは参考実装であり、唯一の正解ではありません。

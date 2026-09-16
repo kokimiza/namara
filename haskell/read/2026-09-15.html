@@ -63,15 +63,15 @@
   <h2>2026-09-15</h2>
   <div class="code-frame">
     <p class="code-filename">MyIf.hs</p>
-    <pre class="code"><code>myIf :: Bool -&gt; a -&gt; a -&gt; a
-myIf True  t _ = t
-myIf False _ e = e
+    <pre class="code"><code><span class="fn">myIf</span> <span class="op">::</span> <span class="ty">Bool</span> <span class="op">-&gt;</span> a <span class="op">-&gt;</span> a <span class="op">-&gt;</span> a
+<span class="fn">myIf</span> <span class="ty">True</span>  t _ = t
+<span class="fn">myIf</span> <span class="ty">False</span> _ e = e
 
-safeDiv :: Int -&gt; Int -&gt; Int
-safeDiv x y = myIf (y == 0) 0 (x `div` y)
+<span class="fn">safeDiv</span> <span class="op">::</span> <span class="ty">Int</span> <span class="op">-&gt;</span> <span class="ty">Int</span> <span class="op">-&gt;</span> <span class="ty">Int</span>
+<span class="fn">safeDiv</span> x y = myIf (y == <span class="nu">0</span>) <span class="nu">0</span> (x `div` y)
 
-main :: IO ()
-main = print (safeDiv 10 0)
+<span class="fn">main</span> <span class="op">::</span> <span class="ty">IO</span> ()
+<span class="fn">main</span> = print (safeDiv <span class="nu">10</span> <span class="nu">0</span>)
 </code></pre>
   </div>
 

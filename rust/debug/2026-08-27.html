@@ -63,10 +63,10 @@
   <h2>2026-08-27</h2>
   <div class="code-frame">
     <p class="code-filename">sum_up_to.rs</p>
-    <pre class="code"><code>fn sum_up_to(n: u32) -&gt; u32 {
-    let mut total = 0;
-    let mut i = 1;
-    while i &lt;= n {
+    <pre class="code"><code><span class="kw">fn</span> <span class="fn">sum_up_to</span>(n: <span class="ty">u32</span>) -&gt; <span class="ty">u32</span> {
+    <span class="kw">let</span> <span class="kw">mut</span> total = <span class="nu">0</span>;
+    <span class="kw">let</span> <span class="kw">mut</span> i = <span class="nu">1</span>;
+    <span class="kw">while</span> i &lt;= n {
         total += i;
     }
     total
@@ -84,12 +84,12 @@
       <p>
         <code>total</code>は毎回インクリメントしていますが、ループの条件に使っている<code>i</code>自体は一度もインクリメントしていません。そのため<code>i &lt;= n</code>は永遠に真のままです。ループの最後で<code>i</code>を1増やす文を追加してください:
       </p>
-      <pre class="code"><code>fn sum_up_to(n: u32) -&gt; u32 {
-    let mut total = 0;
-    let mut i = 1;
-    while i &lt;= n {
+      <pre class="code"><code><span class="kw">fn</span> <span class="fn">sum_up_to</span>(n: <span class="ty">u32</span>) -&gt; <span class="ty">u32</span> {
+    <span class="kw">let</span> <span class="kw">mut</span> total = <span class="nu">0</span>;
+    <span class="kw">let</span> <span class="kw">mut</span> i = <span class="nu">1</span>;
+    <span class="kw">while</span> i &lt;= n {
         total += i;
-        i += 1;
+        i += <span class="nu">1</span>;
     }
     total
 }

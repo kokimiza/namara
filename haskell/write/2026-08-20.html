@@ -63,8 +63,8 @@
   <h2>2026-08-20</h2>
   <div class="code-frame">
     <p class="code-filename">MyReverse.hs</p>
-    <pre class="code"><code>myReverse :: [a] -&gt; [a]
-myReverse = undefined  -- write this
+    <pre class="code"><code><span class="fn">myReverse</span> <span class="op">::</span> [a] <span class="op">-&gt;</span> [a]
+<span class="fn">myReverse</span> = undefined  <span class="cm">-- write this</span>
 </code></pre>
   </div>
 
@@ -75,8 +75,8 @@ myReverse = undefined  -- write this
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>myReverse :: [a] -&gt; [a]
-myReverse = foldl (flip (:)) []
+      <pre class="code"><code><span class="fn">myReverse</span> <span class="op">::</span> [a] <span class="op">-&gt;</span> [a]
+<span class="fn">myReverse</span> = foldl (flip (:)) []
 </code></pre>
       <p>
         リストを左から畳み込み(foldl)、各要素を進みながらアキュムレータの先頭にconsしていきます &mdash; 末尾に達する頃には、アキュムレータは反転したリストになっています。

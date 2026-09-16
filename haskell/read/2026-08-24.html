@@ -63,15 +63,15 @@
   <h2>2026-08-24</h2>
   <div class="code-frame">
     <p class="code-filename">Classify.hs</p>
-    <pre class="code"><code>classify :: Int -&gt; String
-classify n
-  | n `mod` 15 == 0 = "fizzbuzz"
-  | n `mod` 3  == 0 = "fizz"
-  | n `mod` 5  == 0 = "buzz"
+    <pre class="code"><code><span class="fn">classify</span> <span class="op">::</span> <span class="ty">Int</span> <span class="op">-&gt;</span> <span class="ty">String</span>
+<span class="fn">classify</span> n
+  | n `mod` <span class="nu">15</span> == <span class="nu">0</span> = <span class="st">"fizzbuzz"</span>
+  | n `mod` <span class="nu">3</span>  == <span class="nu">0</span> = <span class="st">"fizz"</span>
+  | n `mod` <span class="nu">5</span>  == <span class="nu">0</span> = <span class="st">"buzz"</span>
   | otherwise       = show n
 
-main :: IO ()
-main = mapM_ (putStrLn . classify) [3, 5, 15]
+<span class="fn">main</span> <span class="op">::</span> <span class="ty">IO</span> ()
+<span class="fn">main</span> = mapM_ (putStrLn . classify) [<span class="nu">3</span>, <span class="nu">5</span>, <span class="nu">15</span>]
 </code></pre>
   </div>
 

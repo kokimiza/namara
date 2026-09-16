@@ -63,17 +63,17 @@
   <h2>2026-08-21</h2>
   <div class="code-frame">
     <p class="code-filename">buffer.cpp</p>
-    <pre class="code"><code>#include &lt;cstddef&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;cstddef&gt;</span>
 
-struct Buffer {
-    int* data;
-    size_t size;
+<span class="kw">struct</span> <span class="ty">Buffer</span> {
+    <span class="ty">int</span>* data;
+    <span class="ty">size_t</span> size;
 
-    Buffer(size_t n) : data(new int[n]), size(n) {}
-    ~Buffer() { delete[] data; }
+    <span class="fn">Buffer</span>(<span class="ty">size_t</span> n) : <span class="fn">data</span>(<span class="kw">new</span> <span class="ty">int</span>[n]), <span class="fn">size</span>(n) {}
+    ~<span class="fn">Buffer</span>() { <span class="kw">delete</span>[] data; }
 
-    // write the move constructor here
-    Buffer(Buffer&& other) noexcept;
+    <span class="cm">// write the move constructor here</span>
+    <span class="fn">Buffer</span>(<span class="ty">Buffer</span>&amp;&amp; other) <span class="kw">noexcept</span>;
 };
 </code></pre>
   </div>
@@ -85,10 +85,10 @@ struct Buffer {
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>Buffer::Buffer(Buffer&& other) noexcept
-    : data(other.data), size(other.size) {
-    other.data = nullptr;
-    other.size = 0;
+      <pre class="code"><code><span class="ty">Buffer</span>::<span class="fn">Buffer</span>(<span class="ty">Buffer</span>&amp;&amp; other) <span class="kw">noexcept</span>
+    : <span class="fn">data</span>(other.data), <span class="fn">size</span>(other.size) {
+    other.data = <span class="nu">nullptr</span>;
+    other.size = <span class="nu">0</span>;
 }
 </code></pre>
       <p>

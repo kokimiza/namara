@@ -63,16 +63,16 @@
   <h2>2026-08-25</h2>
   <div class="code-frame">
     <p class="code-filename">print_each.cpp</p>
-    <pre class="code"><code>#include &lt;iostream&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;iostream&gt;</span>
 
-template &lt;typename First, typename... Rest&gt;
-void print_each(First first, Rest... rest) {
-    std::cout &lt;&lt; first &lt;&lt; '\n';
-    print_each(rest...);
+<span class="kw">template</span> &lt;<span class="kw">typename</span> <span class="ty">First</span>, <span class="kw">typename</span>... <span class="ty">Rest</span>&gt;
+<span class="ty">void</span> <span class="fn">print_each</span>(<span class="ty">First</span> first, <span class="ty">Rest</span>... rest) {
+    std::cout &lt;&lt; first &lt;&lt; <span class="st">'\n'</span>;
+    <span class="fn">print_each</span>(rest...);
 }
 
-int main() {
-    print_each(1, 2, 3);
+<span class="ty">int</span> <span class="fn">main</span>() {
+    <span class="fn">print_each</span>(<span class="nu">1</span>, <span class="nu">2</span>, <span class="nu">3</span>);
 }
 </code></pre>
   </div>
@@ -87,7 +87,7 @@ int main() {
       <p>
         <code>print_each</code>は<code>Rest</code>が空になるまで自分自身を再帰的に呼びますが、パックが空のときの呼び出し<code>print_each()</code>に一致するオーバーロードがありません。テンプレートは<code>First first</code>という必須の1引数を要求するので、0引数の呼び出しに使える候補が存在せず、コンパイルエラーになります。再帰を止める、引数なしのオーバーロードを追加すれば直ります:
       </p>
-      <pre class="code"><code>void print_each() {}
+      <pre class="code"><code><span class="ty">void</span> <span class="fn">print_each</span>() {}
 </code></pre>
     </div>
   </details>

@@ -63,19 +63,19 @@
   <h2>2026-08-20</h2>
   <div class="code-frame">
     <p class="code-filename">dispatch.cpp</p>
-    <pre class="code"><code>#include &lt;iostream&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;iostream&gt;</span>
 
-struct Base {
-    virtual void greet(int n = 1) { std::cout &lt;&lt; n; }
+<span class="kw">struct</span> <span class="ty">Base</span> {
+    <span class="kw">virtual</span> <span class="ty">void</span> <span class="fn">greet</span>(<span class="ty">int</span> n = <span class="nu">1</span>) { std::cout &lt;&lt; n; }
 };
 
-struct Derived : Base {
-    void greet(int n = 2) override { std::cout &lt;&lt; n; }
+<span class="kw">struct</span> <span class="ty">Derived</span> : <span class="ty">Base</span> {
+    <span class="ty">void</span> <span class="fn">greet</span>(<span class="ty">int</span> n = <span class="nu">2</span>) <span class="kw">override</span> { std::cout &lt;&lt; n; }
 };
 
-int main() {
-    Base* b = new Derived();
-    b-&gt;greet();
+<span class="ty">int</span> <span class="fn">main</span>() {
+    <span class="ty">Base</span>* b = <span class="kw">new</span> <span class="fn">Derived</span>();
+    b-&gt;<span class="fn">greet</span>();
 }
 </code></pre>
   </div>

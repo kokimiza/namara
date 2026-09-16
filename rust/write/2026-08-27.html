@@ -63,8 +63,8 @@
   <h2>2026-08-27</h2>
   <div class="code-frame">
     <p class="code-filename">checked_increment.rs</p>
-    <pre class="code"><code>fn increment(x: u8) -&gt; Option&lt;u8&gt; {
-    // write this: return x + 1, or None if that would overflow u8
+    <pre class="code"><code><span class="kw">fn</span> <span class="fn">increment</span>(x: <span class="ty">u8</span>) -&gt; <span class="ty">Option</span>&lt;<span class="ty">u8</span>&gt; {
+    <span class="cm">// write this: return x + 1, or None if that would overflow u8</span>
 }
 </code></pre>
   </div>
@@ -76,8 +76,8 @@
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>fn increment(x: u8) -&gt; Option&lt;u8&gt; {
-    x.checked_add(1)
+      <pre class="code"><code><span class="kw">fn</span> <span class="fn">increment</span>(x: <span class="ty">u8</span>) -&gt; <span class="ty">Option</span>&lt;<span class="ty">u8</span>&gt; {
+    x.<span class="fn">checked_add</span>(<span class="nu">1</span>)
 }
 </code></pre>
       <p>

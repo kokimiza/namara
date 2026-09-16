@@ -63,27 +63,27 @@
   <h2>2026-08-27</h2>
   <div class="code-frame">
     <p class="code-filename">counter.cpp</p>
-    <pre class="code"><code>#include &lt;iostream&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;iostream&gt;</span>
 
-struct Counter {
-    int value = 0;
+<span class="kw">struct</span> <span class="ty">Counter</span> {
+    <span class="ty">int</span> value = <span class="nu">0</span>;
 
-    Counter&amp; operator++() {       // prefix
+    <span class="ty">Counter</span>&amp; <span class="kw">operator</span>++() {       <span class="cm">// prefix</span>
         ++value;
-        return *this;
+        <span class="kw">return</span> *<span class="kw">this</span>;
     }
-    Counter operator++(int) {     // postfix
-        Counter old = *this;
+    <span class="ty">Counter</span> <span class="kw">operator</span>++(<span class="ty">int</span>) {     <span class="cm">// postfix</span>
+        <span class="ty">Counter</span> old = *<span class="kw">this</span>;
         ++value;
-        return old;
+        <span class="kw">return</span> old;
     }
 };
 
-int main() {
-    Counter c;
-    std::cout &lt;&lt; (++c).value &lt;&lt; " ";
-    std::cout &lt;&lt; (c++).value &lt;&lt; " ";
-    std::cout &lt;&lt; c.value &lt;&lt; "\n";
+<span class="ty">int</span> <span class="fn">main</span>() {
+    <span class="ty">Counter</span> c;
+    std::cout &lt;&lt; (++c).value &lt;&lt; <span class="st">" "</span>;
+    std::cout &lt;&lt; (c++).value &lt;&lt; <span class="st">" "</span>;
+    std::cout &lt;&lt; c.value &lt;&lt; <span class="st">"\n"</span>;
 }
 </code></pre>
   </div>

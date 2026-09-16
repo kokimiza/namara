@@ -63,12 +63,12 @@
   <h2>2026-09-14</h2>
   <div class="code-frame">
     <p class="code-filename">drain_queue.rs</p>
-    <pre class="code"><code>use std::sync::Mutex;
+    <pre class="code"><code><span class="kw">use</span> std::sync::<span class="ty">Mutex</span>;
 
-fn drain(queue: &amp;Mutex&lt;Vec&lt;u32&gt;&gt;) {
-    while let Some(job) = queue.lock().unwrap().pop() {
-        if job &gt; 1 {
-            queue.lock().unwrap().push(job - 1);
+<span class="kw">fn</span> <span class="fn">drain</span>(queue: &amp;<span class="ty">Mutex</span>&lt;<span class="ty">Vec</span>&lt;<span class="ty">u32</span>&gt;&gt;) {
+    <span class="kw">while</span> <span class="kw">let</span> <span class="fn">Some</span>(job) = queue.<span class="fn">lock</span>().<span class="fn">unwrap</span>().<span class="fn">pop</span>() {
+        <span class="kw">if</span> job &gt; <span class="nu">1</span> {
+            queue.<span class="fn">lock</span>().<span class="fn">unwrap</span>().<span class="fn">push</span>(job - <span class="nu">1</span>);
         }
     }
 }
@@ -85,10 +85,10 @@ fn drain(queue: &amp;Mutex&lt;Vec&lt;u32&gt;&gt;) {
       <p>
         <code>while let</code>の条件式で作られた一時値は、条件の評価が終わっても破棄されず、その周のループ本体が終わるまで生き続けます。そのため<code>lock()</code>が返した<code>MutexGuard</code>もロックを握ったままで、本体でもう一度<code>lock()</code>すると戻ってきません(<code>std::sync::Mutex</code>を同じスレッドで再ロックすると、デッドロックかパニックになります)。取り出しを独立した<code>let</code>文に分ければ、ガードはその文の終わりで破棄されます:
       </p>
-      <pre class="code"><code>loop {
-    let Some(job) = queue.lock().unwrap().pop() else { break };
-    if job &gt; 1 {
-        queue.lock().unwrap().push(job - 1);
+      <pre class="code"><code><span class="kw">loop</span> {
+    <span class="kw">let</span> <span class="fn">Some</span>(job) = queue.<span class="fn">lock</span>().<span class="fn">unwrap</span>().<span class="fn">pop</span>() <span class="kw">else</span> { <span class="kw">break</span> };
+    <span class="kw">if</span> job &gt; <span class="nu">1</span> {
+        queue.<span class="fn">lock</span>().<span class="fn">unwrap</span>().<span class="fn">push</span>(job - <span class="nu">1</span>);
     }
 }
 </code></pre>

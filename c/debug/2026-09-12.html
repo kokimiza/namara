@@ -63,18 +63,18 @@
   <h2>2026-09-12</h2>
   <div class="code-frame">
     <p class="code-filename">print_all.c</p>
-    <pre class="code"><code>#include &lt;stdio.h&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;stdio.h&gt;</span>
 
-void print_all(const int *arr, int n) {
-    for (int i = 0; i &lt;= n; i++) {
-        printf("%d\n", arr[i]);
+<span class="ty">void</span> <span class="fn">print_all</span>(<span class="kw">const</span> <span class="ty">int</span> *arr, <span class="ty">int</span> n) {
+    <span class="kw">for</span> (<span class="ty">int</span> i = <span class="nu">0</span>; i &lt;= n; i++) {
+        <span class="fn">printf</span>(<span class="st">"%d\n"</span>, arr[i]);
     }
 }
 
-int main(void) {
-    int values[4] = {1, 2, 3, 4};
-    print_all(values, 4);
-    return 0;
+<span class="ty">int</span> <span class="fn">main</span>(<span class="ty">void</span>) {
+    <span class="ty">int</span> values[<span class="nu">4</span>] = {<span class="nu">1</span>, <span class="nu">2</span>, <span class="nu">3</span>, <span class="nu">4</span>};
+    <span class="fn">print_all</span>(values, <span class="nu">4</span>);
+    <span class="kw">return</span> <span class="nu">0</span>;
 }
 </code></pre>
   </div>

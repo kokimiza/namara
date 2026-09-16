@@ -63,10 +63,10 @@
   <h2>2026-08-24</h2>
   <div class="code-frame">
     <p class="code-filename">count_vowels.c</p>
-    <pre class="code"><code>#include &lt;string.h&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;string.h&gt;</span>
 
-int count_vowels(const char *s) {
-    /* write this: count how many of 'a','e','i','o','u' appear in s */
+<span class="ty">int</span> <span class="fn">count_vowels</span>(<span class="kw">const</span> <span class="ty">char</span> *s) {
+    <span class="cm">/* write this: count how many of 'a','e','i','o','u' appear in s */</span>
 }
 </code></pre>
   </div>
@@ -78,15 +78,15 @@ int count_vowels(const char *s) {
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>int count_vowels(const char *s) {
-    int count = 0;
-    for (size_t i = 0; s[i] != '\0'; i++) {
-        char c = s[i];
-        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+      <pre class="code"><code><span class="ty">int</span> <span class="fn">count_vowels</span>(<span class="kw">const</span> <span class="ty">char</span> *s) {
+    <span class="ty">int</span> count = <span class="nu">0</span>;
+    <span class="kw">for</span> (<span class="ty">size_t</span> i = <span class="nu">0</span>; s[i] != <span class="st">'\0'</span>; i++) {
+        <span class="ty">char</span> c = s[i];
+        <span class="kw">if</span> (c == <span class="st">'a'</span> || c == <span class="st">'e'</span> || c == <span class="st">'i'</span> || c == <span class="st">'o'</span> || c == <span class="st">'u'</span>) {
             count++;
         }
     }
-    return count;
+    <span class="kw">return</span> count;
 }
 </code></pre>
       <p>

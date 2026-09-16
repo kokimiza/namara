@@ -63,18 +63,18 @@
   <h2>2026-08-24</h2>
   <div class="code-frame">
     <p class="code-filename">shortcircuit.c</p>
-    <pre class="code"><code>#include &lt;stdio.h&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;stdio.h&gt;</span>
 
-int say(int n) {
-    printf("%d ", n);
-    return n;
+<span class="ty">int</span> <span class="fn">say</span>(<span class="ty">int</span> n) {
+    <span class="fn">printf</span>(<span class="st">"%d "</span>, n);
+    <span class="kw">return</span> n;
 }
 
-int main(void) {
-    if (say(0) &amp;&amp; say(1)) {
-        say(2);
+<span class="ty">int</span> <span class="fn">main</span>(<span class="ty">void</span>) {
+    <span class="kw">if</span> (<span class="fn">say</span>(<span class="nu">0</span>) &amp;&amp; <span class="fn">say</span>(<span class="nu">1</span>)) {
+        <span class="fn">say</span>(<span class="nu">2</span>);
     }
-    printf("\n");
+    <span class="fn">printf</span>(<span class="st">"\n"</span>);
 }
 </code></pre>
   </div>

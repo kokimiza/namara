@@ -63,13 +63,13 @@
   <h2>2026-09-14</h2>
   <div class="code-frame">
     <p class="code-filename">visit_all.c</p>
-    <pre class="code"><code>#include &lt;limits.h&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;limits.h&gt;</span>
 
-void visit(unsigned char c);
+<span class="ty">void</span> <span class="fn">visit</span>(<span class="ty">unsigned</span> <span class="ty">char</span> c);
 
-void visit_all(void) {
-    // write this: call visit exactly once for every value
-    // from 0 to UCHAR_MAX, using an unsigned char loop variable
+<span class="ty">void</span> <span class="fn">visit_all</span>(<span class="ty">void</span>) {
+    <span class="cm">// write this: call visit exactly once for every value</span>
+    <span class="cm">// from 0 to UCHAR_MAX, using an unsigned char loop variable</span>
 }
 </code></pre>
   </div>
@@ -81,11 +81,11 @@ void visit_all(void) {
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>void visit_all(void) {
-    unsigned char c = 0;
-    do {
-        visit(c);
-    } while (c++ != UCHAR_MAX);
+      <pre class="code"><code><span class="ty">void</span> <span class="fn">visit_all</span>(<span class="ty">void</span>) {
+    <span class="ty">unsigned</span> <span class="ty">char</span> c = <span class="nu">0</span>;
+    <span class="kw">do</span> {
+        <span class="fn">visit</span>(c);
+    } <span class="kw">while</span> (c++ != <span class="nu">UCHAR_MAX</span>);
 }
 </code></pre>
       <p>

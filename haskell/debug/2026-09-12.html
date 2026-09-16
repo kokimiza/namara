@@ -63,11 +63,11 @@
   <h2>2026-09-12</h2>
   <div class="code-frame">
     <p class="code-filename">Total.hs</p>
-    <pre class="code"><code>main :: IO ()
-main = do
-  let total = 0 :: Int
-  total = total + 10
-  total = total + 20
+    <pre class="code"><code><span class="fn">main</span> <span class="op">::</span> <span class="ty">IO</span> ()
+<span class="fn">main</span> = <span class="kw">do</span>
+  <span class="kw">let</span> total = <span class="nu">0</span> <span class="op">::</span> <span class="ty">Int</span>
+  total = total + <span class="nu">10</span>
+  total = total + <span class="nu">20</span>
   print total
 </code></pre>
   </div>
@@ -82,14 +82,14 @@ main = do
       <p>
         原因は<code>total = total + 10</code>を、他の言語のような「変数への再代入」のつもりで書いていることです。Haskellの<code>let total = 0</code>は不変な束縛であり、<code>do</code>ブロックの中で<code>let</code>を伴わずに<code>=</code>だけを書いても代入文にはならず、構文エラーになります。ここで本当にやりたいのは「同じ入れ物を後から書き換える」ことなので、<code>Data.IORef</code>で明示的に可変な参照を作るのが直し方です。
       </p>
-      <pre class="code"><code>import Data.IORef
+      <pre class="code"><code><span class="kw">import</span> <span class="ty">Data.IORef</span>
 
-main :: IO ()
-main = do
-  totalRef &lt;- newIORef (0 :: Int)
-  modifyIORef' totalRef (+ 10)
-  modifyIORef' totalRef (+ 20)
-  total &lt;- readIORef totalRef
+<span class="fn">main</span> <span class="op">::</span> <span class="ty">IO</span> ()
+<span class="fn">main</span> = <span class="kw">do</span>
+  totalRef <span class="op">&lt;-</span> newIORef (<span class="nu">0</span> <span class="op">::</span> <span class="ty">Int</span>)
+  modifyIORef' totalRef (+ <span class="nu">10</span>)
+  modifyIORef' totalRef (+ <span class="nu">20</span>)
+  total <span class="op">&lt;-</span> readIORef totalRef
   print total
 </code></pre>
     </div>

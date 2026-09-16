@@ -63,9 +63,9 @@
   <h2>2026-09-14</h2>
   <div class="code-frame">
     <p class="code-filename">find_pair.rs</p>
-    <pre class="code"><code>fn find_pair(v: &amp;[i32], target: i32) -&gt; Option&lt;(usize, usize)&gt; {
-    // write this: indices (i, j), i &lt; j, of the first pair with
-    // v[i] + v[j] == target — using two for loops and no return
+    <pre class="code"><code><span class="kw">fn</span> <span class="fn">find_pair</span>(v: &amp;[<span class="ty">i32</span>], target: <span class="ty">i32</span>) -&gt; <span class="ty">Option</span>&lt;(<span class="ty">usize</span>, <span class="ty">usize</span>)&gt; {
+    <span class="cm">// write this: indices (i, j), i &lt; j, of the first pair with</span>
+    <span class="cm">// v[i] + v[j] == target — using two for loops and no return</span>
 }
 </code></pre>
   </div>
@@ -77,16 +77,16 @@
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>fn find_pair(v: &amp;[i32], target: i32) -&gt; Option&lt;(usize, usize)&gt; {
-    'found: {
-        for i in 0..v.len() {
-            for j in i + 1..v.len() {
-                if v[i] + v[j] == target {
-                    break 'found Some((i, j));
+      <pre class="code"><code><span class="kw">fn</span> <span class="fn">find_pair</span>(v: &amp;[<span class="ty">i32</span>], target: <span class="ty">i32</span>) -&gt; <span class="ty">Option</span>&lt;(<span class="ty">usize</span>, <span class="ty">usize</span>)&gt; {
+    <span class="lt">'found</span>: {
+        <span class="kw">for</span> i <span class="kw">in</span> <span class="nu">0</span>..v.<span class="fn">len</span>() {
+            <span class="kw">for</span> j <span class="kw">in</span> i + <span class="nu">1</span>..v.<span class="fn">len</span>() {
+                <span class="kw">if</span> v[i] + v[j] == target {
+                    <span class="kw">break</span> <span class="lt">'found</span> <span class="fn">Some</span>((i, j));
                 }
             }
         }
-        None
+        <span class="ty">None</span>
     }
 }
 </code></pre>

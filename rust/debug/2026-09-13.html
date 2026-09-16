@@ -63,19 +63,19 @@
   <h2>2026-09-13</h2>
   <div class="code-frame">
     <p class="code-filename">tree_sum.rs</p>
-    <pre class="code"><code>struct Tree {
-    value: i32,
-    left: Option&lt;Tree&gt;,
-    right: Option&lt;Tree&gt;,
+    <pre class="code"><code><span class="kw">struct</span> <span class="ty">Tree</span> {
+    value: <span class="ty">i32</span>,
+    left: <span class="ty">Option</span>&lt;<span class="ty">Tree</span>&gt;,
+    right: <span class="ty">Option</span>&lt;<span class="ty">Tree</span>&gt;,
 }
 
-fn sum(t: &amp;Tree) -&gt; i32 {
-    let mut total = t.value;
-    if let Some(left) = &amp;t.left {
-        total += sum(left);
+<span class="kw">fn</span> <span class="fn">sum</span>(t: &amp;<span class="ty">Tree</span>) -&gt; <span class="ty">i32</span> {
+    <span class="kw">let</span> <span class="kw">mut</span> total = t.value;
+    <span class="kw">if</span> <span class="kw">let</span> <span class="fn">Some</span>(left) = &amp;t.left {
+        total += <span class="fn">sum</span>(left);
     }
-    if let Some(right) = &amp;t.right {
-        total += sum(right);
+    <span class="kw">if</span> <span class="kw">let</span> <span class="fn">Some</span>(right) = &amp;t.right {
+        total += <span class="fn">sum</span>(right);
     }
     total
 }
@@ -92,8 +92,8 @@ fn sum(t: &amp;Tree) -&gt; i32 {
       <p>
         <code>Option&lt;T&gt;</code>は<code>T</code>を別の場所に置くのではなく、自分の中にそのまま埋め込みます。すると<code>Tree</code>の中に<code>Tree</code>が2つ、その中にさらに2つ……と入れ子になり、サイズが無限大になるので型として成り立ちません(E0072)。再帰する部分を<code>Box</code>でヒープに置けば、<code>Tree</code>の中に持つのはポインタ1個分の大きさだけになります:
       </p>
-      <pre class="code"><code>left: Option&lt;Box&lt;Tree&gt;&gt;,
-right: Option&lt;Box&lt;Tree&gt;&gt;,
+      <pre class="code"><code>left: <span class="ty">Option</span>&lt;<span class="ty">Box</span>&lt;<span class="ty">Tree</span>&gt;&gt;,
+right: <span class="ty">Option</span>&lt;<span class="ty">Box</span>&lt;<span class="ty">Tree</span>&gt;&gt;,
 </code></pre>
       <p>
         <code>sum</code>は1文字も変える必要がありません。<code>left</code>は<code>&amp;Box&lt;Tree&gt;</code>になりますが、<code>sum(left)</code>で参照外し型強制により<code>&amp;Tree</code>として渡されます。なお<code>children: Vec&lt;Tree&gt;</code>のような定義が最初から通るのは、<code>Vec</code>が要素をヒープに置く間接参照を内蔵しているからです。

@@ -63,18 +63,18 @@
   <h2>2026-09-15</h2>
   <div class="code-frame">
     <p class="code-filename">run_command.cpp</p>
-    <pre class="code"><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="st">&lt;string&gt;</span>
 
-void run(char cmd) {
-    switch (cmd) {
-    case 'h':
-        std::string msg = "help";
-        std::cout &lt;&lt; msg &lt;&lt; '\n';
-        break;
-    case 'q':
-        std::cout &lt;&lt; "quit\n";
-        break;
+<span class="ty">void</span> <span class="fn">run</span>(<span class="ty">char</span> cmd) {
+    <span class="kw">switch</span> (cmd) {
+    <span class="kw">case</span> <span class="st">'h'</span>:
+        std::<span class="ty">string</span> msg = <span class="st">"help"</span>;
+        std::cout &lt;&lt; msg &lt;&lt; <span class="st">'\n'</span>;
+        <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="st">'q'</span>:
+        std::cout &lt;&lt; <span class="st">"quit\n"</span>;
+        <span class="kw">break</span>;
     }
 }
 </code></pre>
@@ -90,10 +90,10 @@ void run(char cmd) {
       <p>
         <code>switch</code>の本体は1つのブロックなので、<code>msg</code>のスコープは<code>case 'q':</code>以降にも続いています。<code>cmd == 'q'</code>のとき<code>msg</code>の初期化を飛び越えて、そのスコープの中へジャンプすることになり、C++ではこれが禁止されています(<code>int n = 1;</code>のような単純な初期化でも同じです)。<code>case</code>の中身を波括弧で囲み、<code>msg</code>のスコープをそこで閉じれば直ります:
       </p>
-      <pre class="code"><code>case 'h': {
-    std::string msg = "help";
-    std::cout &lt;&lt; msg &lt;&lt; '\n';
-    break;
+      <pre class="code"><code><span class="kw">case</span> <span class="st">'h'</span>: {
+    std::<span class="ty">string</span> msg = <span class="st">"help"</span>;
+    std::cout &lt;&lt; msg &lt;&lt; <span class="st">'\n'</span>;
+    <span class="kw">break</span>;
 }
 </code></pre>
     </div>

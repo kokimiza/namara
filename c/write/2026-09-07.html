@@ -63,9 +63,9 @@
   <h2>2026-09-07</h2>
   <div class="code-frame">
     <p class="code-filename">find_max.c</p>
-    <pre class="code"><code>int *find_max(int *arr, size_t n) {
-    /* write this: return a pointer to the largest element of arr
-       (n is at least 1) */
+    <pre class="code"><code><span class="ty">int</span> *<span class="fn">find_max</span>(<span class="ty">int</span> *arr, <span class="ty">size_t</span> n) {
+    <span class="cm">/* write this: return a pointer to the largest element of arr
+       (n is at least 1) */</span>
 }
 </code></pre>
   </div>
@@ -77,14 +77,14 @@
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>int *find_max(int *arr, size_t n) {
-    int *max = arr;
-    for (size_t i = 1; i &lt; n; i++) {
-        if (arr[i] &gt; *max) {
+      <pre class="code"><code><span class="ty">int</span> *<span class="fn">find_max</span>(<span class="ty">int</span> *arr, <span class="ty">size_t</span> n) {
+    <span class="ty">int</span> *max = arr;
+    <span class="kw">for</span> (<span class="ty">size_t</span> i = <span class="nu">1</span>; i &lt; n; i++) {
+        <span class="kw">if</span> (arr[i] &gt; *max) {
             max = &amp;arr[i];
         }
     }
-    return max;
+    <span class="kw">return</span> max;
 }
 </code></pre>
       <p>

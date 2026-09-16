@@ -63,13 +63,13 @@
   <h2>2026-09-15</h2>
   <div class="code-frame">
     <p class="code-filename">count_word.cpp</p>
-    <pre class="code"><code>#include &lt;iostream&gt;
-#include &lt;map&gt;
-#include &lt;string&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;iostream&gt;</span>
+<span class="pp">#include</span> <span class="st">&lt;map&gt;</span>
+<span class="pp">#include</span> <span class="st">&lt;string&gt;</span>
 
-void count_word(std::map&lt;std::string, int&gt;&amp; counts, const std::string&amp; word) {
-    // write this: if word is new, register it with count 1 and
-    // print "new: word"; otherwise increment its count
+<span class="ty">void</span> <span class="fn">count_word</span>(std::<span class="ty">map</span>&lt;std::<span class="ty">string</span>, <span class="ty">int</span>&gt;&amp; counts, <span class="kw">const</span> std::<span class="ty">string</span>&amp; word) {
+    <span class="cm">// write this: if word is new, register it with count 1 and</span>
+    <span class="cm">// print "new: word"; otherwise increment its count</span>
 }
 </code></pre>
   </div>
@@ -81,10 +81,10 @@ void count_word(std::map&lt;std::string, int&gt;&amp; counts, const std::string&
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>void count_word(std::map&lt;std::string, int&gt;&amp; counts, const std::string&amp; word) {
-    if (auto [it, inserted] = counts.try_emplace(word, 1); inserted)
-        std::cout &lt;&lt; "new: " &lt;&lt; word &lt;&lt; '\n';
-    else
+      <pre class="code"><code><span class="ty">void</span> <span class="fn">count_word</span>(std::<span class="ty">map</span>&lt;std::<span class="ty">string</span>, <span class="ty">int</span>&gt;&amp; counts, <span class="kw">const</span> std::<span class="ty">string</span>&amp; word) {
+    <span class="kw">if</span> (<span class="kw">auto</span> [it, inserted] = counts.<span class="fn">try_emplace</span>(word, <span class="nu">1</span>); inserted)
+        std::cout &lt;&lt; <span class="st">"new: "</span> &lt;&lt; word &lt;&lt; <span class="st">'\n'</span>;
+    <span class="kw">else</span>
         ++it-&gt;second;
 }
 </code></pre>

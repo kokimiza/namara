@@ -63,24 +63,24 @@
   <h2>2026-09-13</h2>
   <div class="code-frame">
     <p class="code-filename">dfs_order.cpp</p>
-    <pre class="code"><code>#include &lt;vector&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;vector&gt;</span>
 
-// Returns the vertices reachable from start, in depth-first visiting order.
-std::vector&lt;int&gt; dfs_order(const std::vector&lt;std::vector&lt;int&gt;&gt;&amp; graph, int start) {
-    std::vector&lt;bool&gt; seen(graph.size());
-    std::vector&lt;int&gt; order;
+<span class="cm">// Returns the vertices reachable from start, in depth-first visiting order.</span>
+std::<span class="ty">vector</span>&lt;<span class="ty">int</span>&gt; <span class="fn">dfs_order</span>(<span class="kw">const</span> std::<span class="ty">vector</span>&lt;std::<span class="ty">vector</span>&lt;<span class="ty">int</span>&gt;&gt;&amp; graph, <span class="ty">int</span> start) {
+    std::<span class="ty">vector</span>&lt;<span class="ty">bool</span>&gt; <span class="fn">seen</span>(graph.<span class="fn">size</span>());
+    std::<span class="ty">vector</span>&lt;<span class="ty">int</span>&gt; order;
 
-    auto visit = [&amp;](int v) {
-        if (seen[v])
-            return;
-        seen[v] = true;
-        order.push_back(v);
-        for (int next : graph[v])
-            visit(next);
+    <span class="kw">auto</span> visit = [&amp;](<span class="ty">int</span> v) {
+        <span class="kw">if</span> (seen[v])
+            <span class="kw">return</span>;
+        seen[v] = <span class="nu">true</span>;
+        order.<span class="fn">push_back</span>(v);
+        <span class="kw">for</span> (<span class="ty">int</span> next : graph[v])
+            <span class="fn">visit</span>(next);
     };
 
-    visit(start);
-    return order;
+    <span class="fn">visit</span>(start);
+    <span class="kw">return</span> order;
 }
 </code></pre>
   </div>
@@ -95,13 +95,13 @@ std::vector&lt;int&gt; dfs_order(const std::vector&lt;std::vector&lt;int&gt;&gt;
       <p>
         <code>auto</code>で宣言した変数は、初期化式からその型が決まるまで使えません。ラムダ本体の<code>visit(next)</code>は<code>visit</code>自身の初期化式の中にあるので、「型の決まっていない変数を参照している」としてエラーになります。C++23の明示的オブジェクト引数(deducing this)を使えば、ラムダは呼ばれた自分自身を第1引数として受け取れます:
       </p>
-      <pre class="code"><code>auto visit = [&amp;](this const auto&amp; self, int v) {
-    if (seen[v])
-        return;
-    seen[v] = true;
-    order.push_back(v);
-    for (int next : graph[v])
-        self(next);
+      <pre class="code"><code><span class="kw">auto</span> visit = [&amp;](<span class="kw">this</span> <span class="kw">const</span> <span class="kw">auto</span>&amp; self, <span class="ty">int</span> v) {
+    <span class="kw">if</span> (seen[v])
+        <span class="kw">return</span>;
+    seen[v] = <span class="nu">true</span>;
+    order.<span class="fn">push_back</span>(v);
+    <span class="kw">for</span> (<span class="ty">int</span> next : graph[v])
+        <span class="fn">self</span>(next);
 };
 </code></pre>
       <p>

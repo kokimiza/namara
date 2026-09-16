@@ -63,15 +63,15 @@
   <h2>2026-08-27</h2>
   <div class="code-frame">
     <p class="code-filename">ticker.cpp</p>
-    <pre class="code"><code>struct Ticker {
-    int count = 0;
+    <pre class="code"><code><span class="kw">struct</span> <span class="ty">Ticker</span> {
+    <span class="ty">int</span> count = <span class="nu">0</span>;
 
-    Ticker&amp; operator++() {
-        // write this: prefix form - increment count, return *this
+    <span class="ty">Ticker</span>&amp; <span class="kw">operator</span>++() {
+        <span class="cm">// write this: prefix form - increment count, return *this</span>
     }
 
-    Ticker operator++(int) {
-        // write this: postfix form - return the value from before incrementing
+    <span class="ty">Ticker</span> <span class="kw">operator</span>++(<span class="ty">int</span>) {
+        <span class="cm">// write this: postfix form - return the value from before incrementing</span>
     }
 };
 </code></pre>
@@ -84,15 +84,15 @@
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>Ticker&amp; operator++() {
+      <pre class="code"><code><span class="ty">Ticker</span>&amp; <span class="kw">operator</span>++() {
     ++count;
-    return *this;
+    <span class="kw">return</span> *<span class="kw">this</span>;
 }
 
-Ticker operator++(int) {
-    Ticker old = *this;
+<span class="ty">Ticker</span> <span class="kw">operator</span>++(<span class="ty">int</span>) {
+    <span class="ty">Ticker</span> old = *<span class="kw">this</span>;
     ++count;
-    return old;
+    <span class="kw">return</span> old;
 }
 </code></pre>
       <p>

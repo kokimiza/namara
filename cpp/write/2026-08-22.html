@@ -63,10 +63,10 @@
   <h2>2026-08-22</h2>
   <div class="code-frame">
     <p class="code-filename">starts_with.cpp</p>
-    <pre class="code"><code>#include &lt;string&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;string&gt;</span>
 
-bool starts_with(const std::string&amp; s, const std::string&amp; prefix) {
-    // write this: true if s starts with prefix
+<span class="ty">bool</span> <span class="fn">starts_with</span>(<span class="kw">const</span> std::<span class="ty">string</span>&amp; s, <span class="kw">const</span> std::<span class="ty">string</span>&amp; prefix) {
+    <span class="cm">// write this: true if s starts with prefix</span>
 }
 </code></pre>
   </div>
@@ -78,8 +78,8 @@ bool starts_with(const std::string&amp; s, const std::string&amp; prefix) {
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>bool starts_with(const std::string&amp; s, const std::string&amp; prefix) {
-    return s.size() &gt;= prefix.size() &amp;&amp; s.compare(0, prefix.size(), prefix) == 0;
+      <pre class="code"><code><span class="ty">bool</span> <span class="fn">starts_with</span>(<span class="kw">const</span> std::<span class="ty">string</span>&amp; s, <span class="kw">const</span> std::<span class="ty">string</span>&amp; prefix) {
+    <span class="kw">return</span> s.<span class="fn">size</span>() &gt;= prefix.<span class="fn">size</span>() &amp;&amp; s.<span class="fn">compare</span>(<span class="nu">0</span>, prefix.<span class="fn">size</span>(), prefix) == <span class="nu">0</span>;
 }
 </code></pre>
       <p>

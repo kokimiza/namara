@@ -63,8 +63,8 @@
   <h2>2026-09-07</h2>
   <div class="code-frame">
     <p class="code-filename">swap_values.rs</p>
-    <pre class="code"><code>fn swap_values(a: &amp;mut i32, b: &amp;mut i32) {
-    // write this: swap the values that a and b point to
+    <pre class="code"><code><span class="kw">fn</span> <span class="fn">swap_values</span>(a: &amp;<span class="kw">mut</span> <span class="ty">i32</span>, b: &amp;<span class="kw">mut</span> <span class="ty">i32</span>) {
+    <span class="cm">// write this: swap the values that a and b point to</span>
 }
 </code></pre>
   </div>
@@ -76,8 +76,8 @@
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>fn swap_values(a: &amp;mut i32, b: &amp;mut i32) {
-    let tmp = *a;
+      <pre class="code"><code><span class="kw">fn</span> <span class="fn">swap_values</span>(a: &amp;<span class="kw">mut</span> <span class="ty">i32</span>, b: &amp;<span class="kw">mut</span> <span class="ty">i32</span>) {
+    <span class="kw">let</span> tmp = *a;
     *a = *b;
     *b = tmp;
 }

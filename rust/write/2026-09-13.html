@@ -63,14 +63,14 @@
   <h2>2026-09-13</h2>
   <div class="code-frame">
     <p class="code-filename">eval_expr.rs</p>
-    <pre class="code"><code>enum Expr {
-    Num(i64),
-    Add(Box&lt;Expr&gt;, Box&lt;Expr&gt;),
-    Mul(Box&lt;Expr&gt;, Box&lt;Expr&gt;),
+    <pre class="code"><code><span class="kw">enum</span> <span class="ty">Expr</span> {
+    <span class="fn">Num</span>(<span class="ty">i64</span>),
+    <span class="fn">Add</span>(<span class="ty">Box</span>&lt;<span class="ty">Expr</span>&gt;, <span class="ty">Box</span>&lt;<span class="ty">Expr</span>&gt;),
+    <span class="fn">Mul</span>(<span class="ty">Box</span>&lt;<span class="ty">Expr</span>&gt;, <span class="ty">Box</span>&lt;<span class="ty">Expr</span>&gt;),
 }
 
-fn eval(e: &amp;Expr) -&gt; i64 {
-    // write this: evaluate the expression tree
+<span class="kw">fn</span> <span class="fn">eval</span>(e: &amp;<span class="ty">Expr</span>) -&gt; <span class="ty">i64</span> {
+    <span class="cm">// write this: evaluate the expression tree</span>
 }
 </code></pre>
   </div>
@@ -82,11 +82,11 @@ fn eval(e: &amp;Expr) -&gt; i64 {
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>fn eval(e: &amp;Expr) -&gt; i64 {
-    match e {
-        Expr::Num(n) =&gt; *n,
-        Expr::Add(a, b) =&gt; eval(a) + eval(b),
-        Expr::Mul(a, b) =&gt; eval(a) * eval(b),
+      <pre class="code"><code><span class="kw">fn</span> <span class="fn">eval</span>(e: &amp;<span class="ty">Expr</span>) -&gt; <span class="ty">i64</span> {
+    <span class="kw">match</span> e {
+        <span class="ty">Expr</span>::<span class="fn">Num</span>(n) =&gt; *n,
+        <span class="ty">Expr</span>::<span class="fn">Add</span>(a, b) =&gt; <span class="fn">eval</span>(a) + <span class="fn">eval</span>(b),
+        <span class="ty">Expr</span>::<span class="fn">Mul</span>(a, b) =&gt; <span class="fn">eval</span>(a) * <span class="fn">eval</span>(b),
     }
 }
 </code></pre>

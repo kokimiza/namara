@@ -63,24 +63,24 @@
   <h2>2026-09-15</h2>
   <div class="code-frame">
     <p class="code-filename">case_in_if.c</p>
-    <pre class="code"><code>#include &lt;stdio.h&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;stdio.h&gt;</span>
 
-void f(int n) {
-    switch (n) {
-        if (0) {
-    case 1:
-            puts("one");
-        } else {
-    case 2:
-            puts("two");
+<span class="ty">void</span> <span class="fn">f</span>(<span class="ty">int</span> n) {
+    <span class="kw">switch</span> (n) {
+        <span class="kw">if</span> (<span class="nu">0</span>) {
+    <span class="kw">case</span> <span class="nu">1</span>:
+            <span class="fn">puts</span>(<span class="st">"one"</span>);
+        } <span class="kw">else</span> {
+    <span class="kw">case</span> <span class="nu">2</span>:
+            <span class="fn">puts</span>(<span class="st">"two"</span>);
         }
     }
 }
 
-int main(void) {
-    f(1);
-    f(2);
-    f(3);
+<span class="ty">int</span> <span class="fn">main</span>(<span class="ty">void</span>) {
+    <span class="fn">f</span>(<span class="nu">1</span>);
+    <span class="fn">f</span>(<span class="nu">2</span>);
+    <span class="fn">f</span>(<span class="nu">3</span>);
 }
 </code></pre>
   </div>

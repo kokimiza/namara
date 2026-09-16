@@ -63,10 +63,10 @@
   <h2>2026-08-21</h2>
   <div class="code-frame">
     <p class="code-filename">borrow.rs</p>
-    <pre class="code"><code>fn push_and_print(v: &amp;mut Vec&lt;i32&gt;) {
-    let first = &amp;v[0];
-    v.push(42);
-    println!("{}", first);
+    <pre class="code"><code><span class="kw">fn</span> <span class="fn">push_and_print</span>(v: &amp;<span class="kw">mut</span> <span class="ty">Vec</span>&lt;<span class="ty">i32</span>&gt;) {
+    <span class="kw">let</span> first = &amp;v[<span class="nu">0</span>];
+    v.<span class="fn">push</span>(<span class="nu">42</span>);
+    <span class="mc">println!</span>(<span class="st">"{}"</span>, first);
 }
 </code></pre>
   </div>

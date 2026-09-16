@@ -63,18 +63,18 @@
   <h2>2026-08-25</h2>
   <div class="code-frame">
     <p class="code-filename">is_prime_cached.c</p>
-    <pre class="code"><code>#include &lt;stdbool.h&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;stdbool.h&gt;</span>
 
-bool is_prime_slow(int n);
+<span class="ty">bool</span> <span class="fn">is_prime_slow</span>(<span class="ty">int</span> n);
 
-static int cache[1000];
+<span class="kw">static</span> <span class="ty">int</span> cache[<span class="nu">1000</span>];
 
-bool is_prime_cached(int n) {
-    if (cache[n] != 0)
-        return cache[n] == 1;
-    bool result = is_prime_slow(n);
-    cache[n] = result ? 1 : 0;
-    return result;
+<span class="ty">bool</span> <span class="fn">is_prime_cached</span>(<span class="ty">int</span> n) {
+    <span class="kw">if</span> (cache[n] != <span class="nu">0</span>)
+        <span class="kw">return</span> cache[n] == <span class="nu">1</span>;
+    <span class="ty">bool</span> result = <span class="fn">is_prime_slow</span>(n);
+    cache[n] = result ? <span class="nu">1</span> : <span class="nu">0</span>;
+    <span class="kw">return</span> result;
 }
 </code></pre>
   </div>
@@ -89,15 +89,15 @@ bool is_prime_cached(int n) {
       <p>
         <code>cache[n]</code>の初期値である<code>0</code>を「まだ計算していない」の番兵として使っていますが、<code>is_prime_slow(n)</code>がfalseだったときの結果も同じ<code>0</code>として保存してしまいます。番兵と「計算済みでfalseだった」を区別できないので、素数でない<code>n</code>を尋ねるたびに毎回<code>is_prime_slow</code>を呼び直してしまいます(素数の方は<code>1</code>が保存され番兵と衝突しないので、2回目以降はちゃんとキャッシュが効きます)。1本の配列に番兵を混ぜるのではなく、「計算済みかどうか」を別の配列で管理すれば直ります:
       </p>
-      <pre class="code"><code>static bool computed[1000];
-static bool cache[1000];
+      <pre class="code"><code><span class="kw">static</span> <span class="ty">bool</span> computed[<span class="nu">1000</span>];
+<span class="kw">static</span> <span class="ty">bool</span> cache[<span class="nu">1000</span>];
 
-bool is_prime_cached(int n) {
-    if (!computed[n]) {
-        cache[n] = is_prime_slow(n);
-        computed[n] = true;
+<span class="ty">bool</span> <span class="fn">is_prime_cached</span>(<span class="ty">int</span> n) {
+    <span class="kw">if</span> (!computed[n]) {
+        cache[n] = <span class="fn">is_prime_slow</span>(n);
+        computed[n] = <span class="nu">true</span>;
     }
-    return cache[n];
+    <span class="kw">return</span> cache[n];
 }
 </code></pre>
     </div>

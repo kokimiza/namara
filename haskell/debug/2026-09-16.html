@@ -63,11 +63,11 @@
   <h2>2026-09-16</h2>
   <div class="code-frame">
     <p class="code-filename">PowersOfTwo.hs</p>
-    <pre class="code"><code>pows2 :: [Int]
-pows2 = 1 : zipWith (*) pows2 pows2
+    <pre class="code"><code><span class="fn">pows2</span> <span class="op">::</span> [<span class="ty">Int</span>]
+<span class="fn">pows2</span> = <span class="nu">1</span> : zipWith (*) pows2 pows2
 
-main :: IO ()
-main = print (take 5 pows2)
+<span class="fn">main</span> <span class="op">::</span> <span class="ty">IO</span> ()
+<span class="fn">main</span> = print (take <span class="nu">5</span> pows2)
 </code></pre>
   </div>
 
@@ -81,8 +81,8 @@ main = print (take 5 pows2)
       <p>
         <code>zipWith (*) pows2 pows2</code>は「<code>pows2</code>の各項をそれ自身と掛ける」、つまり2乗する定義です。1番目の項は<code>1*1=1</code>、2番目も<code>1*1=1</code>で、以降ずっと1のままになります。「前の項を2倍する」には、もう一方の側を定数の列にする必要があります:
       </p>
-      <pre class="code"><code>pows2 :: [Int]
-pows2 = 1 : map (* 2) pows2
+      <pre class="code"><code><span class="fn">pows2</span> <span class="op">::</span> [<span class="ty">Int</span>]
+<span class="fn">pows2</span> = <span class="nu">1</span> : map (* <span class="nu">2</span>) pows2
 </code></pre>
     </div>
   </details>

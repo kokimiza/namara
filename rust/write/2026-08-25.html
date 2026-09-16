@@ -63,23 +63,23 @@
   <h2>2026-08-25</h2>
   <div class="code-frame">
     <p class="code-filename">animal_clone_box.rs</p>
-    <pre class="code"><code>trait Animal {
-    fn speak(&amp;self) -&gt; String;
-    fn clone_box(&amp;self) -&gt; Box&lt;dyn Animal&gt;;
+    <pre class="code"><code><span class="kw">trait</span> <span class="ty">Animal</span> {
+    <span class="kw">fn</span> <span class="fn">speak</span>(&amp;<span class="kw">self</span>) -&gt; <span class="ty">String</span>;
+    <span class="kw">fn</span> <span class="fn">clone_box</span>(&amp;<span class="kw">self</span>) -&gt; <span class="ty">Box</span>&lt;<span class="kw">dyn</span> <span class="ty">Animal</span>&gt;;
 }
 
-#[derive(Clone)]
-struct Dog {
-    name: String,
+<span class="pp">#[derive(Clone)]</span>
+<span class="kw">struct</span> <span class="ty">Dog</span> {
+    name: <span class="ty">String</span>,
 }
 
-impl Animal for Dog {
-    fn speak(&amp;self) -&gt; String {
-        format!("{} says woof", self.name)
+<span class="kw">impl</span> <span class="ty">Animal</span> <span class="kw">for</span> <span class="ty">Dog</span> {
+    <span class="kw">fn</span> <span class="fn">speak</span>(&amp;<span class="kw">self</span>) -&gt; <span class="ty">String</span> {
+        <span class="mc">format!</span>(<span class="st">"{} says woof"</span>, <span class="kw">self</span>.name)
     }
 
-    fn clone_box(&amp;self) -&gt; Box&lt;dyn Animal&gt; {
-        // write this: return a boxed clone of self
+    <span class="kw">fn</span> <span class="fn">clone_box</span>(&amp;<span class="kw">self</span>) -&gt; <span class="ty">Box</span>&lt;<span class="kw">dyn</span> <span class="ty">Animal</span>&gt; {
+        <span class="cm">// write this: return a boxed clone of self</span>
     }
 }
 </code></pre>
@@ -92,8 +92,8 @@ impl Animal for Dog {
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>fn clone_box(&amp;self) -&gt; Box&lt;dyn Animal&gt; {
-    Box::new(self.clone())
+      <pre class="code"><code><span class="kw">fn</span> <span class="fn">clone_box</span>(&amp;<span class="kw">self</span>) -&gt; <span class="ty">Box</span>&lt;<span class="kw">dyn</span> <span class="ty">Animal</span>&gt; {
+    <span class="ty">Box</span>::<span class="fn">new</span>(<span class="kw">self</span>.<span class="fn">clone</span>())
 }
 </code></pre>
       <p>

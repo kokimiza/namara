@@ -63,19 +63,19 @@
   <h2>2026-08-24</h2>
   <div class="code-frame">
     <p class="code-filename">lifetime.cpp</p>
-    <pre class="code"><code>#include &lt;iostream&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;iostream&gt;</span>
 
-struct Loud {
-    Loud() { std::cout &lt;&lt; "born "; }
-    ~Loud() { std::cout &lt;&lt; "gone "; }
+<span class="kw">struct</span> <span class="ty">Loud</span> {
+    <span class="fn">Loud</span>() { std::cout &lt;&lt; <span class="st">"born "</span>; }
+    ~<span class="fn">Loud</span>() { std::cout &lt;&lt; <span class="st">"gone "</span>; }
 };
 
-Loud make() { return Loud(); }
+<span class="ty">Loud</span> <span class="fn">make</span>() { <span class="kw">return</span> <span class="fn">Loud</span>(); }
 
-int main() {
-    const Loud&amp; r = make();
-    std::cout &lt;&lt; "using ";
-    (void)r;
+<span class="ty">int</span> <span class="fn">main</span>() {
+    <span class="kw">const</span> <span class="ty">Loud</span>&amp; r = <span class="fn">make</span>();
+    std::cout &lt;&lt; <span class="st">"using "</span>;
+    (<span class="ty">void</span>)r;
 }
 </code></pre>
   </div>

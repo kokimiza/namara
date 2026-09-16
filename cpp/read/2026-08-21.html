@@ -63,19 +63,19 @@
   <h2>2026-08-21</h2>
   <div class="code-frame">
     <p class="code-filename">init_order.cpp</p>
-    <pre class="code"><code>#include &lt;iostream&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;iostream&gt;</span>
 
-struct A { A() { std::cout &lt;&lt; "A"; } };
-struct B { B() { std::cout &lt;&lt; "B"; } };
+<span class="kw">struct</span> <span class="ty">A</span> { <span class="fn">A</span>() { std::cout &lt;&lt; <span class="st">"A"</span>; } };
+<span class="kw">struct</span> <span class="ty">B</span> { <span class="fn">B</span>() { std::cout &lt;&lt; <span class="st">"B"</span>; } };
 
-struct C {
-    B b;
-    A a;
-    C() : a(), b() { std::cout &lt;&lt; "C"; }
+<span class="kw">struct</span> <span class="ty">C</span> {
+    <span class="ty">B</span> b;
+    <span class="ty">A</span> a;
+    <span class="fn">C</span>() : <span class="fn">a</span>(), <span class="fn">b</span>() { std::cout &lt;&lt; <span class="st">"C"</span>; }
 };
 
-int main() {
-    C c;
+<span class="ty">int</span> <span class="fn">main</span>() {
+    <span class="ty">C</span> c;
 }
 </code></pre>
   </div>

@@ -63,9 +63,9 @@
   <h2>2026-09-12</h2>
   <div class="code-frame">
     <p class="code-filename">count_digits.cpp</p>
-    <pre class="code"><code>int count_digits(int n) {
-    // write this: return the number of decimal digits in n
-    // (n is guaranteed to be positive)
+    <pre class="code"><code><span class="ty">int</span> <span class="fn">count_digits</span>(<span class="ty">int</span> n) {
+    <span class="cm">// write this: return the number of decimal digits in n</span>
+    <span class="cm">// (n is guaranteed to be positive)</span>
 }
 </code></pre>
   </div>
@@ -77,13 +77,13 @@
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>int count_digits(int n) {
-    int count = 0;
-    while (n &gt; 0) {
-        n /= 10;
+      <pre class="code"><code><span class="ty">int</span> <span class="fn">count_digits</span>(<span class="ty">int</span> n) {
+    <span class="ty">int</span> count = <span class="nu">0</span>;
+    <span class="kw">while</span> (n &gt; <span class="nu">0</span>) {
+        n /= <span class="nu">10</span>;
         ++count;
     }
-    return count;
+    <span class="kw">return</span> count;
 }
 </code></pre>
       <p>

@@ -63,15 +63,15 @@
   <h2>2026-08-21</h2>
   <div class="code-frame">
     <p class="code-filename">assign.cpp</p>
-    <pre class="code"><code>#include &lt;algorithm&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;algorithm&gt;</span>
 
-// Buffer owns `data`, an array of `size` ints.
-Buffer&amp; Buffer::operator=(const Buffer&amp; other) {
-    delete[] data;
-    data = new int[other.size];
-    std::copy(other.data, other.data + other.size, data);
+<span class="cm">// Buffer owns `data`, an array of `size` ints.</span>
+<span class="ty">Buffer</span>&amp; <span class="ty">Buffer</span>::<span class="kw">operator</span>=(<span class="kw">const</span> <span class="ty">Buffer</span>&amp; other) {
+    <span class="kw">delete</span>[] data;
+    data = <span class="kw">new</span> <span class="ty">int</span>[other.size];
+    std::<span class="fn">copy</span>(other.data, other.data + other.size, data);
     size = other.size;
-    return *this;
+    <span class="kw">return</span> *<span class="kw">this</span>;
 }
 </code></pre>
   </div>

@@ -63,9 +63,9 @@
   <h2>2026-08-27</h2>
   <div class="code-frame">
     <p class="code-filename">copy_str.c</p>
-    <pre class="code"><code>void copy_str(char *dst, const char *src) {
-    /* write this: copy the NUL-terminated string src into dst
-       (dst has enough room), including the terminator */
+    <pre class="code"><code><span class="ty">void</span> <span class="fn">copy_str</span>(<span class="ty">char</span> *dst, <span class="kw">const</span> <span class="ty">char</span> *src) {
+    <span class="cm">/* write this: copy the NUL-terminated string src into dst
+       (dst has enough room), including the terminator */</span>
 }
 </code></pre>
   </div>
@@ -77,8 +77,8 @@
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>void copy_str(char *dst, const char *src) {
-    while ((*dst++ = *src++) != '\0') {
+      <pre class="code"><code><span class="ty">void</span> <span class="fn">copy_str</span>(<span class="ty">char</span> *dst, <span class="kw">const</span> <span class="ty">char</span> *src) {
+    <span class="kw">while</span> ((*dst++ = *src++) != <span class="st">'\0'</span>) {
     }
 }
 </code></pre>

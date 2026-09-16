@@ -63,12 +63,12 @@
   <h2>2026-08-25</h2>
   <div class="code-frame">
     <p class="code-filename">print_csv.cpp</p>
-    <pre class="code"><code>#include &lt;iostream&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;iostream&gt;</span>
 
-template &lt;typename... Args&gt;
-void print_csv(const Args&amp;... args) {
-    // write this: print every argument separated by ", " (no trailing
-    // separator), using a fold expression — not a loop or recursion
+<span class="kw">template</span> &lt;<span class="kw">typename</span>... <span class="ty">Args</span>&gt;
+<span class="ty">void</span> <span class="fn">print_csv</span>(<span class="kw">const</span> <span class="ty">Args</span>&amp;... args) {
+    <span class="cm">// write this: print every argument separated by ", " (no trailing</span>
+    <span class="cm">// separator), using a fold expression — not a loop or recursion</span>
 }
 </code></pre>
   </div>
@@ -80,11 +80,11 @@ void print_csv(const Args&amp;... args) {
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>template &lt;typename... Args&gt;
-void print_csv(const Args&amp;... args) {
-    const char* sep = "";
-    ((std::cout &lt;&lt; sep &lt;&lt; args, sep = ", "), ...);
-    std::cout &lt;&lt; '\n';
+      <pre class="code"><code><span class="kw">template</span> &lt;<span class="kw">typename</span>... <span class="ty">Args</span>&gt;
+<span class="ty">void</span> <span class="fn">print_csv</span>(<span class="kw">const</span> <span class="ty">Args</span>&amp;... args) {
+    <span class="kw">const</span> <span class="ty">char</span>* sep = <span class="st">""</span>;
+    ((std::cout &lt;&lt; sep &lt;&lt; args, sep = <span class="st">", "</span>), ...);
+    std::cout &lt;&lt; <span class="st">'\n'</span>;
 }
 </code></pre>
       <p>

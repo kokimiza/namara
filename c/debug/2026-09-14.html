@@ -63,12 +63,12 @@
   <h2>2026-09-14</h2>
   <div class="code-frame">
     <p class="code-filename">count_powers.c</p>
-    <pre class="code"><code>/* how many powers of two (1, 2, 4, ...) fit in an int? */
-int count_powers_of_two(void) {
-    int n = 0;
-    for (int i = 1; i &gt; 0; i *= 2)
+    <pre class="code"><code><span class="cm">/* how many powers of two (1, 2, 4, ...) fit in an int? */</span>
+<span class="ty">int</span> <span class="fn">count_powers_of_two</span>(<span class="ty">void</span>) {
+    <span class="ty">int</span> n = <span class="nu">0</span>;
+    <span class="kw">for</span> (<span class="ty">int</span> i = <span class="nu">1</span>; i &gt; <span class="nu">0</span>; i *= <span class="nu">2</span>)
         n++;
-    return n;
+    <span class="kw">return</span> n;
 }
 </code></pre>
   </div>
@@ -83,13 +83,13 @@ int count_powers_of_two(void) {
       <p>
         最後の<code>i *= 2</code>が<code>int</code>をオーバーフローします。符号付き整数のオーバーフローは未定義動作で、「負の値に回り込む」保証はありません。コンパイラは「オーバーフローは起きない」と仮定してよいので、「正の<code>i</code>を2倍しても正のまま、つまり<code>i &gt; 0</code>は常に真」と判断して判定を消せます(GCCの<code>-O2</code>では実際に無限ループになります)。周回しない符号なし型で数え、上限を明示すれば直ります:
       </p>
-      <pre class="code"><code>#include &lt;limits.h&gt;
+      <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;limits.h&gt;</span>
 
-int count_powers_of_two(void) {
-    int n = 0;
-    for (unsigned i = 1; i &lt;= INT_MAX; i *= 2)
+<span class="ty">int</span> <span class="fn">count_powers_of_two</span>(<span class="ty">void</span>) {
+    <span class="ty">int</span> n = <span class="nu">0</span>;
+    <span class="kw">for</span> (<span class="ty">unsigned</span> i = <span class="nu">1</span>; i &lt;= <span class="nu">INT_MAX</span>; i *= <span class="nu">2</span>)
         n++;
-    return n;
+    <span class="kw">return</span> n;
 }
 </code></pre>
     </div>

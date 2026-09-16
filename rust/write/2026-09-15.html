@@ -63,9 +63,9 @@
   <h2>2026-09-15</h2>
   <div class="code-frame">
     <p class="code-filename">parse_port.rs</p>
-    <pre class="code"><code>fn port(value: Option&lt;&amp;str&gt;) -&gt; Option&lt;u16&gt; {
-    // write this: Some(port) only if value is Some,
-    // parses as a u16, and is not 0; otherwise None
+    <pre class="code"><code><span class="kw">fn</span> <span class="fn">port</span>(value: <span class="ty">Option</span>&lt;&amp;<span class="ty">str</span>&gt;) -&gt; <span class="ty">Option</span>&lt;<span class="ty">u16</span>&gt; {
+    <span class="cm">// write this: Some(port) only if value is Some,</span>
+    <span class="cm">// parses as a u16, and is not 0; otherwise None</span>
 }
 </code></pre>
   </div>
@@ -77,14 +77,14 @@
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>fn port(value: Option&lt;&amp;str&gt;) -&gt; Option&lt;u16&gt; {
-    if let Some(s) = value
-        &amp;&amp; let Ok(p) = s.parse::&lt;u16&gt;()
-        &amp;&amp; p != 0
+      <pre class="code"><code><span class="kw">fn</span> <span class="fn">port</span>(value: <span class="ty">Option</span>&lt;&amp;<span class="ty">str</span>&gt;) -&gt; <span class="ty">Option</span>&lt;<span class="ty">u16</span>&gt; {
+    <span class="kw">if</span> <span class="kw">let</span> <span class="fn">Some</span>(s) = value
+        &amp;&amp; <span class="kw">let</span> <span class="fn">Ok</span>(p) = s.<span class="fn">parse</span>::&lt;<span class="ty">u16</span>&gt;()
+        &amp;&amp; p != <span class="nu">0</span>
     {
-        Some(p)
-    } else {
-        None
+        <span class="fn">Some</span>(p)
+    } <span class="kw">else</span> {
+        <span class="ty">None</span>
     }
 }
 </code></pre>

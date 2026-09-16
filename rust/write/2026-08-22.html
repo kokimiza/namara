@@ -63,8 +63,8 @@
   <h2>2026-08-22</h2>
   <div class="code-frame">
     <p class="code-filename">gcd.rs</p>
-    <pre class="code"><code>fn gcd(a: u32, b: u32) -&gt; u32 {
-    // write this: greatest common divisor of a and b
+    <pre class="code"><code><span class="kw">fn</span> <span class="fn">gcd</span>(a: <span class="ty">u32</span>, b: <span class="ty">u32</span>) -&gt; <span class="ty">u32</span> {
+    <span class="cm">// write this: greatest common divisor of a and b</span>
 }
 </code></pre>
   </div>
@@ -76,8 +76,8 @@
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>fn gcd(a: u32, b: u32) -&gt; u32 {
-    if b == 0 { a } else { gcd(b, a % b) }
+      <pre class="code"><code><span class="kw">fn</span> <span class="fn">gcd</span>(a: <span class="ty">u32</span>, b: <span class="ty">u32</span>) -&gt; <span class="ty">u32</span> {
+    <span class="kw">if</span> b == <span class="nu">0</span> { a } <span class="kw">else</span> { <span class="fn">gcd</span>(b, a % b) }
 }
 </code></pre>
       <p>

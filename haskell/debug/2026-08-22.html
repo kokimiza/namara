@@ -63,14 +63,14 @@
   <h2>2026-08-22</h2>
   <div class="code-frame">
     <p class="code-filename">SafeDivide.hs</p>
-    <pre class="code"><code>safeDivide :: Int -&gt; Int -&gt; Maybe Int
-safeDivide _ 0 = Nothing
-safeDivide a b = Just (a `div` b)
+    <pre class="code"><code><span class="fn">safeDivide</span> <span class="op">::</span> <span class="ty">Int</span> <span class="op">-&gt;</span> <span class="ty">Int</span> <span class="op">-&gt;</span> <span class="ty">Maybe</span> <span class="ty">Int</span>
+<span class="fn">safeDivide</span> _ <span class="nu">0</span> = <span class="ty">Nothing</span>
+<span class="fn">safeDivide</span> a b = <span class="ty">Just</span> (a `div` b)
 
-describe :: Int -&gt; Int -&gt; String
-describe a b =
-  let Just result = safeDivide a b
-  in "Result: " ++ show result
+<span class="fn">describe</span> <span class="op">::</span> <span class="ty">Int</span> <span class="op">-&gt;</span> <span class="ty">Int</span> <span class="op">-&gt;</span> <span class="ty">String</span>
+<span class="fn">describe</span> a b =
+  <span class="kw">let</span> <span class="ty">Just</span> result = safeDivide a b
+  <span class="kw">in</span> <span class="st">"Result: "</span> ++ show result
 </code></pre>
   </div>
 

@@ -63,14 +63,14 @@
   <h2>2026-08-27</h2>
   <div class="code-frame">
     <p class="code-filename">Counter.hs</p>
-    <pre class="code"><code>import Data.IORef
-import Control.Monad (replicateM_)
+    <pre class="code"><code><span class="kw">import</span> <span class="ty">Data.IORef</span>
+<span class="kw">import</span> <span class="ty">Control.Monad</span> (replicateM_)
 
-main :: IO ()
-main = do
-  ref &lt;- newIORef (0 :: Int)
-  replicateM_ 1000000 (modifyIORef ref (+1))
-  total &lt;- readIORef ref
+<span class="fn">main</span> <span class="op">::</span> <span class="ty">IO</span> ()
+<span class="fn">main</span> = <span class="kw">do</span>
+  ref <span class="op">&lt;-</span> newIORef (<span class="nu">0</span> <span class="op">::</span> <span class="ty">Int</span>)
+  replicateM_ <span class="nu">1000000</span> (modifyIORef ref (+<span class="nu">1</span>))
+  total <span class="op">&lt;-</span> readIORef ref
   print total
 </code></pre>
   </div>
@@ -85,7 +85,7 @@ main = do
       <p>
         <code>modifyIORef</code>は中身を遅延したまま更新するため、<code>ref</code>の中身は実際には計算されず、<code>(((0+1)+1)+1)...+1</code>という巨大なサンク(thunk)の連鎖として積み上がっていきます。最後に<code>readIORef</code>で取り出して<code>print</code>が評価しようとした瞬間、この深い連鎖を一気に評価することになり、スタックオーバーフローや大きなメモリ消費につながります。修正は、正格版の<code>modifyIORef'</code>に変えることです &mdash; 各ステップで即座に値を評価するので、サンクが蓄積しません:
       </p>
-      <pre class="code"><code>replicateM_ 1000000 (modifyIORef' ref (+1))
+      <pre class="code"><code><span class="fn">replicateM_</span> <span class="nu">1000000</span> (modifyIORef' ref (+<span class="nu">1</span>))
 </code></pre>
     </div>
   </details>

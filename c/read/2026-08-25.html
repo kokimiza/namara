@@ -63,23 +63,23 @@
   <h2>2026-08-25</h2>
   <div class="code-frame">
     <p class="code-filename">fib_memo.c</p>
-    <pre class="code"><code>static int memo[10];
-static int calls = 0;
+    <pre class="code"><code><span class="kw">static</span> <span class="ty">int</span> memo[<span class="nu">10</span>];
+<span class="kw">static</span> <span class="ty">int</span> calls = <span class="nu">0</span>;
 
-int fib(int n) {
-    if (n &lt; 2)
-        return n;
-    if (memo[n] != -1)
-        return memo[n];
+<span class="ty">int</span> <span class="fn">fib</span>(<span class="ty">int</span> n) {
+    <span class="kw">if</span> (n &lt; <span class="nu">2</span>)
+        <span class="kw">return</span> n;
+    <span class="kw">if</span> (memo[n] != -<span class="nu">1</span>)
+        <span class="kw">return</span> memo[n];
     calls++;
-    return memo[n] = fib(n - 1) + fib(n - 2);
+    <span class="kw">return</span> memo[n] = <span class="fn">fib</span>(n - <span class="nu">1</span>) + <span class="fn">fib</span>(n - <span class="nu">2</span>);
 }
 
-int main(void) {
-    for (int i = 0; i &lt; 10; i++)
-        memo[i] = -1;
-    int result = fib(9);
-    printf("%d %d\n", result, calls);
+<span class="ty">int</span> <span class="fn">main</span>(<span class="ty">void</span>) {
+    <span class="kw">for</span> (<span class="ty">int</span> i = <span class="nu">0</span>; i &lt; <span class="nu">10</span>; i++)
+        memo[i] = -<span class="nu">1</span>;
+    <span class="ty">int</span> result = <span class="fn">fib</span>(<span class="nu">9</span>);
+    <span class="fn">printf</span>(<span class="st">"%d %d\n"</span>, result, calls);
 }
 </code></pre>
   </div>

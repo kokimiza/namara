@@ -63,10 +63,10 @@
   <h2>2026-08-21</h2>
   <div class="code-frame">
     <p class="code-filename">reverse.c</p>
-    <pre class="code"><code>#include &lt;string.h&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;string.h&gt;</span>
 
-void reverse(char *s) {
-    /* write this: reverse s in place, no extra buffer */
+<span class="ty">void</span> <span class="fn">reverse</span>(<span class="ty">char</span> *s) {
+    <span class="cm">/* write this: reverse s in place, no extra buffer */</span>
 }
 </code></pre>
   </div>
@@ -78,10 +78,10 @@ void reverse(char *s) {
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>void reverse(char *s) {
-    size_t len = strlen(s);
-    for (size_t i = 0, j = len - 1; i &lt; j; i++, j--) {
-        char tmp = s[i];
+      <pre class="code"><code><span class="ty">void</span> <span class="fn">reverse</span>(<span class="ty">char</span> *s) {
+    <span class="ty">size_t</span> len = <span class="fn">strlen</span>(s);
+    <span class="kw">for</span> (<span class="ty">size_t</span> i = <span class="nu">0</span>, j = len - <span class="nu">1</span>; i &lt; j; i++, j--) {
+        <span class="ty">char</span> tmp = s[i];
         s[i] = s[j];
         s[j] = tmp;
     }

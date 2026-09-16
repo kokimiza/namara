@@ -63,13 +63,13 @@
   <h2>2026-09-15</h2>
   <div class="code-frame">
     <p class="code-filename">grant.c</p>
-    <pre class="code"><code>void grant_read(void);
-void grant_write(void);
-void grant_admin(void);
+    <pre class="code"><code><span class="ty">void</span> <span class="fn">grant_read</span>(<span class="ty">void</span>);
+<span class="ty">void</span> <span class="fn">grant_write</span>(<span class="ty">void</span>);
+<span class="ty">void</span> <span class="fn">grant_admin</span>(<span class="ty">void</span>);
 
-void grant(int level) {
-    // write this: level 3 grants admin, write and read;
-    // level 2 grants write and read; level 1 grants read only
+<span class="ty">void</span> <span class="fn">grant</span>(<span class="ty">int</span> level) {
+    <span class="cm">// write this: level 3 grants admin, write and read;</span>
+    <span class="cm">// level 2 grants write and read; level 1 grants read only</span>
 }
 </code></pre>
   </div>
@@ -81,17 +81,17 @@ void grant(int level) {
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>void grant(int level) {
-    switch (level) {
-    case 3:
-        grant_admin();
+      <pre class="code"><code><span class="ty">void</span> <span class="fn">grant</span>(<span class="ty">int</span> level) {
+    <span class="kw">switch</span> (level) {
+    <span class="kw">case</span> <span class="nu">3</span>:
+        <span class="fn">grant_admin</span>();
         [[fallthrough]];
-    case 2:
-        grant_write();
+    <span class="kw">case</span> <span class="nu">2</span>:
+        <span class="fn">grant_write</span>();
         [[fallthrough]];
-    case 1:
-        grant_read();
-        break;
+    <span class="kw">case</span> <span class="nu">1</span>:
+        <span class="fn">grant_read</span>();
+        <span class="kw">break</span>;
     }
 }
 </code></pre>

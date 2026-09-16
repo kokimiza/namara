@@ -63,14 +63,14 @@
   <h2>2026-09-14</h2>
   <div class="code-frame">
     <p class="code-filename">SumTo.hs</p>
-    <pre class="code"><code>sumTo :: Int -&gt; Int
-sumTo n = go 1 0
-  where
+    <pre class="code"><code><span class="fn">sumTo</span> <span class="op">::</span> <span class="ty">Int</span> <span class="op">-&gt;</span> <span class="ty">Int</span>
+<span class="fn">sumTo</span> n = go <span class="nu">1</span> <span class="nu">0</span>
+  <span class="kw">where</span>
     go i acc
       | i &gt; n = acc
       | otherwise =
-          let acc = acc + i
-          in go (i + 1) acc
+          <span class="kw">let</span> acc = acc + i
+          <span class="kw">in</span> go (i + <span class="nu">1</span>) acc
 </code></pre>
   </div>
 
@@ -84,8 +84,8 @@ sumTo n = go 1 0
       <p>
         Haskellの<code>let</code>は再帰的で、右辺の<code>acc</code>は引数の<code>acc</code>ではなく、いま定義している<code>acc</code>自身を指します。つまり<code>acc = acc + i</code>は「自分自身に<code>i</code>を足したもの」という終わらない定義で、値が必要になった時点で無限に自分を評価し続けます(GHCはこれを検出すると<code>&lt;&lt;loop&gt;&gt;</code>例外にします)。新しい名前を付ければ直ります:
       </p>
-      <pre class="code"><code>let acc' = acc + i
-in go (i + 1) acc'
+      <pre class="code"><code><span class="kw">let</span> acc' = acc + i
+<span class="kw">in</span> go (i + <span class="nu">1</span>) acc'
 </code></pre>
     </div>
   </details>

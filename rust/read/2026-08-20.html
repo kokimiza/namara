@@ -63,16 +63,16 @@
   <h2>2026-08-20</h2>
   <div class="code-frame">
     <p class="code-filename">iterator.rs</p>
-    <pre class="code"><code>fn main() {
-    let v = vec![1, 2, 3];
-    let mut iter = v.iter().map(|x| {
-        println!("mapping {}", x);
-        x * 2
+    <pre class="code"><code><span class="kw">fn</span> <span class="fn">main</span>() {
+    <span class="kw">let</span> v = <span class="mc">vec!</span>[<span class="nu">1</span>, <span class="nu">2</span>, <span class="nu">3</span>];
+    <span class="kw">let</span> <span class="kw">mut</span> iter = v.<span class="fn">iter</span>().<span class="fn">map</span>(|x| {
+        <span class="mc">println!</span>(<span class="st">"mapping {}"</span>, x);
+        x * <span class="nu">2</span>
     });
 
-    println!("created");
-    let first = iter.next();
-    println!("{:?}", first);
+    <span class="mc">println!</span>(<span class="st">"created"</span>);
+    <span class="kw">let</span> first = iter.<span class="fn">next</span>();
+    <span class="mc">println!</span>(<span class="st">"{:?}"</span>, first);
 }
 </code></pre>
   </div>

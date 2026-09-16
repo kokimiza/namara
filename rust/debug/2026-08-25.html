@@ -63,25 +63,25 @@
   <h2>2026-08-25</h2>
   <div class="code-frame">
     <p class="code-filename">formatter_dyn.rs</p>
-    <pre class="code"><code>trait Formatter {
-    fn format&lt;T: std::fmt::Display&gt;(&amp;self, value: T) -&gt; String;
+    <pre class="code"><code><span class="kw">trait</span> <span class="ty">Formatter</span> {
+    <span class="kw">fn</span> <span class="fn">format</span>&lt;<span class="ty">T</span>: std::fmt::<span class="ty">Display</span>&gt;(&amp;<span class="kw">self</span>, value: <span class="ty">T</span>) -&gt; <span class="ty">String</span>;
 }
 
-struct Prefixed {
-    prefix: String,
+<span class="kw">struct</span> <span class="ty">Prefixed</span> {
+    prefix: <span class="ty">String</span>,
 }
 
-impl Formatter for Prefixed {
-    fn format&lt;T: std::fmt::Display&gt;(&amp;self, value: T) -&gt; String {
-        format!("{}{}", self.prefix, value)
+<span class="kw">impl</span> <span class="ty">Formatter</span> <span class="kw">for</span> <span class="ty">Prefixed</span> {
+    <span class="kw">fn</span> <span class="fn">format</span>&lt;<span class="ty">T</span>: std::fmt::<span class="ty">Display</span>&gt;(&amp;<span class="kw">self</span>, value: <span class="ty">T</span>) -&gt; <span class="ty">String</span> {
+        <span class="mc">format!</span>(<span class="st">"{}{}"</span>, <span class="kw">self</span>.prefix, value)
     }
 }
 
-fn main() {
-    let f: Box&lt;dyn Formatter&gt; = Box::new(Prefixed {
-        prefix: "&gt; ".to_string(),
+<span class="kw">fn</span> <span class="fn">main</span>() {
+    <span class="kw">let</span> f: <span class="ty">Box</span>&lt;<span class="kw">dyn</span> <span class="ty">Formatter</span>&gt; = <span class="ty">Box</span>::<span class="fn">new</span>(<span class="ty">Prefixed</span> {
+        prefix: <span class="st">"&gt; "</span>.<span class="fn">to_string</span>(),
     });
-    println!("{}", f.format(42));
+    <span class="mc">println!</span>(<span class="st">"{}"</span>, f.<span class="fn">format</span>(<span class="nu">42</span>));
 }
 </code></pre>
   </div>
@@ -96,15 +96,15 @@ fn main() {
       <p>
         <code>format</code>がジェネリック型パラメータ<code>T</code>を持つメソッドなので、<code>Formatter</code>はオブジェクト安全(dyn互換)ではありません。ジェネリックメソッドは呼ばれる型ごとに別々のコードを生成するので、実行時にただ1つのエントリで済む仮想関数テーブルには載せられないのです。<code>Box&lt;dyn Formatter&gt;</code>を作ろうとした時点でコンパイルエラーになります。ジェネリック引数の代わりにトレイトオブジェクト<code>&amp;dyn Display</code>を受け取るようにすれば、<code>format</code>自体が単相な(ジェネリックでない)メソッドになり、トレイトはdyn互換になります:
       </p>
-      <pre class="code"><code>use std::fmt::Display;
+      <pre class="code"><code><span class="kw">use</span> std::fmt::<span class="ty">Display</span>;
 
-trait Formatter {
-    fn format(&amp;self, value: &amp;dyn Display) -&gt; String;
+<span class="kw">trait</span> <span class="ty">Formatter</span> {
+    <span class="kw">fn</span> <span class="fn">format</span>(&amp;<span class="kw">self</span>, value: &amp;<span class="kw">dyn</span> <span class="ty">Display</span>) -&gt; <span class="ty">String</span>;
 }
 
-impl Formatter for Prefixed {
-    fn format(&amp;self, value: &amp;dyn Display) -&gt; String {
-        format!("{}{}", self.prefix, value)
+<span class="kw">impl</span> <span class="ty">Formatter</span> <span class="kw">for</span> <span class="ty">Prefixed</span> {
+    <span class="kw">fn</span> <span class="fn">format</span>(&amp;<span class="kw">self</span>, value: &amp;<span class="kw">dyn</span> <span class="ty">Display</span>) -&gt; <span class="ty">String</span> {
+        <span class="mc">format!</span>(<span class="st">"{}{}"</span>, <span class="kw">self</span>.prefix, value)
     }
 }
 </code></pre>

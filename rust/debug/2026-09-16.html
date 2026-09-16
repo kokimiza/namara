@@ -63,14 +63,14 @@
   <h2>2026-09-16</h2>
   <div class="code-frame">
     <p class="code-filename">shout.rs</p>
-    <pre class="code"><code>fn shout(message: String) -&gt; String {
-    message.to_uppercase()
+    <pre class="code"><code><span class="kw">fn</span> <span class="fn">shout</span>(message: <span class="ty">String</span>) -&gt; <span class="ty">String</span> {
+    message.<span class="fn">to_uppercase</span>()
 }
 
-fn main() {
-    let greeting = String::from("hello");
-    let shouted = shout(greeting);
-    println!("{greeting} -&gt; {shouted}");
+<span class="kw">fn</span> <span class="fn">main</span>() {
+    <span class="kw">let</span> greeting = <span class="ty">String</span>::<span class="fn">from</span>(<span class="st">"hello"</span>);
+    <span class="kw">let</span> shouted = <span class="fn">shout</span>(greeting);
+    <span class="mc">println!</span>(<span class="st">"{greeting} -&gt; {shouted}"</span>);
 }
 </code></pre>
   </div>
@@ -85,14 +85,14 @@ fn main() {
       <p>
         仮引数<code>message: String</code>は所有権を受け取る型なので、呼び出し<code>shout(greeting)</code>は実引数<code>greeting</code>の所有権を<code>shout</code>へムーブします。ムーブしたあとの<code>greeting</code>は無効なので、続く<code>println!</code>での参照はコンパイルエラーです。<code>shout</code>は文字列の中身を読むだけで所有権は要らないので、仮引数を借用<code>&amp;str</code>に変えれば、実引数側は借用を渡すだけで所有権を手放さずに済みます:
       </p>
-      <pre class="code"><code>fn shout(message: &amp;str) -&gt; String {
-    message.to_uppercase()
+      <pre class="code"><code><span class="kw">fn</span> <span class="fn">shout</span>(message: &amp;<span class="ty">str</span>) -&gt; <span class="ty">String</span> {
+    message.<span class="fn">to_uppercase</span>()
 }
 
-fn main() {
-    let greeting = String::from("hello");
-    let shouted = shout(&amp;greeting);
-    println!("{greeting} -&gt; {shouted}");
+<span class="kw">fn</span> <span class="fn">main</span>() {
+    <span class="kw">let</span> greeting = <span class="ty">String</span>::<span class="fn">from</span>(<span class="st">"hello"</span>);
+    <span class="kw">let</span> shouted = <span class="fn">shout</span>(&amp;greeting);
+    <span class="mc">println!</span>(<span class="st">"{greeting} -&gt; {shouted}"</span>);
 }
 </code></pre>
     </div>

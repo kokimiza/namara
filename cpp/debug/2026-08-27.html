@@ -63,21 +63,21 @@
   <h2>2026-08-27</h2>
   <div class="code-frame">
     <p class="code-filename">ticker_bug.cpp</p>
-    <pre class="code"><code>#include &lt;iostream&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;iostream&gt;</span>
 
-struct Ticker {
-    int count = 0;
+<span class="kw">struct</span> <span class="ty">Ticker</span> {
+    <span class="ty">int</span> count = <span class="nu">0</span>;
 
-    Ticker operator++(int) {
+    <span class="ty">Ticker</span> <span class="kw">operator</span>++(<span class="ty">int</span>) {
         ++count;
-        return *this;
+        <span class="kw">return</span> *<span class="kw">this</span>;
     }
 };
 
-int main() {
-    Ticker t;
-    Ticker old = t++;
-    std::cout &lt;&lt; old.count &lt;&lt; " " &lt;&lt; t.count &lt;&lt; "\n";
+<span class="ty">int</span> <span class="fn">main</span>() {
+    <span class="ty">Ticker</span> t;
+    <span class="ty">Ticker</span> old = t++;
+    std::cout &lt;&lt; old.count &lt;&lt; <span class="st">" "</span> &lt;&lt; t.count &lt;&lt; <span class="st">"\n"</span>;
 }
 </code></pre>
   </div>
@@ -92,10 +92,10 @@ int main() {
       <p>
         この実装は<code>count</code>を先にインクリメントしてから<code>*this</code>を返しているため、後置演算子が返すのは呼び出し後の状態になってしまい、前置演算子と見分けがつかなくなっています。後置演算子は本来、インクリメントする前の状態のコピーを返す必要があります。最小限の修正は、書き換える前にコピーを取っておくことです:
       </p>
-      <pre class="code"><code>Ticker operator++(int) {
-    Ticker old = *this;
+      <pre class="code"><code><span class="ty">Ticker</span> <span class="kw">operator</span>++(<span class="ty">int</span>) {
+    <span class="ty">Ticker</span> old = *<span class="kw">this</span>;
     ++count;
-    return old;
+    <span class="kw">return</span> old;
 }
 </code></pre>
     </div>

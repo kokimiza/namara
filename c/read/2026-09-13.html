@@ -63,28 +63,28 @@
   <h2>2026-09-13</h2>
   <div class="code-frame">
     <p class="code-filename">print_digits.c</p>
-    <pre class="code"><code>#include &lt;stdio.h&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;stdio.h&gt;</span>
 
-static void forward(unsigned n)
+<span class="kw">static</span> <span class="ty">void</span> <span class="fn">forward</span>(<span class="ty">unsigned</span> n)
 {
-    if (n &gt;= 10)
-        forward(n / 10);
-    putchar('0' + n % 10);
+    <span class="kw">if</span> (n &gt;= <span class="nu">10</span>)
+        <span class="fn">forward</span>(n / <span class="nu">10</span>);
+    <span class="fn">putchar</span>(<span class="st">'0'</span> + n % <span class="nu">10</span>);
 }
 
-static void backward(unsigned n)
+<span class="kw">static</span> <span class="ty">void</span> <span class="fn">backward</span>(<span class="ty">unsigned</span> n)
 {
-    putchar('0' + n % 10);
-    if (n &gt;= 10)
-        backward(n / 10);
+    <span class="fn">putchar</span>(<span class="st">'0'</span> + n % <span class="nu">10</span>);
+    <span class="kw">if</span> (n &gt;= <span class="nu">10</span>)
+        <span class="fn">backward</span>(n / <span class="nu">10</span>);
 }
 
-int main(void)
+<span class="ty">int</span> <span class="fn">main</span>(<span class="ty">void</span>)
 {
-    forward(1203);
-    putchar(' ');
-    backward(1203);
-    putchar('\n');
+    <span class="fn">forward</span>(<span class="nu">1203</span>);
+    <span class="fn">putchar</span>(<span class="st">' '</span>);
+    <span class="fn">backward</span>(<span class="nu">1203</span>);
+    <span class="fn">putchar</span>(<span class="st">'\n'</span>);
 }
 </code></pre>
   </div>

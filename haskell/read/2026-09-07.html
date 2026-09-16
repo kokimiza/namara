@@ -63,14 +63,14 @@
   <h2>2026-09-07</h2>
   <div class="code-frame">
     <p class="code-filename">Alias.hs</p>
-    <pre class="code"><code>import Data.IORef
+    <pre class="code"><code><span class="kw">import</span> <span class="ty">Data.IORef</span>
 
-main :: IO ()
-main = do
-  a &lt;- newIORef (1 :: Int)
-  let b = a
-  writeIORef b 5
-  x &lt;- readIORef a
+<span class="fn">main</span> <span class="op">::</span> <span class="ty">IO</span> ()
+<span class="fn">main</span> = <span class="kw">do</span>
+  a <span class="op">&lt;-</span> newIORef (<span class="nu">1</span> <span class="op">::</span> <span class="ty">Int</span>)
+  <span class="kw">let</span> b = a
+  writeIORef b <span class="nu">5</span>
+  x <span class="op">&lt;-</span> readIORef a
   print x
 </code></pre>
   </div>

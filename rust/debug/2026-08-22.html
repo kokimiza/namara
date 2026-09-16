@@ -63,12 +63,12 @@
   <h2>2026-08-22</h2>
   <div class="code-frame">
     <p class="code-filename">total_len.rs</p>
-    <pre class="code"><code>fn total_len(names: Vec&lt;String&gt;) -&gt; usize {
-    let mut total = 0;
-    for name in names {
-        total += name.len();
+    <pre class="code"><code><span class="kw">fn</span> <span class="fn">total_len</span>(names: <span class="ty">Vec</span>&lt;<span class="ty">String</span>&gt;) -&gt; <span class="ty">usize</span> {
+    <span class="kw">let</span> <span class="kw">mut</span> total = <span class="nu">0</span>;
+    <span class="kw">for</span> name <span class="kw">in</span> names {
+        total += name.<span class="fn">len</span>();
     }
-    names.len()
+    names.<span class="fn">len</span>()
 }
 </code></pre>
   </div>

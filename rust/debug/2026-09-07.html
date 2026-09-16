@@ -63,14 +63,14 @@
   <h2>2026-09-07</h2>
   <div class="code-frame">
     <p class="code-filename">make_message.rs</p>
-    <pre class="code"><code>fn make_message() -&gt; &amp;String {
-    let s = String::from("hi");
+    <pre class="code"><code><span class="kw">fn</span> <span class="fn">make_message</span>() -&gt; &amp;<span class="ty">String</span> {
+    <span class="kw">let</span> s = <span class="ty">String</span>::<span class="fn">from</span>(<span class="st">"hi"</span>);
     &amp;s
 }
 
-fn main() {
-    let m = make_message();
-    println!("{}", m);
+<span class="kw">fn</span> <span class="fn">main</span>() {
+    <span class="kw">let</span> m = <span class="fn">make_message</span>();
+    <span class="mc">println!</span>(<span class="st">"{}"</span>, m);
 }
 </code></pre>
   </div>
@@ -85,8 +85,8 @@ fn main() {
       <p>
         <code>s</code>は<code>make_message</code>の中だけで生きるローカル変数で、関数が戻ると同時に破棄されます。<code>&amp;s</code>として参照を返そうとしても、その参照先はもう存在しないので、借用チェッカーがコンパイル時に拒否します(Cならこれは黙って通り、ダングリングポインタとして実行時に牙を剥く未定義動作になっていたところです)。最小限の修正は、参照ではなく所有権ごと値を返すことです:
       </p>
-      <pre class="code"><code>fn make_message() -&gt; String {
-    let s = String::from("hi");
+      <pre class="code"><code><span class="kw">fn</span> <span class="fn">make_message</span>() -&gt; <span class="ty">String</span> {
+    <span class="kw">let</span> s = <span class="ty">String</span>::<span class="fn">from</span>(<span class="st">"hi"</span>);
     s
 }
 </code></pre>

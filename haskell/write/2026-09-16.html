@@ -63,9 +63,9 @@
   <h2>2026-09-16</h2>
   <div class="code-frame">
     <p class="code-filename">MovingSums.hs</p>
-    <pre class="code"><code>movingSums :: [Int] -&gt; [Int]
--- write this: sum of each element and its successor,
--- e.g. [1,2,3,4,5] -&gt; [3,5,7,9]
+    <pre class="code"><code><span class="fn">movingSums</span> <span class="op">::</span> [<span class="ty">Int</span>] <span class="op">-&gt;</span> [<span class="ty">Int</span>]
+<span class="cm">-- write this: sum of each element and its successor,</span>
+<span class="cm">-- e.g. [1,2,3,4,5] -&gt; [3,5,7,9]</span>
 </code></pre>
   </div>
 
@@ -76,8 +76,8 @@
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>movingSums :: [Int] -&gt; [Int]
-movingSums xs = zipWith (+) xs (drop 1 xs)
+      <pre class="code"><code><span class="fn">movingSums</span> <span class="op">::</span> [<span class="ty">Int</span>] <span class="op">-&gt;</span> [<span class="ty">Int</span>]
+<span class="fn">movingSums</span> xs = zipWith (+) xs (drop <span class="nu">1</span> xs)
 </code></pre>
       <p>
         <code>xs</code>と、それを1つ後ろへずらした<code>drop 1 xs</code>を<code>zipWith (+)</code>で組み合わせると、<code>i</code>番目の結果は<code>xs !! i</code>と<code>xs !! (i+1)</code>の和になります。<code>zipWith</code>は短い方のリストに合わせて止まるので、最後の要素には対応する「次の要素」がなく、自然に結果は元より1つ短くなります。これは参考実装であり、唯一の正解ではありません。

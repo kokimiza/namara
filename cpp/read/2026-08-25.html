@@ -63,20 +63,20 @@
   <h2>2026-08-25</h2>
   <div class="code-frame">
     <p class="code-filename">fold_direction.cpp</p>
-    <pre class="code"><code>#include &lt;iostream&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;iostream&gt;</span>
 
-template &lt;typename... Args&gt;
-auto right_fold(Args... args) {
-    return (args - ...);
+<span class="kw">template</span> &lt;<span class="kw">typename</span>... <span class="ty">Args</span>&gt;
+<span class="kw">auto</span> <span class="fn">right_fold</span>(<span class="ty">Args</span>... args) {
+    <span class="kw">return</span> (args - ...);
 }
 
-template &lt;typename... Args&gt;
-auto left_fold(Args... args) {
-    return (... - args);
+<span class="kw">template</span> &lt;<span class="kw">typename</span>... <span class="ty">Args</span>&gt;
+<span class="kw">auto</span> <span class="fn">left_fold</span>(<span class="ty">Args</span>... args) {
+    <span class="kw">return</span> (... - args);
 }
 
-int main() {
-    std::cout &lt;&lt; right_fold(1, 2, 3, 4) &lt;&lt; ' ' &lt;&lt; left_fold(1, 2, 3, 4) &lt;&lt; '\n';
+<span class="ty">int</span> <span class="fn">main</span>() {
+    std::cout &lt;&lt; <span class="fn">right_fold</span>(<span class="nu">1</span>, <span class="nu">2</span>, <span class="nu">3</span>, <span class="nu">4</span>) &lt;&lt; <span class="st">' '</span> &lt;&lt; <span class="fn">left_fold</span>(<span class="nu">1</span>, <span class="nu">2</span>, <span class="nu">3</span>, <span class="nu">4</span>) &lt;&lt; <span class="st">'\n'</span>;
 }
 </code></pre>
   </div>

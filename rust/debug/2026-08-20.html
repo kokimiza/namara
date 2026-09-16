@@ -63,12 +63,12 @@
   <h2>2026-08-20</h2>
   <div class="code-frame">
     <p class="code-filename">double_borrow.rs</p>
-    <pre class="code"><code>fn main() {
-    let mut v = vec![1, 2, 3];
-    let a = &amp;mut v;
-    let b = &amp;mut v;
-    a.push(4);
-    b.push(5);
+    <pre class="code"><code><span class="kw">fn</span> <span class="fn">main</span>() {
+    <span class="kw">let</span> <span class="kw">mut</span> v = <span class="mc">vec!</span>[<span class="nu">1</span>, <span class="nu">2</span>, <span class="nu">3</span>];
+    <span class="kw">let</span> a = &amp;<span class="kw">mut</span> v;
+    <span class="kw">let</span> b = &amp;<span class="kw">mut</span> v;
+    a.<span class="fn">push</span>(<span class="nu">4</span>);
+    b.<span class="fn">push</span>(<span class="nu">5</span>);
 }
 </code></pre>
   </div>
@@ -83,10 +83,10 @@
       <p>
         <code>a</code>と<code>b</code>は<code>v</code>に対する2つの同時可変借用であり &mdash; Rustはこれを許しません。どちらの借用も保持し続ける必要はなく、メソッドを直接呼び出せば十分です:
       </p>
-      <pre class="code"><code>fn main() {
-    let mut v = vec![1, 2, 3];
-    v.push(4);
-    v.push(5);
+      <pre class="code"><code><span class="kw">fn</span> <span class="fn">main</span>() {
+    <span class="kw">let</span> <span class="kw">mut</span> v = <span class="mc">vec!</span>[<span class="nu">1</span>, <span class="nu">2</span>, <span class="nu">3</span>];
+    v.<span class="fn">push</span>(<span class="nu">4</span>);
+    v.<span class="fn">push</span>(<span class="nu">5</span>);
 }
 </code></pre>
     </div>

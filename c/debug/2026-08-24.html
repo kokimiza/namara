@@ -63,21 +63,21 @@
   <h2>2026-08-24</h2>
   <div class="code-frame">
     <p class="code-filename">day_type.c</p>
-    <pre class="code"><code>#include &lt;stdio.h&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;stdio.h&gt;</span>
 
-void print_day_type(int day) {
-    switch (day) {
-        case 0:
-        case 6:
-            printf("weekend\n");
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-            printf("weekday\n");
-        default:
-            printf("invalid\n");
+<span class="ty">void</span> <span class="fn">print_day_type</span>(<span class="ty">int</span> day) {
+    <span class="kw">switch</span> (day) {
+        <span class="kw">case</span> <span class="nu">0</span>:
+        <span class="kw">case</span> <span class="nu">6</span>:
+            <span class="fn">printf</span>(<span class="st">"weekend\n"</span>);
+        <span class="kw">case</span> <span class="nu">1</span>:
+        <span class="kw">case</span> <span class="nu">2</span>:
+        <span class="kw">case</span> <span class="nu">3</span>:
+        <span class="kw">case</span> <span class="nu">4</span>:
+        <span class="kw">case</span> <span class="nu">5</span>:
+            <span class="fn">printf</span>(<span class="st">"weekday\n"</span>);
+        <span class="kw">default</span>:
+            <span class="fn">printf</span>(<span class="st">"invalid\n"</span>);
     }
 }
 </code></pre>

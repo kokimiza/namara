@@ -63,16 +63,16 @@
   <h2>2026-09-14</h2>
   <div class="code-frame">
     <p class="code-filename">countdown_range.cpp</p>
-    <pre class="code"><code>#include &lt;iostream&gt;
+    <pre class="code"><code><span class="pp">#include</span> <span class="st">&lt;iostream&gt;</span>
 
-struct Countdown {
-    int n;
-    // write this: the members that make the loop below work
+<span class="kw">struct</span> <span class="ty">Countdown</span> {
+    <span class="ty">int</span> n;
+    <span class="cm">// write this: the members that make the loop below work</span>
 };
 
-int main() {
-    for (int i : Countdown{3})
-        std::cout &lt;&lt; i &lt;&lt; ' ';  // prints: 3 2 1
+<span class="ty">int</span> <span class="fn">main</span>() {
+    <span class="kw">for</span> (<span class="ty">int</span> i : <span class="ty">Countdown</span>{<span class="nu">3</span>})
+        std::cout &lt;&lt; i &lt;&lt; <span class="st">' '</span>;  <span class="cm">// prints: 3 2 1</span>
 }
 </code></pre>
   </div>
@@ -84,18 +84,18 @@ int main() {
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>struct Countdown {
-    int n;
+      <pre class="code"><code><span class="kw">struct</span> <span class="ty">Countdown</span> {
+    <span class="ty">int</span> n;
 
-    struct iterator {
-        int i;
-        int operator*() const { return i; }
-        iterator&amp; operator++() { --i; return *this; }
-        bool operator==(const iterator&amp;) const = default;
+    <span class="kw">struct</span> <span class="ty">iterator</span> {
+        <span class="ty">int</span> i;
+        <span class="ty">int</span> <span class="kw">operator</span>*() <span class="kw">const</span> { <span class="kw">return</span> i; }
+        iterator&amp; <span class="kw">operator</span>++() { --i; <span class="kw">return</span> *<span class="kw">this</span>; }
+        <span class="ty">bool</span> <span class="kw">operator</span>==(<span class="kw">const</span> iterator&amp;) <span class="kw">const</span> = <span class="kw">default</span>;
     };
 
-    iterator begin() const { return {n}; }
-    iterator end() const { return {0}; }
+    iterator <span class="fn">begin</span>() <span class="kw">const</span> { <span class="kw">return</span> {n}; }
+    iterator <span class="fn">end</span>() <span class="kw">const</span> { <span class="kw">return</span> {<span class="nu">0</span>}; }
 };
 </code></pre>
       <p>

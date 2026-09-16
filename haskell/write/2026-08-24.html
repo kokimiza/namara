@@ -63,8 +63,8 @@
   <h2>2026-08-24</h2>
   <div class="code-frame">
     <p class="code-filename">MyMax.hs</p>
-    <pre class="code"><code>myMax :: Ord a =&gt; [a] -&gt; a
-myMax = undefined  -- write this
+    <pre class="code"><code><span class="fn">myMax</span> <span class="op">::</span> <span class="ty">Ord</span> a <span class="op">=&gt;</span> [a] <span class="op">-&gt;</span> a
+<span class="fn">myMax</span> = undefined  <span class="cm">-- write this</span>
 </code></pre>
   </div>
 
@@ -75,9 +75,9 @@ myMax = undefined  -- write this
   <details class="answer">
     <summary>Reference</summary>
     <div class="answer-body">
-      <pre class="code"><code>myMax :: Ord a =&gt; [a] -&gt; a
-myMax [x]    = x
-myMax (x:xs) = max x (myMax xs)
+      <pre class="code"><code><span class="fn">myMax</span> <span class="op">::</span> <span class="ty">Ord</span> a <span class="op">=&gt;</span> [a] <span class="op">-&gt;</span> a
+<span class="fn">myMax</span> [x]    = x
+<span class="fn">myMax</span> (x:xs) = max x (myMax xs)
 </code></pre>
       <p>
         要素が1つだけのリストの最大値はその要素自身です。それ以外の場合は、先頭要素と残りの部分の最大値を比較します。これはリストが空でないことを前提としています &mdash; <code>myMax []</code>はパターンマッチ失敗になります。これは組み込みの<code>maximum</code>と同じ挙動です。
