@@ -40,7 +40,8 @@
 
   /* the slab: cool dark — code frames and the footer */
   --slab: #141a23;
-  --slab-ink: #dce4ef;
+  --slab-ink: #c9d4e2;
+  --slab-decl: #e8b86d;
   --slab-muted: #9aa7b8;
   --slab-rule: #29323f;
   --slab-accent: #7fb2e8;
@@ -427,6 +428,15 @@ pre.code code {
   tab-size: 4;
 }
 
+/* Pseudo highlighting. Real token colours need markup, and published pages are
+   never edited, so the stylesheet works with the one thing every listing has in
+   common: its first line is the header — #include, import, use, or the
+   signature of the function below it (fn …, void …, myMax :: …). Colour that
+   line, and the listing reads as declaration-then-body without a single span. */
+pre.code::first-line {
+  color: var(--slab-decl);
+}
+
 pre.code ::selection {
   background: var(--slab-accent);
   color: var(--slab);
@@ -504,7 +514,9 @@ details.answer summary::after {
   margin-top: var(--s-sibling);
 }
 
-.answer-body code {
+/* Only inline code. A listing's <code> sits inside <pre> and must stay on the
+   slab — the chip background under slab text is unreadable. */
+.answer-body :not(pre) > code {
   font-family: var(--font-mono);
   font-size: 0.85em;
   background: var(--panel);
