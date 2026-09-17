@@ -240,10 +240,12 @@ jobs:
           fi
           drop="$RUNNER_TEMP/namara-drop"
           mkdir -p "$drop"
-          git diff --no-ext-diff --no-color --no-renames -- "${allowed[@]}" > "$drop/drills.patch"
+          # Against HEAD, not the index: Claude may have staged its pages, and
+          # a plain `git diff` leaves staged changes out entirely.
+          git diff HEAD --no-ext-diff --no-color --no-renames -- "${allowed[@]}" > "$drop/drills.patch"
           [ -s "$drop/drills.patch" ] || { echo "::error::Claude Code produced no pages"; exit 1; }
           cp -R "$VERIFY_DIR" "$drop/verify"
-          git diff --stat -- "${allowed[@]}"
+          git diff HEAD --stat -- "${allowed[@]}"
 
       - name: Upload the patch and verification sources
         if: steps.plan.outputs.combos != ''
